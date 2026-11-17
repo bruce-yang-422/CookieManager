@@ -35,7 +35,7 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 ### Dashboard
 
 - Cookies grouped by main site (e.g. `.mail.google.com` is grouped under `google.com`)
-- Auto-categorization: 11 built-in categories, with sites assigned automatically by domain (see [Auto-categorization](#auto-categorization))
+- Auto-categorization: 13 built-in categories, with sites assigned automatically by domain (see [Auto-categorization](#auto-categorization))
 - Custom categories: add, rename, pick colors (Apple system colors or a custom color), reorder, delete; manual assignments take priority over auto-categorization
 - Search by site, cookie name, or domain
 - Delete a single cookie, all cookies of a site, or several selected sites at once
@@ -43,6 +43,7 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 - Cookie details: value, domain, path, expiry, Secure / HttpOnly / SameSite flags, with value copy
 - Export cookies as JSON, Netscape (cookies.txt), or header string, as a file download or to the clipboard
 - Export the site list as CSV, JSON, or TXT for the current view, all sites, or selected sites (no cookie contents)
+- Import site categories: edit the exported CSV in Excel, or have an AI edit the exported JSON, then import it; new category names are created automatically
 - Back up and restore category settings (backups never include cookie contents)
 - The list refreshes automatically when cookies change
 
@@ -140,7 +141,7 @@ The dashboard assigns sites to the built-in categories automatically, based on t
 
 | Category | Rule |
 | --- | --- |
-| Work, Social, Shopping, Entertainment, News & Media, Search & Portals, Development, Finance | Known domain lists |
+| Work, Social, Shopping, Entertainment, News & Media, Search & Portals, Development, Tech Brands & Telecom, Lifestyle & Services, Finance | Known domain lists |
 | Government & Education | Domain suffixes such as `.gov.tw`, `.edu.tw`, and `.go.jp` |
 | Local & Network | IP addresses, `localhost`, `.local`, and similar |
 | Ads & Tracking | Known domain list, plus common ad and tracking domain names |
@@ -151,6 +152,16 @@ The dashboard assigns sites to the built-in categories automatically, based on t
 - Auto-categorization can be turned off from the "⋯" menu in the top-right corner of the dashboard.
 - Built-in categories can be renamed, recolored, or deleted; once deleted, sites are no longer auto-assigned to them.
 - The rules live in `src/lib/autoCategory.ts`; to add a domain, add it to the matching category's list.
+
+### Bulk-editing categories with Excel or AI
+
+1. In the dashboard, choose "⋯ > Export site list" and pick CSV (for Excel) or JSON (for AI)
+2. Change each site's category:
+   - CSV: edit the Category column with an existing category name, a new name (created automatically), or "Uncategorized"
+   - JSON: the file includes a `_readme` with instructions and the list of available `categories`, so you can hand it to an AI to edit `category`
+3. Choose "⋯ > Import site categories", select the edited file, and confirm
+
+Only sites whose category differs from the current one are changed, and those become manual assignments; unchanged sites stay as they are. CSV files saved by Excel in Big5 or Shift_JIS are also supported.
 
 ## Localization
 

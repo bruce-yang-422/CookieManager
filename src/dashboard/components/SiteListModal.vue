@@ -13,7 +13,13 @@ import { t } from '../../i18n'
 
 type Scope = 'view' | 'all' | 'selected'
 
-const props = defineProps<{ show: boolean; view: SiteRow[]; all: SiteRow[]; selected: SiteRow[] }>()
+const props = defineProps<{
+  show: boolean
+  view: SiteRow[]
+  all: SiteRow[]
+  selected: SiteRow[]
+  categoryNames: string[]
+}>()
 const emit = defineEmits<{ 'update:show': [boolean] }>()
 
 const FORMAT_KEY = 'cm-site-list-format'
@@ -62,7 +68,11 @@ function close() {
 
 function download() {
   const name = (filename.value.trim() || `sites-${today()}`).replace(/[\\/:*?"<>|]/g, '_')
-  downloadText(`${name}.${meta.value.ext}`, serializeSiteList(rows.value, format.value), meta.value.mime)
+  downloadText(
+    `${name}.${meta.value.ext}`,
+    serializeSiteList(rows.value, format.value, props.categoryNames),
+    meta.value.mime,
+  )
   message.success(t('sites.exported', { n: rows.value.length }))
   close()
 }
@@ -70,7 +80,9 @@ function download() {
 async function copy() {
   try {
     // 複製時不需要 Excel 用的 BOM
-    await navigator.clipboard.writeText(serializeSiteList(rows.value, format.value).replace(/^﻿/, ''))
+    await navigator.clipboard.writeText(
+      serializeSiteList(rows.value, format.value, props.categoryNames).replace(/^﻿/, ''),
+    )
     message.success(t('sites.copied', { n: rows.value.length }))
   } catch {
     message.error(t('common.copyFailed'))

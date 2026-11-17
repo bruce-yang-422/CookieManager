@@ -18,7 +18,7 @@ export interface AppData {
 }
 
 const KEY = 'appData'
-const DATA_VERSION = 2
+const DATA_VERSION = 3
 
 /** 手動設為「未分類」的標記，避免被自動分類覆蓋 */
 export const NONE = '__none__'
@@ -40,8 +40,12 @@ export const PRESET_COLORS = [
   '#8e8e93', // Gray
 ]
 
-function builtinCategories(): Category[] {
-  return BUILTIN_CATEGORIES.map((b) => ({ id: b.id, name: t(b.nameKey), color: b.color }))
+function builtinCategories(sinceAfter = 0): Category[] {
+  return BUILTIN_CATEGORIES.filter((b) => b.since > sinceAfter).map((b) => ({
+    id: b.id,
+    name: t(b.nameKey),
+    color: b.color,
+  }))
 }
 
 /** 第一次使用時的預設資料：內建基本分類，名稱用當下的介面語言 */
@@ -49,11 +53,15 @@ function defaultData(): AppData {
   return { categories: builtinCategories(), assignments: {}, autoCategorize: true, version: DATA_VERSION }
 }
 
-/** 舊版資料升級：補上缺少的內建分類，保留使用者原有的分類與設定 */
+/**
+ * 舊版資料升級：只補上「之後版本才加入」的內建分類，保留使用者原有的分類與設定。
+ * 使用者在舊版本刪掉的內建分類不會被加回來。
+ */
 function migrate(data: AppData): AppData {
-  if ((data.version ?? 1) >= DATA_VERSION) return data
+  const from = data.version ?? 1
+  if (from >= DATA_VERSION) return data
   const existing = new Set(data.categories.map((c) => c.id))
-  const missing = builtinCategories().filter((c) => !existing.has(c.id))
+  const missing = builtinCategories(from).filter((c) => !existing.has(c.id))
   return {
     ...data,
     categories: [...data.categories, ...missing],

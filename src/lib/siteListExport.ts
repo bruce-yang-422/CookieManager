@@ -31,17 +31,24 @@ function sourceLabel(source: SiteRow['source']): string {
   return source === 'auto' ? t('sites.auto') : source === 'manual' ? t('sites.manual') : ''
 }
 
-export function serializeSiteList(rows: SiteRow[], format: SiteListFormat): string {
+/**
+ * @param categoryNames 目前所有分類名稱（JSON 會附上，方便使用者或 AI 修改後匯入）
+ */
+export function serializeSiteList(rows: SiteRow[], format: SiteListFormat, categoryNames: string[] = []): string {
   if (format === 'txt') return rows.map((r) => r.site).join('\n') + '\n'
 
   if (format === 'json') {
     return JSON.stringify(
-      rows.map((r) => ({
-        site: r.site,
-        category: r.category || null,
-        assignedBy: r.source || null,
-        cookies: r.cookies,
-      })),
+      {
+        _readme: t('sites.jsonReadme'),
+        categories: categoryNames,
+        sites: rows.map((r) => ({
+          site: r.site,
+          category: r.category || null,
+          assignedBy: r.source || null,
+          cookies: r.cookies,
+        })),
+      },
       null,
       2,
     )

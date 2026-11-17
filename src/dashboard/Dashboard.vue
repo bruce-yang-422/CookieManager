@@ -17,6 +17,8 @@ import {
 import { faviconUrl, getAllCookies, groupBySite, removeCookies, type Cookie, type SiteGroup } from '../lib/cookies'
 import {
   NONE,
+  PRESET_COLORS,
+  newId,
   loadData,
   onDataChanged,
   resolveCategory,
@@ -35,6 +37,7 @@ import CategoryModal from './components/CategoryModal.vue'
 import ExportModal from './components/ExportModal.vue'
 import SiteListModal from './components/SiteListModal.vue'
 import type { SiteRow } from '../lib/siteListExport'
+import { parseSiteList, readTextFile } from '../lib/siteListImport'
 
 const UNCATEGORIZED = NONE
 const ALL = '__all__'
@@ -287,6 +290,73 @@ const siteRowsSelected = computed(() => {
   return sites.value.filter((s) => set.has(s.site)).map(toRow)
 })
 
+const categoryNames = computed(() => data.value.categories.map((c) => c.name))
+
+// ---------- 匯入網站分類（CSV／JSON） ----------
+const siteImportInput = ref<HTMLInputElement | null>(null)
+
+async function onSiteImportFile(e: Event) {
+  const input = e.target as HTMLInputElement
+  const file = input.files?.[0]
+  input.value = ''
+  if (!file) return
+
+  let rows
+  try {
+    rows = parseSiteList(await readTextFile(file))
+  } catch (err) {
+    message.error((err as Error).message)
+    return
+  }
+
+  // 依名稱（不分大小寫）或 id 找分類；找不到的名稱會新建
+  const byName = new Map(data.value.categories.map((c) => [c.name.trim().toLowerCase(), c.id]))
+  const ids = new Set(data.value.categories.map((c) => c.id))
+  const used = new Set(data.value.categories.map((c) => c.color.toLowerCase()))
+  const newCategories: Category[] = []
+  const changes: [string, string | null][] = []
+
+  for (const row of rows) {
+    let target: string | null = null
+    if (row.category) {
+      const key = row.category.toLowerCase()
+      target = byName.get(key) ?? (ids.has(row.category) ? row.category : null)
+      if (!target) {
+        const color = PRESET_COLORS.find((c) => !used.has(c)) ?? PRESET_COLORS[newCategories.length % PRESET_COLORS.length]
+        used.add(color)
+        const created = { id: newId(), name: row.category, color }
+        newCategories.push(created)
+        byName.set(key, created.id)
+        target = created.id
+      }
+    }
+    // 只套用和目前分類不同的列；沒改的網站維持原狀（自動分類仍是自動）
+    if (resolveCategory(data.value, row.site).id !== target) changes.push([row.site, target])
+  }
+
+  if (!changes.length) {
+    message.info(t('siteImport.none'))
+    return
+  }
+
+  const lines = [t('siteImport.summary', { n: changes.length, c: newCategories.length })]
+  if (newCategories.length) lines.push(t('siteImport.newCats', { names: newCategories.map((c) => c.name).join('、') }))
+
+  dialog.info({
+    title: t('siteImport.title'),
+    content: lines.join('\n'),
+    style: 'white-space: pre-line',
+    positiveText: t('siteImport.apply'),
+    negativeText: t('common.cancel'),
+    onPositiveClick: async () => {
+      data.value.categories.push(...newCategories)
+      for (const [site, id] of changes) data.value.assignments[site] = id ?? NONE
+      await persist()
+      message.success(t('siteImport.done', { n: changes.length }))
+    },
+  })
+}
+
 // ---------- 備份／還原分類資料 ----------
 const fileInput = ref<HTMLInputElement | null>(null)
 
@@ -330,6 +400,7 @@ async function onRestoreFile(e: Event) {
 
 const moreOptions = computed<DropdownOption[]>(() => [
   { key: 'sites', label: t('sites.title') },
+  { key: 'siteImport', label: t('siteImport.menu') },
   { type: 'divider', key: 'd0' },
   {
     key: 'auto',
@@ -345,6 +416,7 @@ const moreOptions = computed<DropdownOption[]>(() => [
 
 function onMore(key: string) {
   if (key === 'sites') showSiteListModal.value = true
+  else if (key === 'siteImport') siteImportInput.value?.click()
   else if (key === 'auto') toggleAutoCategorize()
   else if (key === 'backup') onBackup()
   else if (key === 'restore') fileInput.value?.click()
@@ -484,6 +556,13 @@ async function applyBatchCategory(v: string | null) {
             </NButton>
           </div>
           <input ref="fileInput" type="file" accept="application/json,.json" hidden @change="onRestoreFile" />
+          <input
+            ref="siteImportInput"
+            type="file"
+            accept=".csv,.json,text/csv,application/json"
+            hidden
+            @change="onSiteImportFile"
+          />
         </header>
 
         <!-- 批次操作列 -->
@@ -540,6 +619,7 @@ async function applyBatchCategory(v: string | null) {
       :view="siteRowsView"
       :all="siteRowsAll"
       :selected="siteRowsSelected"
+      :category-names="categoryNames"
     />
     <CategoryModal v-model:show="showCategoryModal" :categories="data.categories" @save="onSaveCategories" />
   </div>

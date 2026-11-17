@@ -2,4 +2,12 @@ node_modules/
 dist/
 extension/
 *.zip
+
+# 匯出的網站清單、Cookie 與分類備份（含個人瀏覽資料，不納入版本控制）
+sites-*.csv
+sites-*.json
+sites-*.txt
+cookies-*.json
+cookies-*.txt
+cookie-manager-backup-*.json
 .vite/
