@@ -62,7 +62,16 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 
 ## Installation
 
-The extension is not yet available on the Chrome Web Store, so you need to build and load it yourself.
+Download the prebuilt extension from [GitHub Releases v0.1.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.0); no build is required.
+
+### Download and install (recommended)
+
+1. Download `cookie-manager-v0.1.0.zip` from the release assets and extract it (do not select Source code).
+2. Open `chrome://extensions` (`edge://extensions` in Edge).
+3. Enable **Developer mode** and click **Load unpacked**.
+4. Select the extracted folder containing `manifest.json`.
+
+The following instructions are for building from source. Node.js is required only for that workflow.
 
 ### Prerequisites
 

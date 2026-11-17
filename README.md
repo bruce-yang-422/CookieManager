@@ -62,7 +62,16 @@
 
 ## 安裝
 
-目前尚未上架 Chrome 線上應用程式商店，需自行打包後載入。
+目前可從 [GitHub Releases 下載 v0.1.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.0)，無需自行打包。
+
+### 下載安裝（建議）
+
+1. 下載發行附件 `cookie-manager-v0.1.0.zip` 並解壓縮（請勿選擇 Source code）。
+2. 開啟 `chrome://extensions`（Edge 為 `edge://extensions`）。
+3. 啟用 **開發人員模式**，點選 **載入未封裝項目**。
+4. 選擇解壓縮後包含 `manifest.json` 的資料夾。
+
+以下為從原始碼建置的方式；只有自行建置時需要 Node.js。
 
 ### 環境需求
 
