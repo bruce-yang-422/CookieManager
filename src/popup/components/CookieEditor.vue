@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, reactive, watch } from 'vue'
-import { NButton, NCheckbox, NDatePicker, NInput, NPopconfirm, NSelect, NSpace } from 'naive-ui'
+import { NButton, NDatePicker, NInput, NPopconfirm, NSelect, NSpace, NSwitch } from 'naive-ui'
 import type { CookieDraft, SameSite } from '../../lib/cookies'
 import { t } from '../../i18n'
 
@@ -79,11 +79,24 @@ function toggleSession(v: boolean) {
         <NSelect v-model:value="d.sameSite" :options="sameSiteOptions" size="small" />
       </label>
     </div>
-    <div class="flags">
-      <NCheckbox :checked="d.session" @update:checked="toggleSession">{{ t('common.session') }}</NCheckbox>
-      <NCheckbox v-model:checked="d.hostOnly">{{ t('ed.hostOnly') }}</NCheckbox>
-      <NCheckbox v-model:checked="d.secure">Secure</NCheckbox>
-      <NCheckbox v-model:checked="d.httpOnly">HttpOnly</NCheckbox>
+    <!-- iOS 設定風格的開關清單 -->
+    <div class="toggles">
+      <label class="toggle-row">
+        <span>{{ t('common.session') }}</span>
+        <NSwitch :value="d.session" size="small" @update:value="toggleSession" />
+      </label>
+      <label class="toggle-row">
+        <span>{{ t('ed.hostOnly') }}</span>
+        <NSwitch v-model:value="d.hostOnly" size="small" />
+      </label>
+      <label class="toggle-row">
+        <span>Secure</span>
+        <NSwitch v-model:value="d.secure" size="small" />
+      </label>
+      <label class="toggle-row">
+        <span>HttpOnly</span>
+        <NSwitch v-model:value="d.httpOnly" size="small" />
+      </label>
     </div>
 
     <NSpace justify="end" :size="8">
@@ -140,10 +153,31 @@ function toggleSession(v: boolean) {
   width: 120px;
 }
 
-.flags {
+.toggles {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-lg);
+  overflow: hidden;
+  background: var(--cm-surface-2);
+}
+
+.toggle-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px 14px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px 7px 12px;
+  font-size: 12.5px;
+  cursor: pointer;
+}
+
+.toggle-row:nth-child(odd) {
+  border-right: 1px solid var(--cm-border);
+}
+
+.toggle-row:nth-child(-n + 2) {
+  border-bottom: 1px solid var(--cm-border);
 }
 
 .mono :deep(textarea) {

@@ -16,45 +16,55 @@ function readMode(): Mode {
 
 const mode = ref<Mode>(readMode())
 
-/** 設計規範：顏色、圓角、陰影（淺色／深色兩套） */
+/**
+ * 設計規範：參考 Apple Human Interface Guidelines 的系統色與 macOS／iOS 介面
+ * （淺色／深色兩套）
+ */
 const PALETTES = {
   light: {
-    bg: '#f3f5f9',
+    bg: '#f2f2f7', // iOS systemGroupedBackground
     surface: '#ffffff',
-    surface2: '#f5f7fa',
-    border: '#e5e8ef',
-    text: '#1d2433',
-    muted: '#6b7385',
-    primary: '#2563eb',
-    primaryHover: '#3b74f0',
-    primaryPressed: '#1d4fd0',
-    primarySoft: 'rgba(37, 99, 235, 0.09)',
-    danger: '#e5484d',
-    dangerSoft: 'rgba(229, 72, 77, 0.09)',
-    hover: 'rgba(15, 23, 42, 0.045)',
-    shadow: '0 1px 2px rgba(16, 24, 40, 0.04), 0 6px 20px rgba(16, 24, 40, 0.06)',
-    shadowLg: '0 2px 6px rgba(16, 24, 40, 0.06), 0 16px 40px rgba(16, 24, 40, 0.10)',
+    surface2: '#f5f5f7',
+    border: '#e3e3e8',
+    text: '#1d1d1f',
+    muted: '#6e6e73',
+    primary: '#007aff', // systemBlue
+    primaryHover: '#1a88ff',
+    primaryPressed: '#0062cc',
+    primarySoft: 'rgba(0, 122, 255, 0.10)',
+    danger: '#ff3b30', // systemRed
+    dangerSoft: 'rgba(255, 59, 48, 0.10)',
+    success: '#34c759', // systemGreen
+    hover: 'rgba(0, 0, 0, 0.04)',
+    fill: 'rgba(120, 120, 128, 0.12)', // iOS tertiarySystemFill
+    shadow: '0 0.5px 1px rgba(0, 0, 0, 0.06), 0 4px 16px rgba(0, 0, 0, 0.06)',
+    shadowLg: '0 1px 3px rgba(0, 0, 0, 0.08), 0 20px 50px rgba(0, 0, 0, 0.14)',
   },
   dark: {
-    bg: '#0e1015',
-    surface: '#171a21',
-    surface2: '#1e222b',
-    border: '#2a2f3a',
-    text: '#e7e9ee',
-    muted: '#9199a8',
-    primary: '#5b8cff',
-    primaryHover: '#7aa2ff',
-    primaryPressed: '#4a78e6',
-    primarySoft: 'rgba(91, 140, 255, 0.15)',
-    danger: '#ff6b70',
-    dangerSoft: 'rgba(255, 107, 112, 0.14)',
-    hover: 'rgba(255, 255, 255, 0.05)',
-    shadow: '0 1px 2px rgba(0, 0, 0, 0.4), 0 8px 24px rgba(0, 0, 0, 0.3)',
-    shadowLg: '0 2px 8px rgba(0, 0, 0, 0.45), 0 18px 48px rgba(0, 0, 0, 0.45)',
+    bg: '#000000',
+    surface: '#1c1c1e', // iOS secondarySystemBackground (dark)
+    surface2: '#2c2c2e',
+    border: '#38383a',
+    text: '#f5f5f7',
+    muted: '#98989d',
+    primary: '#0a84ff',
+    primaryHover: '#409cff',
+    primaryPressed: '#0071e3',
+    primarySoft: 'rgba(10, 132, 255, 0.18)',
+    danger: '#ff453a',
+    dangerSoft: 'rgba(255, 69, 58, 0.16)',
+    success: '#30d158',
+    hover: 'rgba(255, 255, 255, 0.06)',
+    fill: 'rgba(118, 118, 128, 0.24)',
+    shadow: '0 0.5px 1px rgba(0, 0, 0, 0.5), 0 6px 20px rgba(0, 0, 0, 0.35)',
+    shadowLg: '0 1px 3px rgba(0, 0, 0, 0.5), 0 24px 60px rgba(0, 0, 0, 0.6)',
   },
 }
 
 export const RADIUS = { sm: '6px', md: '8px', lg: '10px', xl: '14px' }
+
+export const FONT_FAMILY =
+  "-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text', 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', 'Hiragino Sans', 'Yu Gothic UI', system-ui, sans-serif"
 
 export function useTheme() {
   const os = useOsTheme()
@@ -76,7 +86,9 @@ export function useTheme() {
       '--cm-primary-soft': p.primarySoft,
       '--cm-danger': p.danger,
       '--cm-danger-soft': p.dangerSoft,
+      '--cm-success': p.success,
       '--cm-hover': p.hover,
+      '--cm-fill': p.fill,
       '--cm-shadow': p.shadow,
       '--cm-shadow-lg': p.shadowLg,
       '--cm-radius-sm': RADIUS.sm,
@@ -108,23 +120,30 @@ export function useTheme() {
         textColorBase: p.text,
         borderColor: p.border,
         dividerColor: p.border,
-        fontFamily:
-          "system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', 'PingFang TC', 'Hiragino Sans', 'Yu Gothic UI', sans-serif",
+        successColor: p.success,
+        successColorHover: p.success,
+        successColorPressed: p.success,
+        fontFamily: FONT_FAMILY,
       },
       Card: { borderRadius: RADIUS.xl },
       Dialog: { borderRadius: RADIUS.xl },
       Drawer: { color: p.bg },
       Popover: { borderRadius: RADIUS.lg },
       Dropdown: { borderRadius: RADIUS.lg, optionHeightMedium: '36px' },
+      // macOS 側邊欄：選中項目為強調色底、白色文字與圖示
       Menu: {
         borderRadius: RADIUS.md,
-        itemHeight: '38px',
-        itemColorActive: p.primarySoft,
-        itemColorActiveHover: p.primarySoft,
-        itemTextColorActive: p.primary,
-        itemTextColorActiveHover: p.primary,
+        itemHeight: '34px',
+        itemColorActive: p.primary,
+        itemColorActiveHover: p.primary,
+        itemTextColorActive: '#ffffff',
+        itemTextColorActiveHover: '#ffffff',
+        itemIconColorActive: '#ffffff',
+        itemIconColorActiveHover: '#ffffff',
         itemColorHover: p.hover,
       },
+      // iOS 開關
+      Switch: { railColorActive: p.success },
       DataTable: {
         borderRadius: RADIUS.lg,
         thColor: p.surface2,

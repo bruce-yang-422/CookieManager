@@ -32,6 +32,18 @@ export default {
   'category.work': '工作',
   'category.shopping': '購物',
   'category.social': '社群',
+  'category.entertainment': '影音娛樂',
+  'category.news': '新聞媒體',
+  'category.search': '搜尋與入口',
+  'category.dev': '開發與技術',
+  'category.finance': '金融理財',
+  'category.gov': '政府與教育',
+  'category.local': '本機與區網',
+  'category.ads': '廣告與追蹤',
+  'cat.autoTip': '自動分類（點選可手動修改）',
+  'dash.autoCategorize': '自動分類',
+  'dash.autoOn': '已開啟自動分類',
+  'dash.autoOff': '已關閉自動分類，只保留手動分類',
 
   // 管理後台
   'dash.search': '搜尋網站、Cookie 名稱或網域',
@@ -87,6 +99,7 @@ export default {
   // 分類管理
   'cat.note': '刪除分類後，原本屬於該分類的網站會變成「未分類」，Cookie 不受影響。',
   'cat.pickColor': '選擇顏色',
+  'cat.customColor': '自訂顏色',
   'cat.namePlaceholder': '分類名稱',
   'cat.add': '＋ 新增分類',
   'cat.errEmpty': '分類名稱不能空白',

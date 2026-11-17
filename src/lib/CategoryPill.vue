@@ -6,7 +6,8 @@ import { t } from '../i18n'
 
 const NONE = '__none__'
 
-const props = defineProps<{ categories: Category[]; value: string | null }>()
+/** auto：這個分類是自動判斷的（以虛線外框區分） */
+const props = defineProps<{ categories: Category[]; value: string | null; auto?: boolean }>()
 const emit = defineEmits<{ change: [string | null] }>()
 
 const current = computed(() => props.categories.find((c) => c.id === props.value))
@@ -27,8 +28,8 @@ const pillStyle = computed(() => {
   if (!c) return undefined
   return {
     color: c,
-    background: `color-mix(in srgb, ${c} 12%, transparent)`,
-    borderColor: `color-mix(in srgb, ${c} 22%, transparent)`,
+    background: `color-mix(in srgb, ${c} ${props.auto ? 7 : 13}%, transparent)`,
+    borderColor: `color-mix(in srgb, ${c} ${props.auto ? 45 : 22}%, transparent)`,
   }
 })
 </script>
@@ -40,7 +41,13 @@ const pillStyle = computed(() => {
     placement="bottom-start"
     @select="(k: string) => emit('change', k === NONE ? null : k)"
   >
-    <button class="cat-pill" :class="{ empty: !current }" :style="pillStyle" type="button">
+    <button
+      class="cat-pill"
+      :class="{ empty: !current, auto: current && auto }"
+      :style="pillStyle"
+      :title="current && auto ? t('cat.autoTip') : undefined"
+      type="button"
+    >
       <span v-if="current" class="color-dot" :style="{ background: current.color }" />
       <span>{{ current?.name ?? t('common.uncategorized') }}</span>
       <span class="chev">▾</span>

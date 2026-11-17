@@ -7,8 +7,16 @@
 html,
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', 'PingFang TC', 'Hiragino Sans', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI Variable Text', 'Segoe UI', 'PingFang TC',
+    'Microsoft JhengHei', 'Hiragino Sans', 'Yu Gothic UI', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* macOS 風格：對話框與抽屜後方的毛玻璃遮罩 */
+.n-modal-mask,
+.n-drawer-mask {
+  backdrop-filter: blur(8px) saturate(1.2);
+  background-color: rgba(0, 0, 0, 0.22) !important;
 }
 
 /* 卡片：白底圓角＋柔和陰影 */
@@ -89,6 +97,11 @@ body {
 
 .cat-pill:hover {
   filter: brightness(0.96);
+}
+
+/* 自動分類：虛線外框；手動指定：實線 */
+.cat-pill.auto {
+  border-style: dashed;
 }
 
 .cat-pill.empty {

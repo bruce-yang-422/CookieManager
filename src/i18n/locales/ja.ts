@@ -33,6 +33,18 @@ const ja: Dictionary = {
   'category.work': '仕事',
   'category.shopping': 'ショッピング',
   'category.social': 'SNS',
+  'category.entertainment': 'エンタメ',
+  'category.news': 'ニュース・メディア',
+  'category.search': '検索・ポータル',
+  'category.dev': '開発・技術',
+  'category.finance': '金融',
+  'category.gov': '行政・教育',
+  'category.local': 'ローカル・ネットワーク',
+  'category.ads': '広告・トラッキング',
+  'cat.autoTip': '自動分類（クリックで変更できます）',
+  'dash.autoCategorize': '自動分類',
+  'dash.autoOn': '自動分類をオンにしました',
+  'dash.autoOff': '自動分類をオフにしました。手動で設定した分類のみ残ります。',
 
   // 管理画面
   'dash.search': 'サイト、Cookie 名、ドメインを検索',
@@ -88,6 +100,7 @@ const ja: Dictionary = {
   // 分類の管理
   'cat.note': '分類を削除すると、その分類のサイトは「未分類」になります。Cookie には影響しません。',
   'cat.pickColor': '色を選択',
+  'cat.customColor': 'カスタムカラー',
   'cat.namePlaceholder': '分類名',
   'cat.add': '＋ 分類を追加',
   'cat.errEmpty': '分類名を入力してください',

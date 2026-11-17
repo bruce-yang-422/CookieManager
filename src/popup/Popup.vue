@@ -15,7 +15,7 @@ import {
   type Cookie,
   type CookieDraft,
 } from '../lib/cookies'
-import { loadData, saveData, type AppData } from '../storage'
+import { NONE, loadData, resolveCategory, saveData, type AppData } from '../storage'
 import { useTheme } from '../lib/theme'
 import Icon from '../lib/Icon.vue'
 import LanguageSelect from '../lib/LanguageSelect.vue'
@@ -102,16 +102,14 @@ const filtered = computed(() => {
 })
 
 // ---------- 分類 ----------
-const categoryId = computed(() => {
-  if (!site.value) return null
-  const id = data.value.assignments[site.value]
-  return data.value.categories.some((c) => c.id === id) ? id : null
-})
+const category = computed(() =>
+  site.value ? resolveCategory(data.value, site.value) : { id: null, auto: false },
+)
 
+/** 手動指定分類；選「未分類」時寫入 NONE，避免又被自動分類 */
 async function setCategory(v: string | null) {
   if (!site.value) return
-  if (v) data.value.assignments[site.value] = v
-  else delete data.value.assignments[site.value]
+  data.value.assignments[site.value] = v ?? NONE
   await saveData(data.value)
 }
 
@@ -241,7 +239,12 @@ function openDashboard() {
               {{ t('pop.scopeSite') }}
             </button>
           </div>
-          <CategoryPill :categories="data.categories" :value="categoryId" @change="setCategory" />
+          <CategoryPill
+            :categories="data.categories"
+            :value="category.id"
+            :auto="category.auto"
+            @change="setCategory"
+          />
         </div>
 
         <!-- 列表 -->

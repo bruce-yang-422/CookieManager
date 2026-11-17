@@ -1,4 +1,4 @@
-import type { AppData, Category } from '../storage'
+import { NONE, type AppData, type Category } from '../storage'
 import { downloadText, today } from './download'
 import { t } from '../i18n'
 
@@ -45,17 +45,23 @@ export async function parseBackup(file: File): Promise<AppData> {
   const ids = new Set(categories.map((c) => c.id))
   const assignments: Record<string, string> = {}
   for (const [site, id] of Object.entries(f.assignments)) {
-    if (typeof id === 'string' && ids.has(id)) assignments[site] = id
+    if (typeof id === 'string' && (ids.has(id) || id === NONE)) assignments[site] = id
   }
   return { categories, assignments }
 }
 
-/** 合併：同 id 的分類以匯入的為準，其餘保留；網站對應以匯入的為準 */
+/** 合併：同 id 的分類以匯入的為準，其餘保留；網站對應以匯入的為準；保留目前的設定 */
 export function mergeData(current: AppData, incoming: AppData): AppData {
   const byId = new Map(current.categories.map((c) => [c.id, c]))
   for (const c of incoming.categories) byId.set(c.id, c)
   return {
+    ...current,
     categories: [...byId.values()],
     assignments: { ...current.assignments, ...incoming.assignments },
   }
+}
+
+/** 取代：使用備份的分類與網站對應，保留目前的設定（自動分類開關、資料版本） */
+export function replaceData(current: AppData, incoming: AppData): AppData {
+  return { ...current, categories: incoming.categories, assignments: incoming.assignments }
 }

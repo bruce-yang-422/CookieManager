@@ -33,6 +33,18 @@ const en: Dictionary = {
   'category.work': 'Work',
   'category.shopping': 'Shopping',
   'category.social': 'Social',
+  'category.entertainment': 'Entertainment',
+  'category.news': 'News & Media',
+  'category.search': 'Search & Portals',
+  'category.dev': 'Development',
+  'category.finance': 'Finance',
+  'category.gov': 'Government & Education',
+  'category.local': 'Local & Network',
+  'category.ads': 'Ads & Tracking',
+  'cat.autoTip': 'Auto-categorized (click to change)',
+  'dash.autoCategorize': 'Auto-categorize',
+  'dash.autoOn': 'Auto-categorize turned on',
+  'dash.autoOff': 'Auto-categorize turned off. Only manual categories are kept.',
 
   // Dashboard
   'dash.search': 'Search sites, cookie names, or domains',
@@ -88,6 +100,7 @@ const en: Dictionary = {
   // Category manager
   'cat.note': 'When you delete a category, its sites become uncategorized. Cookies are not affected.',
   'cat.pickColor': 'Pick a color',
+  'cat.customColor': 'Custom color',
   'cat.namePlaceholder': 'Category name',
   'cat.add': '+ Add category',
   'cat.errEmpty': 'Category names cannot be empty',

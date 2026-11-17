@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, h, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue'
 import {
   NButton,
   NDataTable,
@@ -15,9 +15,17 @@ import {
   type MenuOption,
 } from 'naive-ui'
 import { faviconUrl, getAllCookies, groupBySite, removeCookies, type Cookie, type SiteGroup } from '../lib/cookies'
-import { loadData, onDataChanged, saveData, type AppData, type Category } from '../storage'
+import {
+  NONE,
+  loadData,
+  onDataChanged,
+  resolveCategory,
+  saveData,
+  type AppData,
+  type Category,
+} from '../storage'
 import { useTheme } from '../lib/theme'
-import { exportData, mergeData, parseBackup } from '../lib/backup'
+import { exportData, mergeData, parseBackup, replaceData } from '../lib/backup'
 import { t } from '../i18n'
 import Icon from '../lib/Icon.vue'
 import LanguageSelect from '../lib/LanguageSelect.vue'
@@ -26,7 +34,7 @@ import CookieDrawer from './components/CookieDrawer.vue'
 import CategoryModal from './components/CategoryModal.vue'
 import ExportModal from './components/ExportModal.vue'
 
-const UNCATEGORIZED = '__none__'
+const UNCATEGORIZED = NONE
 const ALL = '__all__'
 
 const message = useMessage()
@@ -43,6 +51,39 @@ const drawerSite = ref<string | null>(null)
 const showCategoryModal = ref(false)
 const exportTargets = ref<string[]>([])
 const showExportModal = ref(false)
+
+// ---------- 分頁（受控狀態，每頁筆數會記住） ----------
+const PAGE_SIZE_KEY = 'cm-page-size'
+const PAGE_SIZES = [20, 50, 100, 200]
+
+function readPageSize(): number {
+  try {
+    const v = Number(localStorage.getItem(PAGE_SIZE_KEY))
+    if (PAGE_SIZES.includes(v)) return v
+  } catch {
+    /* 忽略 */
+  }
+  return 50
+}
+
+const pagination = reactive({
+  page: 1,
+  pageSize: readPageSize(),
+  showSizePicker: true,
+  pageSizes: PAGE_SIZES,
+  onUpdatePage: (p: number) => {
+    pagination.page = p
+  },
+  onUpdatePageSize: (size: number) => {
+    pagination.pageSize = size
+    pagination.page = 1
+    try {
+      localStorage.setItem(PAGE_SIZE_KEY, String(size))
+    } catch {
+      /* 忽略 */
+    }
+  },
+})
 
 // 搜尋框：淺灰填色、無邊框的現代風格
 const searchOverrides = computed(() => ({
@@ -85,9 +126,16 @@ onBeforeUnmount(() => {
 const sites = computed(() => groupBySite(cookies.value))
 const categoryMap = computed(() => new Map(data.value.categories.map((c) => [c.id, c])))
 
+/** 每個網站實際的分類（手動優先，其次自動） */
+const resolved = computed(() => new Map(sites.value.map((s) => [s.site, resolveCategory(data.value, s.site)])))
+
 function categoryOf(site: string): Category | undefined {
-  const id = data.value.assignments[site]
+  const id = (resolved.value.get(site) ?? resolveCategory(data.value, site)).id
   return id ? categoryMap.value.get(id) : undefined
+}
+
+function isAuto(site: string): boolean {
+  return resolved.value.get(site)?.auto ?? false
 }
 
 const countByCat = computed(() => {
@@ -108,6 +156,11 @@ const filteredSites = computed<SiteGroup[]>(() => {
     if (s.site.includes(kw)) return true
     return s.cookies.some((c) => c.name.toLowerCase().includes(kw) || c.domain.toLowerCase().includes(kw))
   })
+})
+
+// 切換分類或搜尋時回到第一頁
+watch([activeCat, keyword], () => {
+  pagination.page = 1
 })
 
 const totalCookies = computed(() => filteredSites.value.reduce((n, s) => n + s.cookies.length, 0))
@@ -151,12 +204,16 @@ const menuOptions = computed<MenuOption[]>(() => [
 ])
 
 // ---------- 動作 ----------
+/** 手動指定分類；選「未分類」時寫入 NONE，避免之後又被自動分類 */
 async function assign(sitesToAssign: string[], categoryId: string | null) {
-  for (const site of sitesToAssign) {
-    if (categoryId) data.value.assignments[site] = categoryId
-    else delete data.value.assignments[site]
-  }
+  for (const site of sitesToAssign) data.value.assignments[site] = categoryId ?? NONE
   await persist()
+}
+
+async function toggleAutoCategorize() {
+  data.value.autoCategorize = data.value.autoCategorize === false
+  await persist()
+  message.success(data.value.autoCategorize ? t('dash.autoOn') : t('dash.autoOff'))
 }
 
 async function deleteSites(siteNames: string[]) {
@@ -182,7 +239,7 @@ async function onSaveCategories(categories: Category[]) {
   const ids = new Set(categories.map((c) => c.id))
   data.value.categories = categories
   for (const [site, id] of Object.entries(data.value.assignments)) {
-    if (!ids.has(id)) delete data.value.assignments[site]
+    if (id !== NONE && !ids.has(id)) delete data.value.assignments[site]
   }
   if (activeCat.value !== ALL && activeCat.value !== UNCATEGORIZED && !ids.has(activeCat.value)) {
     activeCat.value = ALL
@@ -239,17 +296,26 @@ async function onRestoreFile(e: Event) {
     positiveText: t('dash.merge'),
     negativeText: t('dash.replace'),
     onPositiveClick: () => apply(mergeData(data.value, incoming)),
-    onNegativeClick: () => apply(incoming),
+    onNegativeClick: () => apply(replaceData(data.value, incoming)),
   })
 }
 
 const moreOptions = computed<DropdownOption[]>(() => [
+  {
+    key: 'auto',
+    label: t('dash.autoCategorize'),
+    icon: () =>
+      h('span', { style: 'width:1em;display:inline-block;text-align:center;color:var(--cm-primary)' },
+        data.value.autoCategorize !== false ? '✓' : ''),
+  },
+  { type: 'divider', key: 'd1' },
   { key: 'backup', label: t('dash.backup'), props: { title: t('dash.backupTip') } },
   { key: 'restore', label: t('dash.restore'), props: { title: t('dash.restoreTip') } },
 ])
 
 function onMore(key: string) {
-  if (key === 'backup') onBackup()
+  if (key === 'auto') toggleAutoCategorize()
+  else if (key === 'backup') onBackup()
   else if (key === 'restore') fileInput.value?.click()
 }
 
@@ -288,6 +354,7 @@ const columns = computed<DataTableColumns<SiteGroup>>(() => [
       h(CategoryPill, {
         categories: data.value.categories,
         value: categoryOf(row.site)?.id ?? null,
+        auto: isAuto(row.site),
         onChange: (v: string | null) => assign([row.site], v),
       }),
   },
@@ -425,7 +492,7 @@ async function applyBatchCategory(v: string | null) {
           :data="filteredSites"
           :row-key="(row: SiteGroup) => row.site"
           :loading="loading"
-          :pagination="{ pageSize: 50, showSizePicker: true, pageSizes: [20, 50, 100] }"
+          :pagination="pagination"
           flex-height
           :bordered="false"
         />
@@ -557,9 +624,14 @@ async function applyBatchCategory(v: string | null) {
   line-height: 20px;
 }
 
+/* 選中列為藍底白字（macOS 側邊欄），數量膠囊與圓點改為白色系才看得清楚 */
 .menu :deep(.n-menu-item-content--selected .menu-count) {
-  color: var(--cm-primary);
-  background: var(--cm-surface);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.menu :deep(.n-menu-item-content--selected .color-dot) {
+  box-shadow: 0 0 0 1.5px #fff;
 }
 
 .aside-footer {
