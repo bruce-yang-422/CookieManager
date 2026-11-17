@@ -7,20 +7,24 @@
 html,
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', 'PingFang TC', sans-serif;
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Microsoft JhengHei', 'PingFang TC', 'Hiragino Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* 卡片：白底圓角＋柔和陰影 */
+.cm-card {
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-xl);
+  box-shadow: var(--cm-shadow);
+}
+
+/* 網站名稱與圖示 */
 .site-cell {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   min-width: 0;
-}
-
-.site-cell img {
-  width: 16px;
-  height: 16px;
-  flex: none;
 }
 
 .site-cell span {
@@ -29,10 +33,121 @@ body {
   white-space: nowrap;
 }
 
+/* 網站圖示放在圓角底座上，大小一致、看起來整齊 */
+.fav {
+  width: 28px;
+  height: 28px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--cm-radius-md);
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+}
+
+.fav img {
+  width: 16px;
+  height: 16px;
+}
+
+.fav.sm {
+  width: 24px;
+  height: 24px;
+  border-radius: var(--cm-radius-sm);
+}
+
 .color-dot {
   display: inline-block;
   width: 8px;
   height: 8px;
   border-radius: 50%;
   flex: none;
+}
+
+/* 分類膠囊標籤 */
+.cat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  height: 26px;
+  padding: 0 10px 0 9px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: filter 0.15s, background 0.15s;
+}
+
+.cat-pill span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cat-pill:hover {
+  filter: brightness(0.96);
+}
+
+.cat-pill.empty {
+  color: var(--cm-muted);
+  background: transparent;
+  border: 1px dashed var(--cm-border);
+}
+
+.cat-pill.empty:hover {
+  border-color: var(--cm-muted);
+  filter: none;
+}
+
+.cat-pill .chev {
+  opacity: 0.55;
+  font-size: 10px;
+  margin-left: 1px;
+}
+
+/* 圓角圖示按鈕 */
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  display: inline-grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--cm-radius-md);
+  background: transparent;
+  color: var(--cm-muted);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+  background: var(--cm-hover);
+  color: var(--cm-text);
+}
+
+.icon-btn.danger:hover {
+  background: var(--cm-danger-soft);
+  color: var(--cm-danger);
+}
+
+.icon-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* 數字膠囊 */
+.count-pill {
+  display: inline-block;
+  min-width: 26px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+  color: var(--cm-muted);
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
 }

@@ -128,11 +128,9 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
     <NDrawerContent closable :native-scrollbar="false">
       <template #header>
         <div class="site-cell">
-          <img :src="faviconUrl(site)" alt="" />
+          <div class="fav"><img :src="faviconUrl(site)" alt="" /></div>
           <span>{{ site }}</span>
-          <NText depth="3" style="font-size: 13px; font-weight: normal">
-            · {{ t('common.cookieCount', { n: cookies.length }) }}
-          </NText>
+          <span class="count-pill">{{ cookies.length }}</span>
         </div>
       </template>
 
@@ -154,6 +152,7 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
       </NSpace>
 
       <NDataTable
+        class="cookie-table"
         :columns="columns"
         :data="filtered"
         :row-key="cookieKey"
@@ -164,3 +163,12 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
     </NDrawerContent>
   </NDrawer>
 </template>
+
+<style scoped>
+.cookie-table :deep(.n-data-table-wrapper) {
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-lg);
+  overflow: hidden;
+  background: var(--cm-surface);
+}
+</style>

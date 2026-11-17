@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, h, onBeforeUnmount, onMounted, ref, watchEffect } from 'vue'
+import { computed, h, onBeforeUnmount, onMounted, ref } from 'vue'
 import {
   NButton,
   NDataTable,
@@ -8,8 +8,6 @@ import {
   NMenu,
   NPopconfirm,
   NSelect,
-  NSpace,
-  NText,
   useDialog,
   useMessage,
   type DataTableColumns,
@@ -23,6 +21,7 @@ import { exportData, mergeData, parseBackup } from '../lib/backup'
 import { t } from '../i18n'
 import Icon from '../lib/Icon.vue'
 import LanguageSelect from '../lib/LanguageSelect.vue'
+import CategoryPill from '../lib/CategoryPill.vue'
 import CookieDrawer from './components/CookieDrawer.vue'
 import CategoryModal from './components/CategoryModal.vue'
 import ExportModal from './components/ExportModal.vue'
@@ -32,17 +31,7 @@ const ALL = '__all__'
 
 const message = useMessage()
 const dialog = useDialog()
-const { isDark, toggle: toggleTheme } = useTheme()
-
-// 外側底色與中間主體區分開來：外側灰底，主體為卡片色並加陰影
-const pageStyle = computed(() =>
-  isDark.value
-    ? { background: '#18181c', boxShadow: '0 0 0 1px rgba(255,255,255,0.06), 0 8px 32px rgba(0,0,0,0.55)' }
-    : { background: '#ffffff', boxShadow: '0 0 0 1px rgba(0,0,0,0.04), 0 8px 32px rgba(15,23,42,0.10)' },
-)
-watchEffect(() => {
-  document.body.style.backgroundColor = isDark.value ? '#101014' : '#eef0f3'
-})
+const { isDark, palette, toggle: toggleTheme } = useTheme()
 
 const cookies = ref<Cookie[]>([])
 const data = ref<AppData>({ categories: [], assignments: {} })
@@ -54,6 +43,15 @@ const drawerSite = ref<string | null>(null)
 const showCategoryModal = ref(false)
 const exportTargets = ref<string[]>([])
 const showExportModal = ref(false)
+
+// 搜尋框：淺灰填色、無邊框的現代風格
+const searchOverrides = computed(() => ({
+  color: palette.value.surface2,
+  colorFocus: palette.value.surface,
+  border: '1px solid transparent',
+  borderHover: `1px solid ${palette.value.border}`,
+  heightMedium: '38px',
+}))
 
 // ---------- 資料 ----------
 async function reloadCookies() {
@@ -120,19 +118,31 @@ const categoryOptions = computed(() =>
   data.value.categories.map((c) => ({ label: c.name, value: c.id, color: c.color })),
 )
 
+/** 目前檢視的標題（全部／未分類／某分類） */
+const viewTitle = computed(() => {
+  if (activeCat.value === ALL) return { name: t('dash.allSites'), color: undefined }
+  if (activeCat.value === UNCATEGORIZED) return { name: t('common.uncategorized'), color: undefined }
+  const c = categoryMap.value.get(activeCat.value)
+  return { name: c?.name ?? '', color: c?.color }
+})
+
 // ---------- 側邊選單 ----------
 function menuLabel(name: string, count: number, color?: string) {
   return () =>
-    h('div', { style: 'display:flex;align-items:center;gap:8px;width:100%' }, [
+    h('div', { class: 'menu-item' }, [
       color ? h('span', { class: 'color-dot', style: { background: color } }) : null,
-      h('span', { style: 'flex:1;overflow:hidden;text-overflow:ellipsis' }, name),
-      h(NText, { depth: 3, style: 'font-size:12px' }, () => String(count)),
+      h('span', { class: 'menu-name' }, name),
+      h('span', { class: 'menu-count' }, String(count)),
     ])
 }
 
 const menuOptions = computed<MenuOption[]>(() => [
-  { key: ALL, label: menuLabel(t('dash.allSites'), sites.value.length) },
-  { key: UNCATEGORIZED, label: menuLabel(t('common.uncategorized'), countByCat.value.get(UNCATEGORIZED) ?? 0) },
+  { key: ALL, label: menuLabel(t('dash.allSites'), sites.value.length), icon: () => h(Icon, { name: 'dashboard' }) },
+  {
+    key: UNCATEGORIZED,
+    label: menuLabel(t('common.uncategorized'), countByCat.value.get(UNCATEGORIZED) ?? 0),
+    icon: () => h(Icon, { name: 'tag' }),
+  },
   { key: 'divider', type: 'divider' },
   ...data.value.categories.map((c) => ({
     key: c.id,
@@ -250,6 +260,14 @@ async function refresh() {
 }
 
 // ---------- 表格 ----------
+function iconButton(icon: string, title: string, onClick?: () => void, danger = false) {
+  return h(
+    'button',
+    { class: ['icon-btn', danger && 'danger'], title, type: 'button', onClick },
+    h(Icon, { name: icon as never }),
+  )
+}
+
 const columns = computed<DataTableColumns<SiteGroup>>(() => [
   { type: 'selection' },
   {
@@ -258,50 +276,38 @@ const columns = computed<DataTableColumns<SiteGroup>>(() => [
     sorter: (a, b) => a.site.localeCompare(b.site),
     render: (row) =>
       h('div', { class: 'site-cell' }, [
-        h('img', { src: faviconUrl(row.site), alt: '' }),
-        h(NButton, { text: true, onClick: () => (drawerSite.value = row.site) }, { default: () => row.site }),
+        h('div', { class: 'fav' }, h('img', { src: faviconUrl(row.site), alt: '' })),
+        h('span', { class: 'site-name', onClick: () => (drawerSite.value = row.site) }, row.site),
       ]),
   },
   {
     title: t('dash.colCategory'),
     key: 'category',
-    width: 180,
+    width: 190,
     render: (row) =>
-      h(NSelect, {
-        size: 'small',
+      h(CategoryPill, {
+        categories: data.value.categories,
         value: categoryOf(row.site)?.id ?? null,
-        options: categoryOptions.value,
-        placeholder: t('common.uncategorized'),
-        clearable: true,
-        renderLabel: (opt: { label: string; color: string }) =>
-          h('div', { style: 'display:flex;align-items:center;gap:6px' }, [
-            h('span', { class: 'color-dot', style: { background: opt.color } }),
-            opt.label,
-          ]),
-        onUpdateValue: (v: string | null) => assign([row.site], v),
+        onChange: (v: string | null) => assign([row.site], v),
       }),
   },
   {
     title: t('dash.colCount'),
     key: 'count',
-    width: 110,
-    align: 'right',
+    width: 120,
+    align: 'center',
     sorter: (a, b) => a.cookies.length - b.cookies.length,
-    render: (row) => row.cookies.length,
+    render: (row) => h('span', { class: 'count-pill' }, row.cookies.length),
   },
   {
     title: t('dash.colActions'),
     key: 'actions',
-    width: 240,
+    width: 130,
     align: 'center',
     render: (row) =>
-      h(NSpace, { size: 4, justify: 'center', wrap: false }, () => [
-        h(NButton, { size: 'small', quaternary: true, onClick: () => (drawerSite.value = row.site) }, () =>
-          t('dash.details'),
-        ),
-        h(NButton, { size: 'small', quaternary: true, onClick: () => openExport([row.site]) }, () =>
-          t('common.export'),
-        ),
+      h('div', { class: 'row-actions' }, [
+        iconButton('eye', t('dash.details'), () => (drawerSite.value = row.site)),
+        iconButton('export', t('common.export'), () => openExport([row.site])),
         h(
           NPopconfirm,
           {
@@ -310,7 +316,7 @@ const columns = computed<DataTableColumns<SiteGroup>>(() => [
             negativeText: t('common.cancel'),
           },
           {
-            trigger: () => h(NButton, { size: 'small', quaternary: true, type: 'error' }, () => t('common.delete')),
+            trigger: () => iconButton('trash', t('common.delete'), undefined, true),
             default: () => t('dash.confirmDeleteSite', { site: row.site, n: row.cookies.length }),
           },
         ),
@@ -328,16 +334,23 @@ async function applyBatchCategory(v: string | null) {
 </script>
 
 <template>
-  <div class="page" :style="pageStyle">
-    <header class="header">
+  <div class="page">
+    <!-- 標題列 -->
+    <header class="topbar cm-card">
       <div class="brand">
         <img src="/assets/icons/icon48.png" alt="" />
         <span>Cookie Manager</span>
       </div>
-      <NInput v-model:value="keyword" class="search" :placeholder="t('dash.search')" clearable round>
+      <NInput
+        v-model:value="keyword"
+        class="search"
+        :placeholder="t('dash.search')"
+        clearable
+        :theme-overrides="searchOverrides"
+      >
         <template #prefix><Icon name="search" /></template>
       </NInput>
-      <NSpace :size="4" :wrap="false">
+      <div class="actions">
         <NButton quaternary :title="t('dash.refresh')" @click="refresh">
           <template #icon><Icon name="refresh" /></template>
         </NButton>
@@ -350,22 +363,39 @@ async function applyBatchCategory(v: string | null) {
         <NButton quaternary :title="isDark ? t('theme.toLight') : t('theme.toDark')" @click="toggleTheme">
           <template #icon><Icon :name="isDark ? 'sun' : 'moon'" /></template>
         </NButton>
-      </NSpace>
+      </div>
       <input ref="fileInput" type="file" accept="application/json,.json" hidden @change="onRestoreFile" />
     </header>
 
     <div class="body">
-      <aside class="aside">
-        <NMenu v-model:value="activeCat" :options="menuOptions" />
+      <!-- 側邊分類 -->
+      <aside class="aside cm-card">
+        <div class="aside-title">{{ t('dash.colCategory') }}</div>
+        <NMenu v-model:value="activeCat" :options="menuOptions" :indent="12" class="menu" />
         <div class="aside-footer">
-          <NButton block dashed @click="showCategoryModal = true">{{ t('dash.manageCategories') }}</NButton>
+          <NButton block secondary @click="showCategoryModal = true">
+            <template #icon><Icon name="tag" /></template>
+            {{ t('dash.manageCategories') }}
+          </NButton>
         </div>
       </aside>
 
-      <main class="main">
-        <div class="toolbar">
-          <template v-if="checkedSites.length">
-            <NText>{{ t('dash.selected', { n: checkedSites.length }) }}</NText>
+      <!-- 主內容 -->
+      <main class="main cm-card">
+        <div class="main-head">
+          <div class="heading">
+            <h1>
+              <span v-if="viewTitle.color" class="color-dot big" :style="{ background: viewTitle.color }" />
+              {{ viewTitle.name }}
+            </h1>
+            <span class="summary">{{ t('dash.summary', { sites: filteredSites.length, cookies: totalCookies }) }}</span>
+          </div>
+        </div>
+
+        <!-- 批次操作列 -->
+        <Transition name="fade">
+          <div v-if="checkedSites.length" class="selection-bar">
+            <span class="selection-count">{{ t('dash.selected', { n: checkedSites.length }) }}</span>
             <NSelect
               v-model:value="batchCategory"
               :options="[{ label: t('dash.setUncategorized'), value: UNCATEGORIZED }, ...categoryOptions]"
@@ -374,14 +404,19 @@ async function applyBatchCategory(v: string | null) {
               style="width: 180px"
               @update:value="(v: string) => applyBatchCategory(v === UNCATEGORIZED ? null : v)"
             />
-            <NButton size="small" secondary @click="openExport([...checkedSites])">{{ t('dash.exportCookies') }}</NButton>
-            <NButton size="small" type="error" secondary @click="confirmBatchDelete">{{ t('dash.batchDelete') }}</NButton>
-            <NButton size="small" quaternary @click="checkedSites = []">{{ t('dash.clearSelection') }}</NButton>
-          </template>
-          <NText v-else depth="3">
-            {{ t('dash.summary', { sites: filteredSites.length, cookies: totalCookies }) }}
-          </NText>
-        </div>
+            <NButton size="small" secondary @click="openExport([...checkedSites])">
+              <template #icon><Icon name="export" /></template>
+              {{ t('dash.exportCookies') }}
+            </NButton>
+            <NButton size="small" type="error" secondary @click="confirmBatchDelete">
+              <template #icon><Icon name="trash" /></template>
+              {{ t('dash.batchDelete') }}
+            </NButton>
+            <NButton size="small" quaternary class="clear" @click="checkedSites = []">
+              {{ t('dash.clearSelection') }}
+            </NButton>
+          </div>
+        </Transition>
 
         <NDataTable
           v-model:checked-row-keys="checkedSites"
@@ -411,87 +446,237 @@ async function applyBatchCategory(v: string | null) {
 </template>
 
 <style scoped>
-/* 限制最大寬度，超寬螢幕時置中，不會被拉得太開 */
+/* 灰底上浮著三張圓角卡片；最大寬度 1440px，超寬螢幕置中 */
 .page {
   max-width: 1440px;
   height: 100vh;
   margin: 0 auto;
+  padding: 16px 20px 20px;
   display: flex;
   flex-direction: column;
-  position: relative;
+  gap: 16px;
+  color: var(--cm-text);
 }
 
-.header {
+/* 標題列 */
+.topbar {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 12px 20px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.15);
+  gap: 20px;
+  padding: 10px 12px 10px 18px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-weight: 600;
+  gap: 10px;
+  font-weight: 700;
   font-size: 16px;
+  letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
 .brand img {
-  width: 24px;
-  height: 24px;
+  width: 30px;
+  height: 30px;
 }
 
 .search {
   flex: 1;
-  max-width: 520px;
+  max-width: 560px;
   margin-right: auto;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
 }
 
 .body {
   flex: 1;
   display: flex;
+  gap: 16px;
   min-height: 0;
 }
 
+/* 側邊分類 */
 .aside {
-  width: 220px;
+  width: 240px;
   flex: none;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid rgba(128, 128, 128, 0.15);
+  padding: 14px 10px 12px;
+  overflow: hidden;
+}
+
+.aside-title {
+  padding: 0 10px 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--cm-muted);
+  text-transform: uppercase;
+}
+
+.menu {
+  flex: 1;
   overflow-y: auto;
 }
 
-.aside-footer {
-  margin-top: auto;
-  padding: 12px;
+.menu :deep(.n-menu-item-content) {
+  border-radius: var(--cm-radius-lg);
 }
 
+.menu :deep(.n-menu-item-content::before) {
+  left: 0 !important;
+  right: 0 !important;
+  border-radius: var(--cm-radius-lg) !important;
+}
+
+.menu :deep(.menu-item) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.menu :deep(.menu-name) {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.menu :deep(.menu-count) {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--cm-muted);
+  background: var(--cm-surface-2);
+  border-radius: 999px;
+  padding: 0 8px;
+  line-height: 20px;
+}
+
+.menu :deep(.n-menu-item-content--selected .menu-count) {
+  color: var(--cm-primary);
+  background: var(--cm-surface);
+}
+
+.aside-footer {
+  padding: 10px 2px 0;
+  border-top: 1px solid var(--cm-border);
+  margin-top: 8px;
+}
+
+/* 主內容 */
 .main {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: 12px 20px 16px;
+  padding: 18px 20px 16px;
 }
 
-.toolbar {
+.main-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.heading h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.color-dot.big {
+  width: 12px;
+  height: 12px;
+}
+
+.summary {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  color: var(--cm-muted);
+}
+
+/* 批次操作列 */
+.selection-bar {
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  min-height: 36px;
-  margin-bottom: 8px;
+  gap: 10px;
+  padding: 8px 10px 8px 14px;
+  margin-bottom: 12px;
+  border-radius: var(--cm-radius-lg);
+  background: var(--cm-primary-soft);
+  border: 1px solid color-mix(in srgb, var(--cm-primary) 25%, transparent);
 }
 
+.selection-count {
+  font-weight: 600;
+  color: var(--cm-primary);
+  margin-right: 4px;
+}
+
+.selection-bar .clear {
+  margin-left: auto;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+/* 表格 */
 .table {
   flex: 1;
   min-height: 0;
 }
 
-@media (max-width: 720px) {
+.table :deep(.n-data-table-wrapper) {
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-lg);
+  overflow: hidden;
+}
+
+.table :deep(.n-data-table-td) {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.table :deep(.site-name) {
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.table :deep(.site-name:hover) {
+  color: var(--cm-primary);
+}
+
+.table :deep(.row-actions) {
+  display: inline-flex;
+  gap: 2px;
+}
+
+@media (max-width: 760px) {
+  .page {
+    padding: 10px;
+    gap: 10px;
+  }
   .aside {
     display: none;
   }

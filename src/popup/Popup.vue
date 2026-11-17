@@ -1,20 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from 'vue'
-import {
-  NButton,
-  NCollapse,
-  NCollapseItem,
-  NEmpty,
-  NInput,
-  NPopconfirm,
-  NRadioButton,
-  NRadioGroup,
-  NScrollbar,
-  NSelect,
-  NSpin,
-  NText,
-  useMessage,
-} from 'naive-ui'
+import { NButton, NEmpty, NInput, NPopconfirm, NScrollbar, NSpin, useMessage } from 'naive-ui'
 import {
   cookieKey,
   draftFromCookie,
@@ -30,8 +16,10 @@ import {
   type CookieDraft,
 } from '../lib/cookies'
 import { loadData, saveData, type AppData } from '../storage'
+import { useTheme } from '../lib/theme'
 import Icon from '../lib/Icon.vue'
 import LanguageSelect from '../lib/LanguageSelect.vue'
+import CategoryPill from '../lib/CategoryPill.vue'
 import { t } from '../i18n'
 import CookieEditor from './components/CookieEditor.vue'
 import ImportPanel from './components/ImportPanel.vue'
@@ -42,6 +30,7 @@ type Scope = 'page' | 'site'
 
 const SCOPE_KEY = 'cm-popup-scope'
 const message = useMessage()
+const { palette } = useTheme()
 
 const loading = ref(true)
 const busy = ref(false)
@@ -53,8 +42,15 @@ const cookies = ref<Cookie[]>([])
 const data = ref<AppData>({ categories: [], assignments: {} })
 const keyword = ref('')
 const view = ref<View>('list')
-const expanded = ref<string[]>([])
+const expanded = ref<string | null>(null)
 const scope = ref<Scope>(readScope())
+
+const searchOverrides = computed(() => ({
+  color: palette.value.surface,
+  colorFocus: palette.value.surface,
+  border: `1px solid ${palette.value.border}`,
+  heightSmall: '32px',
+}))
 
 function readScope(): Scope {
   try {
@@ -70,7 +66,7 @@ watch(scope, async (v) => {
   } catch {
     /* 忽略 */
   }
-  expanded.value = []
+  expanded.value = null
   await load()
 })
 
@@ -111,7 +107,6 @@ const categoryId = computed(() => {
   const id = data.value.assignments[site.value]
   return data.value.categories.some((c) => c.id === id) ? id : null
 })
-const categoryOptions = computed(() => data.value.categories.map((c) => ({ label: c.name, value: c.id })))
 
 async function setCategory(v: string | null) {
   if (!site.value) return
@@ -150,7 +145,7 @@ async function run(task: () => Promise<void>, ok: string) {
 }
 
 async function saveCookie(old: Cookie, d: CookieDraft) {
-  if (await run(() => replaceCookie(old, d), t('pop.saved', { name: d.name }))) expanded.value = []
+  if (await run(() => replaceCookie(old, d), t('pop.saved', { name: d.name }))) expanded.value = null
 }
 
 async function addCookie(d: CookieDraft) {
@@ -197,6 +192,10 @@ function toggleView(v: View) {
   view.value = view.value === v ? 'list' : v
 }
 
+function toggleItem(key: string) {
+  expanded.value = expanded.value === key ? null : key
+}
+
 function openDashboard() {
   chrome.runtime.openOptionsPage()
   window.close()
@@ -206,12 +205,15 @@ function openDashboard() {
 <template>
   <div class="popup">
     <!-- 標題列 -->
-    <header class="header">
-      <div class="site-cell title">
-        <img v-if="site" :src="faviconUrl(site)" alt="" />
-        <span>{{ site ? (scope === 'page' ? host : site) : 'Cookie Manager' }}</span>
+    <header class="top">
+      <div v-if="site" class="fav">
+        <img :src="faviconUrl(site)" alt="" />
       </div>
-      <NText v-if="site" depth="3" class="count">{{ cookies.length }}</NText>
+      <img v-else class="logo" src="/assets/icons/icon48.png" alt="" />
+      <div class="title">
+        <div class="host">{{ site ? (scope === 'page' ? host : site) : 'Cookie Manager' }}</div>
+        <div v-if="site" class="sub">{{ t('common.cookieCount', { n: cookies.length }) }}</div>
+      </div>
       <LanguageSelect size="small" />
       <NButton quaternary size="small" :title="t('common.openDashboard')" @click="openDashboard">
         <template #icon><Icon name="dashboard" /></template>
@@ -220,35 +222,38 @@ function openDashboard() {
 
     <NSpin :show="loading" class="spin">
       <template v-if="site">
-        <div class="toolbar">
-          <NRadioGroup v-model:value="scope" size="small">
-            <NRadioButton value="page" :title="t('pop.scopePageTip')">{{ t('pop.scopePage') }}</NRadioButton>
-            <NRadioButton value="site" :title="t('pop.scopeSiteTip', { site })">{{ t('pop.scopeSite') }}</NRadioButton>
-          </NRadioGroup>
-          <NSelect
-            :value="categoryId"
-            :options="categoryOptions"
-            :placeholder="t('common.uncategorized')"
-            clearable
-            size="small"
-            class="category"
-            @update:value="setCategory"
-          />
-        </div>
-
-        <!-- 子畫面標題 -->
-        <div v-if="view !== 'list'" class="subhead">
-          <NButton quaternary size="small" @click="view = 'list'">
-            <template #icon><Icon name="back" /></template>
-            {{ t('common.back') }}
-          </NButton>
-          <span>{{ viewTitle(view) }}</span>
+        <div class="controls">
+          <div class="seg" role="tablist">
+            <button
+              type="button"
+              :class="{ on: scope === 'page' }"
+              :title="t('pop.scopePageTip')"
+              @click="scope = 'page'"
+            >
+              {{ t('pop.scopePage') }}
+            </button>
+            <button
+              type="button"
+              :class="{ on: scope === 'site' }"
+              :title="t('pop.scopeSiteTip', { site })"
+              @click="scope = 'site'"
+            >
+              {{ t('pop.scopeSite') }}
+            </button>
+          </div>
+          <CategoryPill :categories="data.categories" :value="categoryId" @change="setCategory" />
         </div>
 
         <!-- 列表 -->
         <template v-if="view === 'list'">
           <div class="search">
-            <NInput v-model:value="keyword" size="small" :placeholder="t('pop.search')" clearable>
+            <NInput
+              v-model:value="keyword"
+              size="small"
+              :placeholder="t('pop.search')"
+              clearable
+              :theme-overrides="searchOverrides"
+            >
               <template #prefix><Icon name="search" /></template>
             </NInput>
           </div>
@@ -258,27 +263,40 @@ function openDashboard() {
               :description="keyword ? t('pop.noMatch') : t('pop.noCookies')"
               class="empty"
             />
-            <NCollapse v-else v-model:expanded-names="expanded" accordion class="list" arrow-placement="left">
-              <NCollapseItem v-for="c in filtered" :key="cookieKey(c)" :name="cookieKey(c)">
-                <template #header>
+            <div v-else class="list">
+              <div
+                v-for="c in filtered"
+                :key="cookieKey(c)"
+                class="item"
+                :class="{ open: expanded === cookieKey(c) }"
+              >
+                <button type="button" class="item-head" @click="toggleItem(cookieKey(c))">
+                  <span class="chev"><Icon name="chevron" /></span>
                   <span class="name">{{ c.name || t('pop.noName') }}</span>
-                </template>
-                <template #header-extra>
-                  <NText depth="3" class="domain">{{ c.domain }}</NText>
-                </template>
-                <CookieEditor
-                  :initial="draftFromCookie(c)"
-                  :saving="busy"
-                  @save="(d) => saveCookie(c, d)"
-                  @delete="deleteCookie(c)"
-                />
-              </NCollapseItem>
-            </NCollapse>
+                  <span class="domain">{{ c.domain }}</span>
+                </button>
+                <div v-if="expanded === cookieKey(c)" class="item-body">
+                  <CookieEditor
+                    :initial="draftFromCookie(c)"
+                    :saving="busy"
+                    @save="(d) => saveCookie(c, d)"
+                    @delete="deleteCookie(c)"
+                  />
+                </div>
+              </div>
+            </div>
           </NScrollbar>
         </template>
 
+        <!-- 新增／匯入／匯出 -->
         <NScrollbar v-else class="content">
-          <div class="pad">
+          <div class="panel cm-card">
+            <div class="panel-head">
+              <button type="button" class="icon-btn" :title="t('common.back')" @click="view = 'list'">
+                <Icon name="back" />
+              </button>
+              <span>{{ viewTitle(view) }}</span>
+            </div>
             <CookieEditor
               v-if="view === 'new'"
               :initial="newDraft"
@@ -299,8 +317,8 @@ function openDashboard() {
         </NScrollbar>
 
         <!-- 底部工具列 -->
-        <footer class="bar">
-          <button class="bar-btn" :class="{ active: view === 'new' }" @click="toggleView('new')">
+        <footer class="dock cm-card">
+          <button class="dock-btn" :class="{ active: view === 'new' }" @click="toggleView('new')">
             <Icon name="plus" size="18" /><span>{{ t('common.add') }}</span>
           </button>
           <NPopconfirm
@@ -309,7 +327,7 @@ function openDashboard() {
             @positive-click="deleteAll"
           >
             <template #trigger>
-              <button class="bar-btn danger" :disabled="!cookies.length">
+              <button class="dock-btn danger" :disabled="!cookies.length">
                 <Icon name="trash" size="18" /><span>{{ t('common.deleteAll') }}</span>
               </button>
             </template>
@@ -319,11 +337,11 @@ function openDashboard() {
                 : t('pop.confirmDeleteAllSite', { n: cookies.length })
             }}
           </NPopconfirm>
-          <button class="bar-btn" :class="{ active: view === 'import' }" @click="toggleView('import')">
+          <button class="dock-btn" :class="{ active: view === 'import' }" @click="toggleView('import')">
             <Icon name="import" size="18" /><span>{{ t('common.import') }}</span>
           </button>
           <button
-            class="bar-btn"
+            class="dock-btn"
             :class="{ active: view === 'export' }"
             :disabled="!cookies.length"
             @click="toggleView('export')"
@@ -334,8 +352,10 @@ function openDashboard() {
       </template>
 
       <div v-else-if="!loading" class="pad">
-        <NEmpty :description="t('pop.notWebsite')" class="empty" />
-        <NButton block @click="openDashboard">{{ t('common.openDashboard') }}</NButton>
+        <div class="panel cm-card">
+          <NEmpty :description="t('pop.notWebsite')" class="empty" />
+          <NButton block type="primary" secondary @click="openDashboard">{{ t('common.openDashboard') }}</NButton>
+        </div>
       </div>
     </NSpin>
   </div>
@@ -344,9 +364,11 @@ function openDashboard() {
 <style scoped>
 .popup {
   width: 400px;
-  height: 560px;
+  height: 580px;
   display: flex;
   flex-direction: column;
+  background: var(--cm-bg);
+  color: var(--cm-text);
 }
 
 .spin {
@@ -363,48 +385,84 @@ function openDashboard() {
   flex-direction: column;
 }
 
-.header {
+/* 標題列 */
+.top {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 12px;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.18);
+  gap: 10px;
+  padding: 14px 12px 12px 14px;
+}
+
+.top .fav {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--cm-radius-lg);
+  background: var(--cm-surface);
+  box-shadow: var(--cm-shadow);
+}
+
+.logo {
+  width: 32px;
+  height: 32px;
 }
 
 .title {
   flex: 1;
-  font-weight: 600;
-  font-size: 15px;
-}
-
-.count {
-  font-size: 12px;
-  padding: 0 8px;
-  border-radius: 10px;
-  background: rgba(128, 128, 128, 0.15);
-}
-
-.toolbar {
-  display: flex;
-  gap: 8px;
-  padding: 10px 12px 0;
-}
-
-.category {
-  flex: 1;
   min-width: 0;
 }
 
-.subhead {
+.host {
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.sub {
+  font-size: 12px;
+  color: var(--cm-muted);
+}
+
+/* 範圍切換＋分類 */
+.controls {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 8px 0;
-  font-weight: 600;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 14px;
+}
+
+.seg {
+  display: inline-flex;
+  padding: 3px;
+  gap: 2px;
+  border-radius: var(--cm-radius-lg);
+  background: color-mix(in srgb, var(--cm-text) 7%, transparent);
+}
+
+.seg button {
+  border: 0;
+  background: transparent;
+  color: var(--cm-muted);
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 4px 12px;
+  border-radius: var(--cm-radius-md);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+.seg button.on {
+  background: var(--cm-surface);
+  color: var(--cm-text);
+  box-shadow: 0 1px 3px rgba(16, 24, 40, 0.12);
 }
 
 .search {
-  padding: 10px 12px 6px;
+  padding: 12px 14px 10px;
 }
 
 .content {
@@ -412,90 +470,148 @@ function openDashboard() {
   min-height: 0;
 }
 
+/* Cookie 清單：每筆都是圓角卡片 */
 .list {
-  padding: 0 12px 8px;
+  display: grid;
+  gap: 6px;
+  padding: 0 14px 12px;
 }
 
-.list :deep(.n-collapse-item) {
-  margin: 0 !important;
-  padding: 8px 0;
-  border-top: 1px solid rgba(128, 128, 128, 0.15);
+.item {
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-lg);
+  transition: box-shadow 0.15s, border-color 0.15s;
 }
 
-.list :deep(.n-collapse-item:first-child) {
-  border-top: 0;
+.item:hover {
+  border-color: color-mix(in srgb, var(--cm-primary) 30%, var(--cm-border));
 }
 
-.list :deep(.n-collapse-item__header-main) {
-  min-width: 0;
+.item.open {
+  box-shadow: var(--cm-shadow);
+  border-color: color-mix(in srgb, var(--cm-primary) 40%, var(--cm-border));
+}
+
+.item-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 12px 9px 10px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.chev {
+  display: grid;
+  color: var(--cm-muted);
+  transform: rotate(-90deg);
+  transition: transform 0.15s;
+}
+
+.item.open .chev {
+  transform: rotate(0deg);
+  color: var(--cm-primary);
 }
 
 .name {
-  font-weight: 500;
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+  font-size: 13px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .domain {
-  font-size: 12px;
   max-width: 140px;
-  display: inline-block;
+  font-size: 11.5px;
+  color: var(--cm-muted);
+  background: var(--cm-surface-2);
+  border-radius: 999px;
+  padding: 1px 8px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
+.item-body {
+  padding: 4px 12px 12px;
+  border-top: 1px solid var(--cm-border);
+  padding-top: 12px;
+}
+
+/* 新增／匯入／匯出面板 */
+.panel {
+  margin: 4px 14px 12px;
+  padding: 12px 14px 14px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: -4px 0 10px -6px;
+  font-weight: 700;
+}
+
 .pad {
-  padding: 12px;
+  padding: 4px 0;
 }
 
 .empty {
-  padding: 32px 0;
+  padding: 36px 0;
 }
 
-.bar {
+/* 底部浮動工具列 */
+.dock {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-top: 1px solid rgba(128, 128, 128, 0.18);
+  gap: 4px;
+  margin: 0 14px 14px;
+  padding: 5px;
 }
 
-.bar-btn {
+.dock-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 8px 0 6px;
+  gap: 3px;
+  padding: 8px 0 7px;
   border: 0;
+  border-radius: var(--cm-radius-lg);
   background: transparent;
-  color: inherit;
+  color: var(--cm-muted);
   font: inherit;
-  font-size: 11px;
+  font-size: 11.5px;
+  font-weight: 500;
   cursor: pointer;
-  opacity: 0.85;
+  transition: background 0.15s, color 0.15s;
 }
 
-.bar-btn + .bar-btn,
-.bar :deep(* + .bar-btn) {
-  border-left: 1px solid rgba(128, 128, 128, 0.15);
+.dock-btn:hover:not(:disabled) {
+  background: var(--cm-hover);
+  color: var(--cm-text);
 }
 
-.bar-btn:hover:not(:disabled),
-.bar-btn.active {
-  background: rgba(128, 128, 128, 0.12);
-  opacity: 1;
+.dock-btn.active {
+  background: var(--cm-primary-soft);
+  color: var(--cm-primary);
 }
 
-.bar-btn.active {
-  color: #18a058;
+.dock-btn.danger:hover:not(:disabled) {
+  background: var(--cm-danger-soft);
+  color: var(--cm-danger);
 }
 
-.bar-btn.danger:hover:not(:disabled) {
-  color: #d03050;
-}
-
-.bar-btn:disabled {
-  opacity: 0.35;
+.dock-btn:disabled {
+  opacity: 0.4;
   cursor: not-allowed;
 }
 </style>
