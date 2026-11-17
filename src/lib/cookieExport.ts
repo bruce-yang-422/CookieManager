@@ -62,6 +62,26 @@ function toHeader(cookies: Cookie[]): string {
   return cookies.map((c) => (c.name ? `${c.name}=${c.value}` : c.value)).join('; ')
 }
 
+export type CopyFormat = 'value' | 'name' | 'pair' | 'curl' | 'json' | 'netscape'
+
+/** 單一 Cookie 的各種複製格式 */
+export function copyText(c: Cookie, format: CopyFormat): string {
+  switch (format) {
+    case 'value':
+      return c.value
+    case 'name':
+      return c.name
+    case 'pair':
+      return c.name ? `${c.name}=${c.value}` : c.value
+    case 'curl':
+      return `-H 'Cookie: ${(c.name ? `${c.name}=${c.value}` : c.value).replace(/'/g, "'\\''")}'`
+    case 'json':
+      return JSON.stringify(toPlain(c), null, 2)
+    case 'netscape':
+      return toNetscape([c]).split('\n').filter((l) => l && !l.startsWith('# ')).join('\n')
+  }
+}
+
 export function serializeCookies(cookies: Cookie[], format: ExportFormat): string {
   if (format === 'json') return JSON.stringify(cookies.map(toPlain), null, 2)
   if (format === 'netscape') return toNetscape(cookies)

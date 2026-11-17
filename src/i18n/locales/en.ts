@@ -99,6 +99,12 @@ const en: Dictionary = {
   'drawer.colExpires': 'Expires',
   'drawer.colFlags': 'Flags',
   'drawer.empty': '(empty)',
+  'copy.value': 'Copy value',
+  'copy.name': 'Copy name',
+  'copy.pair': 'Copy name=value',
+  'copy.curl': 'Copy as curl header',
+  'copy.json': 'Copy as JSON',
+  'copy.netscape': 'Copy as Netscape',
 
   // Category manager
   'cat.note': 'When you delete a category, its sites become uncategorized. Cookies are not affected.',

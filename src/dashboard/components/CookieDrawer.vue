@@ -5,6 +5,7 @@ import {
   NDataTable,
   NDrawer,
   NDrawerContent,
+  NDropdown,
   NEllipsis,
   NInput,
   NPopconfirm,
@@ -25,6 +26,7 @@ import {
 } from '../../lib/cookies'
 import { t } from '../../i18n'
 import Icon from '../../lib/Icon.vue'
+import { copyText, type CopyFormat } from '../../lib/cookieExport'
 
 const props = defineProps<{ show: boolean; site: string; cookies: Cookie[] }>()
 const emit = defineEmits<{ 'update:show': [boolean]; changed: []; export: [] }>()
@@ -67,6 +69,17 @@ async function copy(text: string) {
     message.error(t('common.copyFailed'))
   }
 }
+
+/** 複製選單：值、名稱、name=value、curl 標頭、JSON、Netscape */
+const copyOptions = computed(() => [
+  { key: 'value', label: t('copy.value') },
+  { key: 'name', label: t('copy.name') },
+  { key: 'pair', label: t('copy.pair') },
+  { key: 'curl', label: t('copy.curl') },
+  { type: 'divider', key: 'd' },
+  { key: 'json', label: t('copy.json') },
+  { key: 'netscape', label: t('copy.netscape') },
+])
 
 /** SameSite 顯示成 HTTP 標準寫法 */
 const SAME_SITE_LABEL: Record<string, string> = { no_restriction: 'None', lax: 'Lax', strict: 'Strict' }
@@ -132,7 +145,16 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
     align: 'center',
     render: (c) =>
       h('div', { class: 'actions' }, [
-        iconButton('copy', t('common.copy'), () => copy(c.value)),
+        h(
+          NDropdown,
+          {
+            options: copyOptions.value,
+            trigger: 'click',
+            placement: 'bottom-end',
+            onSelect: (key: CopyFormat) => copy(copyText(c, key)),
+          },
+          { default: () => iconButton('copy', t('common.copy')) },
+        ),
         h(
           NPopconfirm,
           { onPositiveClick: () => del(c), positiveText: t('common.delete'), negativeText: t('common.cancel') },

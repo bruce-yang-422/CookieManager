@@ -98,6 +98,12 @@ export default {
   'drawer.colExpires': '到期',
   'drawer.colFlags': '屬性',
   'drawer.empty': '（空）',
+  'copy.value': '複製值',
+  'copy.name': '複製名稱',
+  'copy.pair': '複製 name=value',
+  'copy.curl': '複製為 curl 標頭',
+  'copy.json': '複製為 JSON',
+  'copy.netscape': '複製為 Netscape 格式',
 
   // 分類管理
   'cat.note': '刪除分類後，原本屬於該分類的網站會變成「未分類」，Cookie 不受影響。',

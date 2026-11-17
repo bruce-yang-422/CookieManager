@@ -154,7 +154,7 @@ const DOMAINS: Record<string, string[]> = {
     'api2convert.com', 'convertico.com', 'fliphtml5.com', 'qr-code-generator.com', 'quickmark.com.tw',
     'similarweb.com', 'surveycake.com', 'teamviewer.com', 'ticktick.com', 'line.biz', 'respond.io',
     'jasonsavard.com', 'bit.ly', 'reurl.cc', 'lihi.cc', 'lihi.io', 'lihi1.me', 'pse.is', 'flova.ai',
-    'pixzens.com', 'shotki.app', 'hgprint.com.tw', 'relab.cc', 'top-mango.com', 'aguije.jp', 'onotakehiko.com',
+    'pixzens.com', 'shotki.app', 'hgprint.com.tw', 'blueco.com.tw', 'relab.cc', 'top-mango.com', 'aguije.jp', 'onotakehiko.com',
   ],
   dev: [
     'github.com', 'githubusercontent.com', 'github.io', 'gitlab.com', 'bitbucket.org', 'stackoverflow.com',

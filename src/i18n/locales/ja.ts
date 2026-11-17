@@ -99,6 +99,12 @@ const ja: Dictionary = {
   'drawer.colExpires': '有効期限',
   'drawer.colFlags': '属性',
   'drawer.empty': '（空）',
+  'copy.value': '値をコピー',
+  'copy.name': '名前をコピー',
+  'copy.pair': 'name=value をコピー',
+  'copy.curl': 'curl ヘッダーとしてコピー',
+  'copy.json': 'JSON でコピー',
+  'copy.netscape': 'Netscape 形式でコピー',
 
   // 分類の管理
   'cat.note': '分類を削除すると、その分類のサイトは「未分類」になります。Cookie には影響しません。',
