@@ -24,6 +24,7 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 - [Scripts](#scripts)
 - [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
+- [Auto-categorization](#auto-categorization)
 - [Localization](#localization)
 - [Privacy and Permissions](#privacy-and-permissions)
 - [Known Limitations](#known-limitations)
@@ -34,12 +35,14 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 ### Dashboard
 
 - Cookies grouped by main site (e.g. `.mail.google.com` is grouped under `google.com`)
-- Custom categories: add, rename, pick colors, reorder, delete
+- Auto-categorization: 11 built-in categories, with sites assigned automatically by domain (see [Auto-categorization](#auto-categorization))
+- Custom categories: add, rename, pick colors (Apple system colors or a custom color), reorder, delete; manual assignments take priority over auto-categorization
 - Search by site, cookie name, or domain
 - Delete a single cookie, all cookies of a site, or several selected sites at once
 - Move selected sites to a category or export them in bulk
 - Cookie details: value, domain, path, expiry, Secure / HttpOnly / SameSite flags, with value copy
 - Export cookies as JSON, Netscape (cookies.txt), or header string, as a file download or to the clipboard
+- Export the site list as CSV, JSON, or TXT for the current view, all sites, or selected sites (no cookie contents)
 - Back up and restore category settings (backups never include cookie contents)
 - The list refreshes automatically when cookies change
 
@@ -114,13 +117,13 @@ CookieManager/
 │   │   └── components/    # Cookie editor form, import panel, export panel
 │   ├── dashboard/         # Dashboard
 │   │   └── components/    # Cookie details, category manager, export dialog
-│   ├── lib/               # Cookie operations, import/export formats, category backup, shared components
+│   ├── lib/               # Cookie operations, auto-categorization rules, import/export formats, category backup, shared components
 │   ├── i18n/              # UI translations
 │   │   └── locales/       # zh-TW.ts (primary), en.ts, ja.ts
 │   ├── storage/           # Category data read/write
 │   └── styles/            # Shared styles
 ├── public/_locales/       # Extension name and description translations (Chrome format)
-├── assets/icons/          # Extension icons (logo.png is the source image)
+├── assets/icons/          # Extension icons (logo.png is the source image, logo.ico is the website favicon)
 ├── scripts/               # Build helper scripts (icon generation)
 ├── index.html             # Project website (GitHub Pages)
 ├── privacy.html           # Privacy policy
@@ -130,6 +133,24 @@ CookieManager/
 ```
 
 `extension/` (build output) and `node_modules/` are not under version control.
+
+## Auto-categorization
+
+The dashboard assigns sites to the built-in categories automatically, based on their domain:
+
+| Category | Rule |
+| --- | --- |
+| Work, Social, Shopping, Entertainment, News & Media, Search & Portals, Development, Finance | Known domain lists |
+| Government & Education | Domain suffixes such as `.gov.tw`, `.edu.tw`, and `.go.jp` |
+| Local & Network | IP addresses, `localhost`, `.local`, and similar |
+| Ads & Tracking | Known domain list, plus common ad and tracking domain names |
+
+- Sites that match no rule stay uncategorized.
+- Manual assignments (including explicitly marking a site as uncategorized) always take priority and are never overwritten by auto-categorization.
+- Auto-assigned category labels have a dashed outline; manual ones have a solid outline.
+- Auto-categorization can be turned off from the "⋯" menu in the top-right corner of the dashboard.
+- Built-in categories can be renamed, recolored, or deleted; once deleted, sites are no longer auto-assigned to them.
+- The rules live in `src/lib/autoCategory.ts`; to add a domain, add it to the matching category's list.
 
 ## Localization
 
@@ -167,6 +188,7 @@ See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html
 - Incognito cookies are not listed
 - Partitioned cookies (CHIPS) are not listed
 - The main site is determined by built-in rules, so a few unusual domains may be grouped imprecisely
+- Auto-categorization relies on domain lists and naming rules, so some sites may be miscategorized or left uncategorized; you can correct them manually
 
 ## Contributing
 
