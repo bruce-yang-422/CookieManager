@@ -16,6 +16,7 @@ import {
 } from 'naive-ui'
 import { cookieKey, faviconUrl, formatExpiry, removeCookie, removeCookies, type Cookie } from '../../lib/cookies'
 import { t } from '../../i18n'
+import Icon from '../../lib/Icon.vue'
 
 const props = defineProps<{ show: boolean; site: string; cookies: Cookie[] }>()
 const emit = defineEmits<{ 'update:show': [boolean]; changed: []; export: [] }>()
@@ -59,62 +60,76 @@ async function copy(text: string) {
   }
 }
 
+/** SameSite 顯示成 HTTP 標準寫法 */
+const SAME_SITE_LABEL: Record<string, string> = { no_restriction: 'None', lax: 'Lax', strict: 'Strict' }
+
+function iconButton(icon: 'copy' | 'trash', title: string, onClick?: () => void) {
+  return h(
+    'button',
+    { class: ['icon-btn', icon === 'trash' && 'danger'], title, type: 'button', onClick },
+    h(Icon, { name: icon }),
+  )
+}
+
+// 每一列固定單行：過長的內容以「…」截斷，滑鼠停留可看完整內容
 const columns = computed<DataTableColumns<Cookie>>(() => [
   {
     title: t('drawer.colName'),
     key: 'name',
-    width: 180,
+    width: 170,
+    ellipsis: { tooltip: true },
     sorter: (a, b) => a.name.localeCompare(b.name),
-    render: (c) => h(NEllipsis, { style: 'max-width:170px' }, () => c.name),
+    render: (c) => h('span', { class: 'name' }, c.name || t('pop.noName')),
   },
   {
     title: t('drawer.colValue'),
     key: 'value',
+    minWidth: 200,
     render: (c) =>
-      h(NEllipsis, { style: 'max-width:220px', tooltip: { contentStyle: 'max-width:480px;word-break:break-all' } }, () =>
-        c.value || h(NText, { depth: 3 }, () => t('drawer.empty')),
+      h(
+        NEllipsis,
+        { style: 'max-width:100%', tooltip: { contentStyle: 'max-width:480px;word-break:break-all' } },
+        () => c.value || h(NText, { depth: 3 }, () => t('drawer.empty')),
       ),
   },
-  {
-    title: t('drawer.colDomainPath'),
-    key: 'domain',
-    width: 200,
-    render: (c) =>
-      h('div', [h('div', c.domain), h(NText, { depth: 3, style: 'font-size:12px' }, () => c.path)]),
-  },
+  { title: t('ed.domain'), key: 'domain', width: 170, ellipsis: { tooltip: true } },
+  { title: t('ed.path'), key: 'path', width: 80, ellipsis: { tooltip: true } },
   {
     title: t('drawer.colExpires'),
     key: 'expires',
-    width: 170,
+    width: 165,
     sorter: (a, b) => (a.expirationDate ?? Infinity) - (b.expirationDate ?? Infinity),
-    render: (c) => formatExpiry(c),
+    render: (c) => h('span', { class: 'nowrap' }, formatExpiry(c)),
   },
   {
     title: t('drawer.colFlags'),
     key: 'flags',
-    width: 170,
+    width: 205,
     render: (c) =>
-      h(NSpace, { size: 4 }, () =>
+      h(
+        'div',
+        { class: 'flags' },
         [
           c.secure && h(NTag, { size: 'small', type: 'success', bordered: false }, () => 'Secure'),
           c.httpOnly && h(NTag, { size: 'small', type: 'info', bordered: false }, () => 'HttpOnly'),
-          c.sameSite !== 'unspecified' && h(NTag, { size: 'small', bordered: false }, () => c.sameSite),
+          c.sameSite !== 'unspecified' &&
+            h(NTag, { size: 'small', bordered: false }, () => SAME_SITE_LABEL[c.sameSite] ?? c.sameSite),
         ].filter(Boolean),
       ),
   },
   {
     title: '',
     key: 'actions',
-    width: 150,
-    align: 'right',
+    width: 80,
+    align: 'center',
     render: (c) =>
-      h(NSpace, { size: 4, justify: 'end', wrap: false }, () => [
-        h(NButton, { size: 'tiny', quaternary: true, onClick: () => copy(c.value) }, () => t('common.copy')),
+      h('div', { class: 'actions' }, [
+        iconButton('copy', t('common.copy'), () => copy(c.value)),
         h(
           NPopconfirm,
           { onPositiveClick: () => del(c), positiveText: t('common.delete'), negativeText: t('common.cancel') },
           {
-            trigger: () => h(NButton, { size: 'tiny', quaternary: true, type: 'error' }, () => t('common.delete')),
+            trigger: () => iconButton('trash', t('common.delete')),
             default: () => t('common.confirmDeleteName', { name: c.name }),
           },
         ),
@@ -124,7 +139,7 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
 </script>
 
 <template>
-  <NDrawer :show="show" :width="'min(1000px, 92vw)'" @update:show="(v: boolean) => emit('update:show', v)">
+  <NDrawer :show="show" :width="'min(1100px, 94vw)'" @update:show="(v: boolean) => emit('update:show', v)">
     <NDrawerContent closable :native-scrollbar="false">
       <template #header>
         <div class="site-cell">
@@ -158,7 +173,8 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
         :row-key="cookieKey"
         size="small"
         :bordered="false"
-        :scroll-x="1000"
+        :scroll-x="1070"
+        :single-line="true"
       />
     </NDrawerContent>
   </NDrawer>
@@ -170,5 +186,25 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
   border-radius: var(--cm-radius-lg);
   overflow: hidden;
   background: var(--cm-surface);
+}
+
+/* 固定單行，不換行 */
+.cookie-table :deep(.n-data-table-td) {
+  white-space: nowrap;
+}
+
+.cookie-table :deep(.name) {
+  font-weight: 500;
+}
+
+.cookie-table :deep(.flags) {
+  display: flex;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+.cookie-table :deep(.actions) {
+  display: inline-flex;
+  gap: 2px;
 }
 </style>

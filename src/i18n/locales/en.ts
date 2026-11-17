@@ -116,6 +116,22 @@ const en: Dictionary = {
   'export.copiedCount': 'Copied {n} cookie | Copied {n} cookies',
   'export.downloaded': 'Downloaded',
 
+  // Site list export
+  'sites.title': 'Export site list',
+  'sites.scope': 'Scope',
+  'sites.scopeView': 'Current view ({n} sites)',
+  'sites.scopeAll': 'All sites ({n})',
+  'sites.scopeSelected': 'Selected ({n})',
+  'sites.csvHint': 'Opens directly in Excel or Google Sheets. Includes category and cookie count.',
+  'sites.jsonHint': 'For scripts and tools. Includes category and cookie count.',
+  'sites.txtHint': 'One site per line, names only.',
+  'sites.note': 'Contains only site names, categories, and cookie counts. No cookie contents are included.',
+  'sites.colSource': 'Assigned by',
+  'sites.auto': 'Auto',
+  'sites.manual': 'Manual',
+  'sites.exported': 'Exported {n} site | Exported {n} sites',
+  'sites.copied': 'Copied {n} site | Copied {n} sites',
+
   // Formats
   'fmt.header': 'Header string',
   'fmt.jsonHint': 'Compatible with common cookie editor extensions. Keeps all attributes.',

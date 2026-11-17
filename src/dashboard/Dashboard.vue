@@ -33,6 +33,8 @@ import CategoryPill from '../lib/CategoryPill.vue'
 import CookieDrawer from './components/CookieDrawer.vue'
 import CategoryModal from './components/CategoryModal.vue'
 import ExportModal from './components/ExportModal.vue'
+import SiteListModal from './components/SiteListModal.vue'
+import type { SiteRow } from '../lib/siteListExport'
 
 const UNCATEGORIZED = NONE
 const ALL = '__all__'
@@ -87,11 +89,11 @@ const pagination = reactive({
 
 // 搜尋框：淺灰填色、無邊框的現代風格
 const searchOverrides = computed(() => ({
-  color: palette.value.surface2,
+  color: palette.value.fill,
   colorFocus: palette.value.surface,
   border: '1px solid transparent',
-  borderHover: `1px solid ${palette.value.border}`,
-  heightMedium: '38px',
+  borderHover: '1px solid transparent',
+  heightMedium: '34px',
 }))
 
 // ---------- 資料 ----------
@@ -158,9 +160,10 @@ const filteredSites = computed<SiteGroup[]>(() => {
   })
 })
 
-// 切換分類或搜尋時回到第一頁
+// 切換分類或搜尋時回到第一頁，並清除勾選，避免對看不到的網站做批次操作
 watch([activeCat, keyword], () => {
   pagination.page = 1
+  checkedSites.value = []
 })
 
 const totalCookies = computed(() => filteredSites.value.reduce((n, s) => n + s.cookies.length, 0))
@@ -196,11 +199,15 @@ const menuOptions = computed<MenuOption[]>(() => [
     label: menuLabel(t('common.uncategorized'), countByCat.value.get(UNCATEGORIZED) ?? 0),
     icon: () => h(Icon, { name: 'tag' }),
   },
-  { key: 'divider', type: 'divider' },
-  ...data.value.categories.map((c) => ({
-    key: c.id,
-    label: menuLabel(c.name, countByCat.value.get(c.id) ?? 0, c.color),
-  })),
+  {
+    key: 'group-categories',
+    type: 'group',
+    label: t('dash.colCategory'),
+    children: data.value.categories.map((c) => ({
+      key: c.id,
+      label: menuLabel(c.name, countByCat.value.get(c.id) ?? 0, c.color),
+    })),
+  },
 ])
 
 // ---------- 動作 ----------
@@ -259,6 +266,27 @@ function openExport(siteNames: string[]) {
   showExportModal.value = true
 }
 
+// ---------- 匯出網站清單（不含 Cookie 內容） ----------
+const showSiteListModal = ref(false)
+
+function toRow(s: SiteGroup): SiteRow {
+  const r = resolved.value.get(s.site) ?? resolveCategory(data.value, s.site)
+  const cat = r.id ? categoryMap.value.get(r.id) : undefined
+  return {
+    site: s.site,
+    category: cat?.name ?? '',
+    source: cat ? (r.auto ? 'auto' : 'manual') : '',
+    cookies: s.cookies.length,
+  }
+}
+
+const siteRowsView = computed(() => filteredSites.value.map(toRow))
+const siteRowsAll = computed(() => sites.value.map(toRow))
+const siteRowsSelected = computed(() => {
+  const set = new Set(checkedSites.value)
+  return sites.value.filter((s) => set.has(s.site)).map(toRow)
+})
+
 // ---------- 備份／還原分類資料 ----------
 const fileInput = ref<HTMLInputElement | null>(null)
 
@@ -301,6 +329,8 @@ async function onRestoreFile(e: Event) {
 }
 
 const moreOptions = computed<DropdownOption[]>(() => [
+  { key: 'sites', label: t('sites.title') },
+  { type: 'divider', key: 'd0' },
   {
     key: 'auto',
     label: t('dash.autoCategorize'),
@@ -314,7 +344,8 @@ const moreOptions = computed<DropdownOption[]>(() => [
 ])
 
 function onMore(key: string) {
-  if (key === 'auto') toggleAutoCategorize()
+  if (key === 'sites') showSiteListModal.value = true
+  else if (key === 'auto') toggleAutoCategorize()
   else if (key === 'backup') onBackup()
   else if (key === 'restore') fileInput.value?.click()
 }
@@ -401,63 +432,59 @@ async function applyBatchCategory(v: string | null) {
 </script>
 
 <template>
-  <div class="page">
-    <!-- 標題列 -->
-    <header class="topbar cm-card">
-      <div class="brand">
-        <img src="/assets/icons/icon48.png" alt="" />
-        <span>Cookie Manager</span>
-      </div>
-      <NInput
-        v-model:value="keyword"
-        class="search"
-        :placeholder="t('dash.search')"
-        clearable
-        :theme-overrides="searchOverrides"
-      >
-        <template #prefix><Icon name="search" /></template>
-      </NInput>
-      <div class="actions">
-        <NButton quaternary :title="t('dash.refresh')" @click="refresh">
-          <template #icon><Icon name="refresh" /></template>
-        </NButton>
-        <NDropdown :options="moreOptions" trigger="click" @select="onMore">
-          <NButton quaternary>
-            <template #icon><Icon name="more" /></template>
-          </NButton>
-        </NDropdown>
-        <LanguageSelect />
-        <NButton quaternary :title="isDark ? t('theme.toLight') : t('theme.toDark')" @click="toggleTheme">
-          <template #icon><Icon :name="isDark ? 'sun' : 'moon'" /></template>
-        </NButton>
-      </div>
-      <input ref="fileInput" type="file" accept="application/json,.json" hidden @change="onRestoreFile" />
-    </header>
-
-    <div class="body">
-      <!-- 側邊分類 -->
-      <aside class="aside cm-card">
-        <div class="aside-title">{{ t('dash.colCategory') }}</div>
-        <NMenu v-model:value="activeCat" :options="menuOptions" :indent="12" class="menu" />
-        <div class="aside-footer">
-          <NButton block secondary @click="showCategoryModal = true">
-            <template #icon><Icon name="tag" /></template>
-            {{ t('dash.manageCategories') }}
-          </NButton>
+  <div class="stage">
+    <!-- macOS 風格的單一視窗：左側邊欄＋右側內容 -->
+    <div class="window">
+      <aside class="sidebar">
+        <div class="brand">
+          <img src="/assets/icons/icon48.png" alt="" />
+          <span>Cookie Manager</span>
+        </div>
+        <NMenu v-model:value="activeCat" :options="menuOptions" :indent="10" class="menu" />
+        <div class="sidebar-footer">
+          <button type="button" class="side-action" @click="showCategoryModal = true">
+            <Icon name="tag" />
+            <span>{{ t('dash.manageCategories') }}</span>
+          </button>
         </div>
       </aside>
 
-      <!-- 主內容 -->
-      <main class="main cm-card">
-        <div class="main-head">
+      <section class="content">
+        <!-- 工具列：標題在左，搜尋與操作在右 -->
+        <header class="toolbar">
           <div class="heading">
             <h1>
               <span v-if="viewTitle.color" class="color-dot big" :style="{ background: viewTitle.color }" />
-              {{ viewTitle.name }}
+              <span class="title-text">{{ viewTitle.name }}</span>
             </h1>
             <span class="summary">{{ t('dash.summary', { sites: filteredSites.length, cookies: totalCookies }) }}</span>
           </div>
-        </div>
+          <NInput
+            v-model:value="keyword"
+            class="search"
+            :placeholder="t('dash.search')"
+            clearable
+            round
+            :theme-overrides="searchOverrides"
+          >
+            <template #prefix><Icon name="search" /></template>
+          </NInput>
+          <div class="actions">
+            <NButton quaternary :title="t('dash.refresh')" @click="refresh">
+              <template #icon><Icon name="refresh" /></template>
+            </NButton>
+            <NDropdown :options="moreOptions" trigger="click" placement="bottom-end" @select="onMore">
+              <NButton quaternary>
+                <template #icon><Icon name="more" /></template>
+              </NButton>
+            </NDropdown>
+            <LanguageSelect />
+            <NButton quaternary :title="isDark ? t('theme.toLight') : t('theme.toDark')" @click="toggleTheme">
+              <template #icon><Icon :name="isDark ? 'sun' : 'moon'" /></template>
+            </NButton>
+          </div>
+          <input ref="fileInput" type="file" accept="application/json,.json" hidden @change="onRestoreFile" />
+        </header>
 
         <!-- 批次操作列 -->
         <Transition name="fade">
@@ -496,7 +523,7 @@ async function applyBatchCategory(v: string | null) {
           flex-height
           :bordered="false"
         />
-      </main>
+      </section>
     </div>
 
     <CookieDrawer
@@ -508,81 +535,61 @@ async function applyBatchCategory(v: string | null) {
       @export="drawerSite && openExport([drawerSite])"
     />
     <ExportModal v-model:show="showExportModal" :sites="exportSites" />
+    <SiteListModal
+      v-model:show="showSiteListModal"
+      :view="siteRowsView"
+      :all="siteRowsAll"
+      :selected="siteRowsSelected"
+    />
     <CategoryModal v-model:show="showCategoryModal" :categories="data.categories" @save="onSaveCategories" />
   </div>
 </template>
 
 <style scoped>
-/* 灰底上浮著三張圓角卡片；最大寬度 1440px，超寬螢幕置中 */
-.page {
-  max-width: 1440px;
+/* 整個應用是一個置中的圓角視窗；最大寬度 1440px，超寬螢幕置中 */
+.stage {
   height: 100vh;
-  margin: 0 auto;
-  padding: 16px 20px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  color: var(--cm-text);
+  padding: 16px 20px;
 }
 
-/* 標題列 */
-.topbar {
+.window {
+  max-width: 1440px;
+  height: 100%;
+  margin: 0 auto;
   display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 10px 12px 10px 18px;
+  overflow: hidden;
+  color: var(--cm-text);
+  background: var(--cm-surface);
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-xl);
+  box-shadow: var(--cm-shadow-lg);
+}
+
+/* ---------- 側邊欄 ---------- */
+.sidebar {
+  width: 236px;
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 10px 10px;
+  background: var(--cm-surface-2);
+  border-right: 1px solid var(--cm-border);
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 0 8px 16px;
   font-weight: 700;
-  font-size: 16px;
+  font-size: 15px;
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
 .brand img {
-  width: 30px;
-  height: 30px;
-}
-
-.search {
-  flex: 1;
-  max-width: 560px;
-  margin-right: auto;
-}
-
-.actions {
-  display: flex;
-  gap: 2px;
-}
-
-.body {
-  flex: 1;
-  display: flex;
-  gap: 16px;
-  min-height: 0;
-}
-
-/* 側邊分類 */
-.aside {
-  width: 240px;
-  flex: none;
-  display: flex;
-  flex-direction: column;
-  padding: 14px 10px 12px;
-  overflow: hidden;
-}
-
-.aside-title {
-  padding: 0 10px 8px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--cm-muted);
-  text-transform: uppercase;
+  width: 28px;
+  height: 28px;
 }
 
 .menu {
@@ -590,14 +597,29 @@ async function applyBatchCategory(v: string | null) {
   overflow-y: auto;
 }
 
+.menu :deep(.n-menu-item) {
+  margin-top: 2px;
+}
+
 .menu :deep(.n-menu-item-content) {
-  border-radius: var(--cm-radius-lg);
+  border-radius: var(--cm-radius-md);
 }
 
 .menu :deep(.n-menu-item-content::before) {
   left: 0 !important;
   right: 0 !important;
-  border-radius: var(--cm-radius-lg) !important;
+  border-radius: var(--cm-radius-md) !important;
+}
+
+/* 分組標題（macOS 側邊欄的小標題） */
+.menu :deep(.n-menu-item-group-title) {
+  padding-left: 10px !important;
+  margin-top: 14px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cm-muted);
 }
 
 .menu :deep(.menu-item) {
@@ -615,68 +637,107 @@ async function applyBatchCategory(v: string | null) {
 
 .menu :deep(.menu-count) {
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 500;
   font-variant-numeric: tabular-nums;
   color: var(--cm-muted);
-  background: var(--cm-surface-2);
-  border-radius: 999px;
-  padding: 0 8px;
-  line-height: 20px;
 }
 
-/* 選中列為藍底白字（macOS 側邊欄），數量膠囊與圓點改為白色系才看得清楚 */
+/* 選中列為藍底白字（macOS 側邊欄），數量與圓點改為白色系才看得清楚 */
 .menu :deep(.n-menu-item-content--selected .menu-count) {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .menu :deep(.n-menu-item-content--selected .color-dot) {
   box-shadow: 0 0 0 1.5px #fff;
 }
 
-.aside-footer {
-  padding: 10px 2px 0;
+.sidebar-footer {
+  padding-top: 8px;
   border-top: 1px solid var(--cm-border);
-  margin-top: 8px;
 }
 
-/* 主內容 */
-.main {
+.side-action {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: var(--cm-radius-md);
+  background: transparent;
+  color: var(--cm-muted);
+  font: inherit;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.side-action:hover {
+  background: var(--cm-hover);
+  color: var(--cm-text);
+}
+
+.side-action svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ---------- 內容 ---------- */
+.content {
   flex: 1;
   min-width: 0;
   display: flex;
   flex-direction: column;
-  padding: 18px 20px 16px;
 }
 
-.main-head {
+.toolbar {
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 14px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 14px 14px 24px;
+  border-bottom: 1px solid var(--cm-border);
+}
+
+.heading {
+  flex: 1;
+  min-width: 0;
 }
 
 .heading h1 {
   margin: 0;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -0.01em;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 9px;
+}
+
+.title-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .color-dot.big {
-  width: 12px;
-  height: 12px;
+  width: 11px;
+  height: 11px;
 }
 
 .summary {
   display: block;
-  margin-top: 4px;
-  font-size: 13px;
+  margin-top: 1px;
+  font-size: 12.5px;
   color: var(--cm-muted);
+}
+
+.search {
+  width: 300px;
+  flex: none;
+}
+
+.actions {
+  display: flex;
+  gap: 2px;
 }
 
 /* 批次操作列 */
@@ -685,11 +746,10 @@ async function applyBatchCategory(v: string | null) {
   align-items: center;
   flex-wrap: wrap;
   gap: 10px;
-  padding: 8px 10px 8px 14px;
-  margin-bottom: 12px;
+  margin: 12px 16px 4px;
+  padding: 7px 10px 7px 14px;
   border-radius: var(--cm-radius-lg);
   background: var(--cm-primary-soft);
-  border: 1px solid color-mix(in srgb, var(--cm-primary) 25%, transparent);
 }
 
 .selection-count {
@@ -713,21 +773,36 @@ async function applyBatchCategory(v: string | null) {
   transform: translateY(-4px);
 }
 
-/* 表格 */
+/* 表格：撐滿內容區，不加外框，列之間用細線分隔 */
 .table {
   flex: 1;
   min-height: 0;
 }
 
-.table :deep(.n-data-table-wrapper) {
-  border: 1px solid var(--cm-border);
-  border-radius: var(--cm-radius-lg);
-  overflow: hidden;
+.table :deep(.n-data-table-th) {
+  font-size: 12.5px;
+  color: var(--cm-muted);
 }
 
 .table :deep(.n-data-table-td) {
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.table :deep(.n-data-table-th:first-child),
+.table :deep(.n-data-table-td:first-child) {
+  padding-left: 22px;
+}
+
+.table :deep(.n-data-table-th:last-child),
+.table :deep(.n-data-table-td:last-child) {
+  padding-right: 16px;
+}
+
+.table :deep(.n-data-table__pagination) {
+  margin: 0;
+  padding: 10px 16px;
+  border-top: 1px solid var(--cm-border);
 }
 
 .table :deep(.site-name) {
@@ -744,15 +819,21 @@ async function applyBatchCategory(v: string | null) {
   gap: 2px;
 }
 
+@media (max-width: 900px) {
+  .search {
+    width: 200px;
+  }
+}
+
 @media (max-width: 760px) {
-  .page {
-    padding: 10px;
-    gap: 10px;
+  .stage {
+    padding: 0;
   }
-  .aside {
-    display: none;
+  .window {
+    border-radius: 0;
+    border: 0;
   }
-  .brand span {
+  .sidebar {
     display: none;
   }
 }

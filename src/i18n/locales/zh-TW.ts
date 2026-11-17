@@ -115,6 +115,22 @@ export default {
   'export.copiedCount': '已複製 {n} 個 Cookie',
   'export.downloaded': '已下載',
 
+  // 匯出網站清單
+  'sites.title': '匯出網站清單',
+  'sites.scope': '範圍',
+  'sites.scopeView': '目前顯示（{n} 個網站）',
+  'sites.scopeAll': '全部網站（{n} 個）',
+  'sites.scopeSelected': '已勾選（{n} 個）',
+  'sites.csvHint': '可直接用 Excel 或 Google 試算表開啟，包含分類與 Cookie 數量。',
+  'sites.jsonHint': '適合程式處理，包含分類與 Cookie 數量。',
+  'sites.txtHint': '每行一個網站，只有網站名稱。',
+  'sites.note': '只包含網站名稱、分類與 Cookie 數量，不含任何 Cookie 內容。',
+  'sites.colSource': '分類方式',
+  'sites.auto': '自動',
+  'sites.manual': '手動',
+  'sites.exported': '已匯出 {n} 個網站',
+  'sites.copied': '已複製 {n} 個網站',
+
   // 格式
   'fmt.header': 'Header 字串',
   'fmt.jsonHint': '與常見 Cookie 編輯擴充功能相容的格式，保留所有屬性。',

@@ -116,6 +116,22 @@ const ja: Dictionary = {
   'export.copiedCount': 'Cookie を {n} 件コピーしました',
   'export.downloaded': 'ダウンロードしました',
 
+  // サイト一覧のエクスポート
+  'sites.title': 'サイト一覧をエクスポート',
+  'sites.scope': '範囲',
+  'sites.scopeView': '現在の表示（{n} サイト）',
+  'sites.scopeAll': 'すべてのサイト（{n} 件）',
+  'sites.scopeSelected': '選択中（{n} 件）',
+  'sites.csvHint': 'Excel や Google スプレッドシートでそのまま開けます。分類と Cookie 数を含みます。',
+  'sites.jsonHint': 'プログラムでの処理向け。分類と Cookie 数を含みます。',
+  'sites.txtHint': '1 行に 1 サイト、サイト名のみ。',
+  'sites.note': 'サイト名、分類、Cookie 数のみを含み、Cookie の内容は含まれません。',
+  'sites.colSource': '分類方法',
+  'sites.auto': '自動',
+  'sites.manual': '手動',
+  'sites.exported': '{n} 件のサイトをエクスポートしました',
+  'sites.copied': '{n} 件のサイトをコピーしました',
+
   // 形式
   'fmt.header': 'ヘッダー文字列',
   'fmt.jsonHint': '一般的な Cookie 編集拡張機能と互換性のある形式です。すべての属性を保持します。',
