@@ -4,19 +4,77 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title data-i18n="meta.title">Cookie Manager — 依網站整理你的 Cookie</title>
-  <meta name="description" content="Cookie Manager: a Chrome / Edge extension to organize, search, edit, import, and export cookies by site. All data stays on your device." />
+  <meta name="description" data-i18n-content="meta.description" content="Cookie Manager 是 Chrome / Edge 擴充功能，依網站分類、搜尋、編輯、刪除 Cookie，支援 JSON、Netscape（cookies.txt）與 Header 字串匯入匯出。100% 本機運作，免帳號、不收集資料。" />
+  <meta name="keywords" content="Cookie Manager, Cookie 編輯器, Cookie 管理, cookie editor, cookies.txt, Netscape cookie, Chrome 擴充功能, Edge 擴充功能, export cookies, import cookies" />
+  <meta name="author" content="Bruce Yang" />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#2563eb" />
+  <link rel="canonical" href="https://cookie-manager.stack-base.com/" />
+
+  <!-- 多語系版本（語言由 ?lang= 參數切換） -->
+  <link rel="alternate" hreflang="zh-Hant" href="https://cookie-manager.stack-base.com/" />
+  <link rel="alternate" hreflang="en" href="https://cookie-manager.stack-base.com/?lang=en" />
+  <link rel="alternate" hreflang="ja" href="https://cookie-manager.stack-base.com/?lang=ja" />
+  <link rel="alternate" hreflang="x-default" href="https://cookie-manager.stack-base.com/" />
+
   <link rel="icon" href="assets/icons/logo.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon32.png" />
   <link rel="apple-touch-icon" href="assets/icons/icon128.png" />
-  <meta property="og:title" content="Cookie Manager" />
-  <meta property="og:description" content="Organize, search, edit, import, and export cookies by site. All data stays on your device." />
-  <meta property="og:image" content="assets/icons/icon128.png" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Cookie Manager" />
+  <meta property="og:url" content="https://cookie-manager.stack-base.com/" />
+  <meta property="og:title" content="Cookie Manager — 依網站整理你的 Cookie" />
+  <meta property="og:description" content="Chrome / Edge 擴充功能：依網站分類、搜尋、編輯、匯入匯出 Cookie。所有資料只存在你的電腦。" />
+  <meta property="og:image" content="https://cookie-manager.stack-base.com/assets/icons/logo.png" />
+  <meta property="og:image:width" content="1254" />
+  <meta property="og:image:height" content="1254" />
+  <meta property="og:image:alt" content="Cookie Manager logo" />
+  <meta property="og:locale" content="zh_TW" />
+  <meta property="og:locale:alternate" content="en_US" />
+  <meta property="og:locale:alternate" content="ja_JP" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Cookie Manager — Your cookies, organized by site" />
+  <meta name="twitter:description" content="A Chrome / Edge extension to organize, search, edit, import, and export cookies by site. All data stays on your device." />
+  <meta name="twitter:image" content="https://cookie-manager.stack-base.com/assets/icons/logo.png" />
+
+  <!-- 結構化資料 -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "Cookie Manager",
+    "url": "https://cookie-manager.stack-base.com/",
+    "image": "https://cookie-manager.stack-base.com/assets/icons/logo.png",
+    "description": "A Chrome / Edge extension to organize, search, edit, import, and export cookies by site. Supports JSON, Netscape (cookies.txt), and header strings. All data stays on your device.",
+    "applicationCategory": "BrowserApplication",
+    "operatingSystem": "Chrome, Microsoft Edge",
+    "softwareVersion": "0.1.0",
+    "inLanguage": ["zh-Hant", "en", "ja"],
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "downloadUrl": "https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.0",
+    "author": { "@type": "Person", "name": "Bruce Yang" },
+    "featureList": [
+      "Organize cookies by site with color-coded categories",
+      "Search by site, cookie name, or domain",
+      "Delete a single cookie, a site, or several sites at once",
+      "Create and edit every cookie attribute",
+      "Import and export JSON, Netscape cookies.txt, and header strings",
+      "Traditional Chinese, English, and Japanese interface with dark mode"
+    ]
+  }
+  </script>
+
   <link rel="stylesheet" href="site/style.css" />
 </head>
 <body>
   <!-- 導覽列 -->
   <nav class="nav">
     <div class="wrap">
-      <a class="brand" href="#top"><img src="assets/icons/icon128.png" alt="" />Cookie Manager</a>
+      <a class="brand" href="#top"><img src="assets/icons/icon128.png" alt="Cookie Manager logo" width="30" height="30" />Cookie Manager</a>
       <div class="nav-links">
         <a href="#features" data-i18n="nav.features">功能</a>
         <a href="#formats" data-i18n="nav.formats">格式</a>
@@ -227,6 +285,7 @@ curl -H "Cookie: session_id=a1f9c2e7" \
     const I18N = {
       en: {
         'meta.title': 'Cookie Manager — Your cookies, organized by site',
+        'meta.description': 'Cookie Manager is a Chrome / Edge extension to organize, search, edit, and delete cookies by site, with JSON, Netscape (cookies.txt), and header string import and export. Runs 100% locally: no account, no data collection.',
         'nav.features': 'Features',
         'nav.formats': 'Formats',
         'nav.install': 'Install',
@@ -285,6 +344,7 @@ curl -H "Cookie: session_id=a1f9c2e7" \
       },
       ja: {
         'meta.title': 'Cookie Manager — Cookie をサイトごとに整理',
+        'meta.description': 'Cookie Manager は Cookie をサイトごとに分類・検索・編集・削除できる Chrome / Edge 拡張機能です。JSON、Netscape（cookies.txt）、ヘッダー文字列のインポートとエクスポートに対応。100% ローカルで動作し、アカウント不要、データ収集なし。',
         'nav.features': '機能',
         'nav.formats': '形式',
         'nav.install': 'インストール',

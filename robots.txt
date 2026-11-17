@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /Releases/
+Disallow: /src/
+Disallow: /scripts/
+Disallow: /public/
+
+Sitemap: https://cookie-manager.stack-base.com/sitemap.xml

@@ -11,6 +11,11 @@
     nodes.forEach((n) => {
       zh[n.dataset.i18n] = n.innerHTML
     })
+    // <meta> 等以 content 屬性翻譯的節點
+    const attrNodes = document.querySelectorAll('[data-i18n-content]')
+    attrNodes.forEach((n) => {
+      zh[n.dataset.i18nContent] = n.getAttribute('content')
+    })
     const dicts = Object.assign({ 'zh-TW': zh }, translations)
     const select = document.getElementById('lang')
 
@@ -35,6 +40,10 @@
         const v = dict[n.dataset.i18n]
         if (v != null) n.innerHTML = v
         else console.warn('[i18n] missing', lang, n.dataset.i18n)
+      })
+      attrNodes.forEach((n) => {
+        const v = dict[n.dataset.i18nContent]
+        if (v != null) n.setAttribute('content', v)
       })
       document.documentElement.lang = HTML_LANG[lang]
       if (select) select.value = lang

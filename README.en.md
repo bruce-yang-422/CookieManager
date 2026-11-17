@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/icons/icon128.png" alt="Cookie Manager" width="96" />
+<img src="assets/banners/readme-banner.png" alt="Cookie Manager — Organize, search, edit, and export cookies for Chrome and Edge" width="100%" />
 
 # Cookie Manager
 
