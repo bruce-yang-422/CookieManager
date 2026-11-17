@@ -234,3 +234,18 @@ footer a:hover { color: var(--blue); }
 .policy .back { margin: 0 0 18px; font-size: 14px; }
 .policy .back a { color: var(--muted); text-decoration: none; }
 .policy .back a:hover { color: var(--blue); }
+
+/* Product photography: actual Vue screens with synthetic demo data. */
+.product-shot { margin: 0; justify-self: center; width: min(100%, 360px); }
+.product-shot img { display: block; width: 100%; height: auto; border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow-lg); }
+figcaption { margin-top: 16px; text-align: center; font-size: 12px; color: var(--muted); }
+.showcase { padding-top: 24px; }
+.dashboard-shot { margin: 0; }
+.dashboard-shot img { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 18px; box-shadow: var(--shadow-lg); }
+.visual-stories { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 28px; margin-top: 64px; }
+.visual-story { overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 22px; }
+.visual-story img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 2; object-fit: cover; }
+.visual-story > div { padding: 26px; }
+.visual-story h3 { font-size: 21px; }
+.visual-story p { color: var(--muted); margin-bottom: 0; }
+@media (max-width: 700px) { .visual-stories { grid-template-columns: 1fr; margin-top: 36px; } .product-shot { margin-top: 28px; } .dashboard-shot img { border-radius: 10px; } }

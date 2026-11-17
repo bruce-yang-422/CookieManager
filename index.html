@@ -108,31 +108,33 @@
           </ul>
         </div>
 
-        <div class="mock" aria-hidden="true">
-          <div class="mock-head">
-            <img src="assets/icons/icon128.png" alt="" />www.example.com<span class="count">6</span>
-          </div>
-          <div class="mock-tools">
-            <div class="seg"><span class="on" data-i18n="mock.page">此頁面</span><span data-i18n="mock.site">整個網站</span></div>
-          </div>
-          <div class="mock-search" data-i18n="mock.search">搜尋名稱或值</div>
-          <ul class="mock-list">
-            <li class="open"><span class="arrow">▼</span><span class="n">session_id</span><span class="d">.example.com</span></li>
-            <li class="mock-edit">
-              <span class="mock-field">a1f9c2e7…4b0d</span>
-              <span class="tags"><span>Secure</span><span>HttpOnly</span><span>Lax</span></span>
-            </li>
-            <li><span class="arrow">▶</span><span class="n">csrftoken</span><span class="d">www.example.com</span></li>
-            <li><span class="arrow">▶</span><span class="n">_ga</span><span class="d">.example.com</span></li>
-            <li><span class="arrow">▶</span><span class="n">consent</span><span class="d">.example.com</span></li>
-            <li><span class="arrow">▶</span><span class="n">lang</span><span class="d">www.example.com</span></li>
-          </ul>
-          <div class="mock-bar">
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><b data-i18n="mock.add">新增</b></span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg><b data-i18n="mock.deleteAll">全部刪除</b></span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><b data-i18n="mock.import">匯入</b></span>
-            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg><b data-i18n="mock.export">匯出</b></span>
-          </div>
+        <figure class="product-shot">
+          <img src="assets/screenshots/popup.png" width="600" height="870" alt="Cookie Manager 工具列視窗：示範 Cookie 搜尋與編輯" fetchpriority="high" />
+          <figcaption data-i18n="shots.note">實際介面截圖 · 使用虛構示範資料</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="showcase">
+      <div class="wrap">
+        <div class="section-head">
+          <span class="eyebrow">COOKIE MANAGER</span>
+          <h2 data-i18n="shots.title">所有網站，一目了然</h2>
+          <p class="lead" data-i18n="shots.lead">彩色分類、快速搜尋與批次操作，在同一個管理畫面完成。</p>
+        </div>
+        <figure class="dashboard-shot">
+          <a href="assets/screenshots/dashboard.png" target="_blank" rel="noopener"><img src="assets/screenshots/dashboard.png" width="1920" height="1230" alt="Cookie Manager 管理後台：網站清單與彩色分類，使用示範資料" loading="lazy" /></a>
+          <figcaption data-i18n="shots.note">實際介面截圖 · 使用虛構示範資料</figcaption>
+        </figure>
+        <div class="visual-stories">
+          <article class="visual-story">
+            <img src="assets/illustrations/organize.png" width="1536" height="1024" alt="藍色資料夾與餅乾，象徵依網站分類" loading="lazy" />
+            <div><h3 data-i18n="f1.t">依網站分類</h3><p data-i18n="f1.d">Cookie 會依主網站自動合併，再用自訂的彩色分類整理，例如工作、購物、社群。</p></div>
+          </article>
+          <article class="visual-story">
+            <img src="assets/illustrations/privacy.png" width="1536" height="1024" alt="電腦與防護盾，象徵資料保存在本機" loading="lazy" />
+            <div><h3 data-i18n="glance.title">你的 Cookie 不會離開你的電腦</h3><p data-i18n="g2.d">所有資料都存在瀏覽器的本機儲存空間。</p></div>
+          </article>
         </div>
       </div>
     </section>
@@ -284,6 +286,9 @@ curl -H "Cookie: session_id=a1f9c2e7" \
     // 英文與日文翻譯；繁體中文直接取自頁面上的原文
     const I18N = {
       en: {
+        'shots.note': 'Actual interface · Synthetic demo data',
+        'shots.title': 'Every site, at a glance',
+        'shots.lead': 'Color-coded categories, quick search, and batch actions in one dashboard.',
         'meta.title': 'Cookie Manager — Your cookies, organized by site',
         'meta.description': 'Cookie Manager is a Chrome / Edge extension to organize, search, edit, and delete cookies by site, with JSON, Netscape (cookies.txt), and header string import and export. Runs 100% locally: no account, no data collection.',
         'nav.features': 'Features',
@@ -343,6 +348,9 @@ curl -H "Cookie: session_id=a1f9c2e7" \
         'install.s4': 'Click <strong>Load unpacked</strong> and select the extracted folder containing <code>manifest.json</code>.',
       },
       ja: {
+        'shots.note': '実際の画面 · 架空のデモデータを使用',
+        'shots.title': 'すべてのサイトを、ひと目で',
+        'shots.lead': '色分けした分類、検索、一括操作をひとつの管理画面で。',
         'meta.title': 'Cookie Manager — Cookie をサイトごとに整理',
         'meta.description': 'Cookie Manager は Cookie をサイトごとに分類・検索・編集・削除できる Chrome / Edge 拡張機能です。JSON、Netscape（cookies.txt）、ヘッダー文字列のインポートとエクスポートに対応。100% ローカルで動作し、アカウント不要、データ収集なし。',
         'nav.features': '機能',
