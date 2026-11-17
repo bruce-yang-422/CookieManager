@@ -1,4 +1,4 @@
-import { t } from '../i18n'
+import { allTranslations, t } from '../i18n'
 import { BUILTIN_CATEGORIES, autoCategoryOf } from '../lib/autoCategory'
 
 export interface Category {
@@ -46,6 +46,23 @@ function builtinCategories(sinceAfter = 0): Category[] {
     name: t(b.nameKey),
     color: b.color,
   }))
+}
+
+/**
+ * 分類的顯示名稱。
+ * 內建分類的名稱在建立時是以當下語言存成文字；只要使用者沒改過（仍等於任一語言的預設名稱），
+ * 就改用目前介面語言顯示。使用者自訂的名稱則原樣顯示。
+ */
+export function categoryName(c: Category): string {
+  const b = BUILTIN_CATEGORIES.find((x) => x.id === c.id)
+  if (!b) return c.name
+  const name = c.name.trim()
+  return allTranslations(b.nameKey).includes(name) ? t(b.nameKey) : c.name
+}
+
+/** 回傳名稱已依目前語言轉換的分類副本（只用於顯示，不寫回儲存） */
+export function localizeCategories(list: Category[]): Category[] {
+  return list.map((c) => ({ ...c, name: categoryName(c) }))
 }
 
 /** 第一次使用時的預設資料：內建基本分類，名稱用當下的介面語言 */

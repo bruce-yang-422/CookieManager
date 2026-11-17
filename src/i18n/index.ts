@@ -70,6 +70,11 @@ if (typeof window !== 'undefined') {
   })
 }
 
+/** 某個 key 在所有語言的文字（用來判斷使用者是否改過內建名稱） */
+export function allTranslations(key: MessageKey): string[] {
+  return Object.values(DICTIONARIES).map((d) => d[key])
+}
+
 /**
  * 取得翻譯文字。
  * - 參數：t('key', { name: 'x' }) 會取代 {name}

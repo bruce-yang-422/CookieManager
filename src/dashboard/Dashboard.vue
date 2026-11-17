@@ -28,6 +28,7 @@ import {
   PRESET_COLORS,
   newId,
   loadData,
+  localizeCategories,
   onDataChanged,
   resolveCategory,
   saveData,
@@ -137,7 +138,9 @@ onBeforeUnmount(() => {
 
 // ---------- 計算 ----------
 const sites = computed(() => groupBySite(cookies.value))
-const categoryMap = computed(() => new Map(data.value.categories.map((c) => [c.id, c])))
+/** 顯示用的分類（內建分類名稱跟著介面語言） */
+const categories = computed(() => localizeCategories(data.value.categories))
+const categoryMap = computed(() => new Map(categories.value.map((c) => [c.id, c])))
 
 /** 每個網站實際的分類（手動優先，其次自動） */
 const resolved = computed(() => new Map(sites.value.map((s) => [s.site, resolveCategory(data.value, s.site)])))
@@ -182,7 +185,7 @@ const totalCookies = computed(() => filteredSites.value.reduce((n, s) => n + s.c
 const drawerCookies = computed(() => sites.value.find((s) => s.site === drawerSite.value)?.cookies ?? [])
 
 const categoryOptions = computed(() =>
-  data.value.categories.map((c) => ({ label: c.name, value: c.id, color: c.color })),
+  categories.value.map((c) => ({ label: c.name, value: c.id, color: c.color })),
 )
 
 /** 目前檢視的標題（全部／未分類／某分類） */
@@ -214,7 +217,7 @@ const menuOptions = computed<MenuOption[]>(() => [
     key: 'group-categories',
     type: 'group',
     label: t('dash.colCategory'),
-    children: data.value.categories.map((c) => ({
+    children: categories.value.map((c) => ({
       key: c.id,
       label: menuLabel(c.name, countByCat.value.get(c.id) ?? 0, c.color),
     })),
@@ -298,7 +301,7 @@ const siteRowsSelected = computed(() => {
   return sites.value.filter((s) => set.has(s.site)).map(toRow)
 })
 
-const categoryNames = computed(() => data.value.categories.map((c) => c.name))
+const categoryNames = computed(() => categories.value.map((c) => c.name))
 
 // ---------- 匯入網站分類（CSV／JSON） ----------
 const siteImportInput = ref<HTMLInputElement | null>(null)
@@ -318,7 +321,10 @@ async function onSiteImportFile(e: Event) {
   }
 
   // 依名稱（不分大小寫）或 id 找分類；找不到的名稱會新建
-  const byName = new Map(data.value.categories.map((c) => [c.name.trim().toLowerCase(), c.id]))
+  // 儲存的名稱與目前語言的顯示名稱都能對應
+  const byName = new Map(
+    [...data.value.categories, ...categories.value].map((c) => [c.name.trim().toLowerCase(), c.id]),
+  )
   const ids = new Set(data.value.categories.map((c) => c.id))
   const used = new Set(data.value.categories.map((c) => c.color.toLowerCase()))
   const newCategories: Category[] = []
@@ -645,7 +651,7 @@ async function applyBatchCategory(v: string | null) {
       :selected="siteRowsSelected"
       :category-names="categoryNames"
     />
-    <CategoryModal v-model:show="showCategoryModal" :categories="data.categories" @save="onSaveCategories" />
+    <CategoryModal v-model:show="showCategoryModal" :categories="categories" @save="onSaveCategories" />
   </div>
 </template>
 

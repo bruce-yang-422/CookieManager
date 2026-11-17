@@ -15,7 +15,7 @@ import {
   type Cookie,
   type CookieDraft,
 } from '../lib/cookies'
-import { NONE, loadData, resolveCategory, saveData, type AppData } from '../storage'
+import { NONE, loadData, localizeCategories, resolveCategory, saveData, type AppData } from '../storage'
 import { useTheme } from '../lib/theme'
 import Icon from '../lib/Icon.vue'
 import LanguageSelect from '../lib/LanguageSelect.vue'
@@ -240,7 +240,7 @@ function openDashboard() {
             </button>
           </div>
           <CategoryPill
-            :categories="data.categories"
+            :categories="localizeCategories(data.categories)"
             :value="category.id"
             :auto="category.auto"
             @change="setCategory"

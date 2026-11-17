@@ -8,7 +8,11 @@ export interface SiteGroup {
 }
 
 // 常見的二級網域（例如 com.tw、co.uk），用來判斷主網域要取幾段
-const SECOND_LEVEL = new Set(['com', 'net', 'org', 'edu', 'gov', 'co', 'ac', 'or', 'ne', 'go', 'mil', 'idv', 'gob'])
+const SECOND_LEVEL = new Set([
+  'com', 'net', 'org', 'edu', 'gov', 'co', 'ac', 'or', 'ne', 'go', 'mil', 'idv', 'gob',
+  // 日本（ad.jp、lg.jp…）、加拿大政府（gc.ca）、紐西蘭（govt.nz）、法國（gouv.fr）、英國學校與警察
+  'ad', 'lg', 'ed', 'gr', 'gc', 'govt', 'gouv', 'sch', 'police',
+])
 
 export function hostOf(domain: string): string {
   return domain.replace(/^\./, '').toLowerCase()
