@@ -96,7 +96,7 @@ npm run build
 | `npm run build` | 型別檢查並打包到 `extension/` |
 | `npm run watch` | 監看檔案變更，自動重新打包到 `extension/` |
 | `npm run typecheck` | 只執行型別檢查 |
-| `npm run icons` | 由 `assets/icons/icon.svg` 產生各尺寸 PNG 圖示 |
+| `npm run icons` | 由 `assets/icons/logo.png` 原圖產生各尺寸 PNG 圖示 |
 | `npm run dev` | 啟動 Vite 開發伺服器（熱更新） |
 
 ## 專案結構
@@ -115,7 +115,7 @@ CookieManager/
 │   ├── storage/           # 分類資料讀寫
 │   └── styles/            # 共用樣式
 ├── public/_locales/       # 擴充功能名稱與說明的翻譯（Chrome 格式）
-├── assets/icons/          # 擴充功能圖示（icon.svg 為原始檔）
+├── assets/icons/          # 擴充功能圖示（logo.png 為原圖）
 ├── scripts/               # 建置輔助腳本（產生圖示）
 ├── extension/             # 打包結果（自動產生，請勿手動修改）
 ├── index.html             # GitHub Pages 介紹網站首頁

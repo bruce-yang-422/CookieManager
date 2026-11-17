@@ -331,7 +331,7 @@ async function applyBatchCategory(v: string | null) {
   <div class="page" :style="pageStyle">
     <header class="header">
       <div class="brand">
-        <img src="/assets/icons/icon32.png" alt="" />
+        <img src="/assets/icons/icon48.png" alt="" />
         <span>Cookie Manager</span>
       </div>
       <NInput v-model:value="keyword" class="search" :placeholder="t('dash.search')" clearable round>

@@ -96,7 +96,7 @@ After changing code, rebuild, then click the reload button (↻) on the extensio
 | `npm run build` | Type-check and build to `extension/` |
 | `npm run watch` | Watch for changes and rebuild to `extension/` automatically |
 | `npm run typecheck` | Run type checking only |
-| `npm run icons` | Generate PNG icons in all sizes from `assets/icons/icon.svg` |
+| `npm run icons` | Generate PNG icons in all sizes from the source image `assets/icons/logo.png` |
 | `npm run dev` | Start the Vite dev server (hot reload) |
 
 ## Project Structure
@@ -115,7 +115,7 @@ CookieManager/
 │   ├── storage/           # Category data read/write
 │   └── styles/            # Shared styles
 ├── public/_locales/       # Extension name and description translations (Chrome format)
-├── assets/icons/          # Extension icons (icon.svg is the source)
+├── assets/icons/          # Extension icons (logo.png is the source image)
 ├── scripts/               # Build helper scripts (icon generation)
 ├── extension/             # Build output (generated, do not edit)
 ├── index.html             # GitHub Pages website home page
