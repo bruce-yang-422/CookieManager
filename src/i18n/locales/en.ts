@@ -77,6 +77,7 @@ const en: Dictionary = {
   'dash.colCount': 'Cookies',
   'dash.colActions': 'Actions',
   'dash.details': 'Details',
+  'dash.openSite': 'Open site in a new tab',
   'dash.confirmDeleteSite': 'Delete {n} cookie from {site}? | Delete {n} cookies from {site}?',
   'dash.batchDeleteContent': 'Delete all cookies from the {n} selected sites? You will be signed out of these sites.',
   'dash.movedTo': 'Moved {n} site to the category | Moved {n} sites to the category',

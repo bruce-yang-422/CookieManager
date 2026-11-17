@@ -145,9 +145,37 @@ export function groupBySite(cookies: Cookie[]): SiteGroup[] {
     .sort((a, b) => a.site.localeCompare(b.site))
 }
 
-export function faviconUrl(site: string, size = 32): string {
+function isLocalHost(host: string): boolean {
+  return /^\d{1,3}(\.\d{1,3}){3}$/.test(host) || !host.includes('.') || /\.(local|lan|internal|home)$/.test(host)
+}
+
+/**
+ * 推測使用者實際造訪的主機名稱，用於網站圖示與開啟網站：
+ * 優先用「僅限此主機」的 Cookie 網域（通常就是瀏覽過的網址，例如 www.facebook.com），
+ * 其次是 www. 開頭的網域，最後才用主網站本身。
+ */
+export function primaryHost(site: string, cookies: Cookie[] = []): string {
+  const hosts = cookies.filter((c) => c.hostOnly).map((c) => hostOf(c.domain))
+  const all = new Set([...hosts, ...cookies.map((c) => hostOf(c.domain))])
+  return (
+    hosts.find((h) => h === `www.${site}`) ??
+    hosts.find((h) => h === site) ??
+    (all.has(`www.${site}`) ? `www.${site}` : undefined) ??
+    hosts.sort((a, b) => a.length - b.length)[0] ??
+    (isLocalHost(site) ? site : `www.${site}`)
+  )
+}
+
+/** 網站首頁網址：IP 與本機網址用 http，其他用 https */
+export function siteHomeUrl(site: string, cookies: Cookie[] = []): string {
+  const host = primaryHost(site, cookies)
+  return `${isLocalHost(host) ? 'http' : 'https'}://${host}/`
+}
+
+/** 從瀏覽器的網站圖示快取取得圖示（傳入 cookies 可對到實際造訪過的主機） */
+export function faviconUrl(site: string, size = 32, cookies: Cookie[] = []): string {
   const url = new URL(chrome.runtime.getURL('/_favicon/'))
-  url.searchParams.set('pageUrl', `https://${site}`)
+  url.searchParams.set('pageUrl', siteHomeUrl(site, cookies))
   url.searchParams.set('size', String(size))
   return url.toString()
 }

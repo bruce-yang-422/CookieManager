@@ -77,6 +77,7 @@ const ja: Dictionary = {
   'dash.colCount': 'Cookie 数',
   'dash.colActions': '操作',
   'dash.details': '詳細',
+  'dash.openSite': '新しいタブでサイトを開く',
   'dash.confirmDeleteSite': '{site} の Cookie {n} 件を削除しますか？',
   'dash.batchDeleteContent': '選択した {n} 件のサイトの Cookie をすべて削除しますか？これらのサイトからログアウトされます。',
   'dash.movedTo': '{n} 件のサイトを分類に移動しました',

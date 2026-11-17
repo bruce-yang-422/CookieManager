@@ -76,6 +76,7 @@ export default {
   'dash.colCount': 'Cookie 數',
   'dash.colActions': '操作',
   'dash.details': '明細',
+  'dash.openSite': '在新分頁開啟網站',
   'dash.confirmDeleteSite': '刪除 {site} 的 {n} 個 Cookie？',
   'dash.batchDeleteContent': '確定要刪除選取的 {n} 個網站的所有 Cookie 嗎？這些網站會被登出。',
   'dash.movedTo': '已將 {n} 個網站移至分類',

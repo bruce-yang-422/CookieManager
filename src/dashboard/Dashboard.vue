@@ -14,7 +14,15 @@ import {
   type DropdownOption,
   type MenuOption,
 } from 'naive-ui'
-import { faviconUrl, getAllCookies, groupBySite, removeCookies, type Cookie, type SiteGroup } from '../lib/cookies'
+import {
+  faviconUrl,
+  getAllCookies,
+  groupBySite,
+  removeCookies,
+  siteHomeUrl,
+  type Cookie,
+  type SiteGroup,
+} from '../lib/cookies'
 import {
   NONE,
   PRESET_COLORS,
@@ -437,6 +445,21 @@ function iconButton(icon: string, title: string, onClick?: () => void, danger = 
   )
 }
 
+/** 在新分頁開啟網站的連結按鈕 */
+function openSiteButton(row: SiteGroup) {
+  return h(
+    'a',
+    {
+      class: 'icon-btn',
+      href: siteHomeUrl(row.site, row.cookies),
+      target: '_blank',
+      rel: 'noopener noreferrer',
+      title: t('dash.openSite'),
+    },
+    h(Icon, { name: 'external' }),
+  )
+}
+
 const columns = computed<DataTableColumns<SiteGroup>>(() => [
   { type: 'selection' },
   {
@@ -445,7 +468,7 @@ const columns = computed<DataTableColumns<SiteGroup>>(() => [
     sorter: (a, b) => a.site.localeCompare(b.site),
     render: (row) =>
       h('div', { class: 'site-cell' }, [
-        h('div', { class: 'fav' }, h('img', { src: faviconUrl(row.site), alt: '' })),
+        h('div', { class: 'fav' }, h('img', { src: faviconUrl(row.site, 32, row.cookies), alt: '' })),
         h('span', { class: 'site-name', onClick: () => (drawerSite.value = row.site) }, row.site),
       ]),
   },
@@ -472,10 +495,11 @@ const columns = computed<DataTableColumns<SiteGroup>>(() => [
   {
     title: t('dash.colActions'),
     key: 'actions',
-    width: 130,
+    width: 160,
     align: 'center',
     render: (row) =>
       h('div', { class: 'row-actions' }, [
+        openSiteButton(row),
         iconButton('eye', t('dash.details'), () => (drawerSite.value = row.site)),
         iconButton('export', t('common.export'), () => openExport([row.site])),
         h(
@@ -702,11 +726,13 @@ async function applyBatchCategory(v: string | null) {
   color: var(--cm-muted);
 }
 
+/* 左右留一點空間，避免選中時圓點的白色外框被選單裁切 */
 .menu :deep(.menu-item) {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
   width: 100%;
+  padding-left: 3px;
 }
 
 .menu :deep(.menu-name) {

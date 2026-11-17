@@ -205,7 +205,7 @@ function openDashboard() {
     <!-- 標題列 -->
     <header class="top">
       <div v-if="site" class="fav">
-        <img :src="faviconUrl(site)" alt="" />
+        <img :src="faviconUrl(site, 32, cookies)" alt="" />
       </div>
       <img v-else class="logo" src="/assets/icons/icon48.png" alt="" />
       <div class="title">

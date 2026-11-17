@@ -14,7 +14,15 @@ import {
   useMessage,
   type DataTableColumns,
 } from 'naive-ui'
-import { cookieKey, faviconUrl, formatExpiry, removeCookie, removeCookies, type Cookie } from '../../lib/cookies'
+import {
+  cookieKey,
+  faviconUrl,
+  formatExpiry,
+  removeCookie,
+  removeCookies,
+  siteHomeUrl,
+  type Cookie,
+} from '../../lib/cookies'
 import { t } from '../../i18n'
 import Icon from '../../lib/Icon.vue'
 
@@ -143,9 +151,18 @@ const columns = computed<DataTableColumns<Cookie>>(() => [
     <NDrawerContent closable :native-scrollbar="false">
       <template #header>
         <div class="site-cell">
-          <div class="fav"><img :src="faviconUrl(site)" alt="" /></div>
+          <div class="fav"><img :src="faviconUrl(site, 32, cookies)" alt="" /></div>
           <span>{{ site }}</span>
           <span class="count-pill">{{ cookies.length }}</span>
+          <a
+            class="icon-btn"
+            :href="siteHomeUrl(site, cookies)"
+            target="_blank"
+            rel="noopener noreferrer"
+            :title="t('dash.openSite')"
+          >
+            <Icon name="external" />
+          </a>
         </div>
       </template>
 
