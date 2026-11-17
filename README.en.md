@@ -4,9 +4,11 @@
 
 # Cookie Manager
 
-A Chrome / Edge extension for categorizing, searching, and deleting cookies by site. All data stays on your device.
+A Chrome / Edge extension to categorize, search, edit, import, export, and delete cookies by site. All data stays on your device.
 
 [繁體中文](README.md) | **English**
+
+[Website](https://cookie-manager.stack-base.com/) · [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html)
 
 ![Manifest V3](https://img.shields.io/badge/Manifest-V3-4285F4?logo=googlechrome&logoColor=white)
 ![Vue 3](https://img.shields.io/badge/Vue-3-42b883?logo=vuedotjs&logoColor=white)
@@ -18,15 +20,14 @@ A Chrome / Edge extension for categorizing, searching, and deleting cookies by s
 ## Table of Contents
 
 - [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
+- [Installation](#installation)
 - [Scripts](#scripts)
+- [Tech Stack](#tech-stack)
 - [Project Structure](#project-structure)
 - [Localization](#localization)
-- [Privacy](#privacy)
-- [Publishing](#publishing)
+- [Privacy and Permissions](#privacy-and-permissions)
 - [Known Limitations](#known-limitations)
-- [Documentation](#documentation)
+- [Contributing](#contributing)
 
 ## Features
 
@@ -35,45 +36,39 @@ A Chrome / Edge extension for categorizing, searching, and deleting cookies by s
 - Cookies grouped by main site (e.g. `.mail.google.com` is grouped under `google.com`)
 - Custom categories: add, rename, pick colors, reorder, delete
 - Search by site, cookie name, or domain
-- Delete a single cookie or all cookies of a site
-- Bulk actions: select multiple sites to delete, export, or move to a category at once
-- Cookie details: value, domain, path, expiry, Secure / HttpOnly / SameSite flags, one-click copy
-- Export cookies: export each site on its own or several sites at once, in JSON, Netscape (cookies.txt), or header string format, as a file download or to the clipboard
-- Back up / restore category data (backups never include cookie contents)
-- UI available in Traditional Chinese, English, and Japanese; follows the browser language by default and can be switched manually
-- Dark mode; the list refreshes automatically when cookies change
-- Max width of 1440px, centered on ultra-wide screens
+- Delete a single cookie, all cookies of a site, or several selected sites at once
+- Move selected sites to a category or export them in bulk
+- Cookie details: value, domain, path, expiry, Secure / HttpOnly / SameSite flags, with value copy
+- Export cookies as JSON, Netscape (cookies.txt), or header string, as a file download or to the clipboard
+- Back up and restore category settings (backups never include cookie contents)
+- The list refreshes automatically when cookies change
 
-### Toolbar popup (quick tool)
+### Toolbar popup
 
-- List all cookies of the current tab, switch between "This page" and "Whole site" scope, and search
-- Create, edit, and delete cookies (name, value, domain, path, expiry, SameSite, Secure, HttpOnly, and more)
-- Import and export cookies in multiple formats: JSON, Netscape (cookies.txt), and header string; the import format is detected automatically
+- List the current tab's cookies, switch between "This page" and "Whole site" scope, and search
+- Create, edit, and delete cookies (name, value, domain, path, expiry, SameSite, Secure, HttpOnly)
+- Import and export cookies (JSON, Netscape, header string); the import format is detected automatically
 - Delete all cookies of the current tab in one click
-- Assign a category to the current site and open the dashboard in one click
+- Assign a category to the current site and open the dashboard
 
-## Tech Stack
+### General
 
-| Area | Technology |
-| --- | --- |
-| Extension platform | Chrome Manifest V3 |
-| Build tool | [Vite](https://vite.dev/) + [CRXJS](https://crxjs.dev/) |
-| Framework | [Vue 3](https://vuejs.org/) (Composition API) |
-| UI library | [Naive UI](https://www.naiveui.com/) |
-| Language | TypeScript (strict mode) |
-| Storage | `chrome.storage.local` (local only, no backend) |
+- UI available in Traditional Chinese, English, and Japanese; follows the browser language by default and can be switched manually
+- Dark mode
 
-## Getting Started
+## Installation
+
+The extension is not yet available on the Chrome Web Store, so you need to build and load it yourself.
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 18 or later
-- Google Chrome or Microsoft Edge (latest version)
+- [Node.js](https://nodejs.org/) 20 or later
+- Google Chrome or Microsoft Edge
 
-### Install and build
+### Build
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/bruce-yang-422/CookieManager.git
 cd CookieManager
 npm install
 npm run build
@@ -87,7 +82,7 @@ The build output goes to the `extension/` folder.
 2. Turn on **Developer mode** in the top-right corner
 3. Click **Load unpacked** and select the `extension/` folder
 
-After changing code, rebuild, then click the reload button (↻) on the extension card.
+After pulling new code and rebuilding, click the reload button (↻) on the extension's card.
 
 ## Scripts
 
@@ -97,7 +92,17 @@ After changing code, rebuild, then click the reload button (↻) on the extensio
 | `npm run watch` | Watch for changes and rebuild to `extension/` automatically |
 | `npm run typecheck` | Run type checking only |
 | `npm run icons` | Generate PNG icons in all sizes from the source image `assets/icons/logo.png` |
-| `npm run dev` | Start the Vite dev server (hot reload) |
+
+## Tech Stack
+
+| Area | Technology |
+| --- | --- |
+| Extension platform | Chrome Manifest V3 |
+| Build tool | [Vite](https://vite.dev/) + [CRXJS](https://crxjs.dev/) |
+| Framework | [Vue 3](https://vuejs.org/) (Composition API) |
+| UI library | [Naive UI](https://www.naiveui.com/) |
+| Language | TypeScript (strict mode) |
+| Storage | `chrome.storage.local` (local only, no backend) |
 
 ## Project Structure
 
@@ -108,8 +113,8 @@ CookieManager/
 │   ├── popup/             # Toolbar popup
 │   │   └── components/    # Cookie editor form, import panel, export panel
 │   ├── dashboard/         # Dashboard
-│   │   └── components/    # Cookie detail drawer, category manager dialog, export dialog
-│   ├── lib/               # Cookie operations, import/export formats, category backup, icons, language menu, theme, shared shell
+│   │   └── components/    # Cookie details, category manager, export dialog
+│   ├── lib/               # Cookie operations, import/export formats, category backup, shared components
 │   ├── i18n/              # UI translations
 │   │   └── locales/       # zh-TW.ts (primary), en.ts, ja.ts
 │   ├── storage/           # Category data read/write
@@ -117,14 +122,14 @@ CookieManager/
 ├── public/_locales/       # Extension name and description translations (Chrome format)
 ├── assets/icons/          # Extension icons (logo.png is the source image)
 ├── scripts/               # Build helper scripts (icon generation)
-├── extension/             # Build output (generated, do not edit)
-├── index.html             # GitHub Pages website home page
+├── index.html             # Project website (GitHub Pages)
 ├── privacy.html           # Privacy policy
 ├── site/                  # Shared styles and language switching for the website
-├── .nojekyll              # Lets GitHub Pages serve static files as-is
 ├── manifest.config.ts     # Manifest configuration
 └── vite.config.ts         # Vite configuration
 ```
+
+`extension/` (build output) and `node_modules/` are not under version control.
 
 ## Localization
 
@@ -133,7 +138,7 @@ Supported languages: Traditional Chinese (`zh-TW`), English (`en`), and Japanese
 - **UI language**: follows the browser language by default (Chinese → Traditional Chinese, Japanese → Japanese, anything else → English). Switch it from the language menu in the top-right corner of the popup or dashboard; the setting syncs across all pages.
 - **Translation files**: `src/i18n/locales/`. `zh-TW.ts` is the primary language, and every other language file must contain the same keys; `npm run typecheck` reports any missing key.
 - **Parameters and plurals**: `{name}` in a message is replaced by a parameter. When singular and plural differ, write `"singular | plural"`; the form is chosen by the `n` parameter.
-- **Extension name and description**: `public/_locales/<language>/messages.json`, shown on the browser's extensions page and in the store.
+- **Extension name and description**: `public/_locales/<language>/messages.json`.
 
 ### Adding a language
 
@@ -141,16 +146,14 @@ Supported languages: Traditional Chinese (`zh-TW`), English (`en`), and Japanese
 2. Add the language to `LOCALES`, `DICTIONARIES`, `NAIVE_LOCALES`, and `detect()` in `src/i18n/index.ts`
 3. Add `public/_locales/<language>/messages.json`
 
-## Privacy
+## Privacy and Permissions
 
 - Collects and transmits no user data; there is no backend server
 - No analytics, advertising, or third-party services
 - No remote code is loaded
-- Exported cookie files are downloaded straight to your device and never pass through any server; they contain login credentials, so keep them safe
+- Exported cookie files are downloaded straight to your device; they contain login credentials, so keep them safe
 
-See the full [Privacy Policy](privacy.html).
-
-### Permissions
+See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html).
 
 | Permission | Purpose |
 | --- | --- |
@@ -159,32 +162,16 @@ See the full [Privacy Policy](privacy.html).
 | `favicon` | Show site icons from the browser cache |
 | `<all_urls>` | Manage cookies for any site |
 
-## Publishing
-
-1. Run `npm run build`
-2. Zip the **contents** of the `extension/` folder
-3. Upload to the [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole) or [Microsoft Edge Partner Center](https://partner.microsoft.com/dashboard/microsoftedge/)
-4. Privacy policy URL: `https://<user>.github.io/<repo>/privacy.html`
-
-### Project website (GitHub Pages)
-
-`index.html` in the project root is the project website and `privacy.html` is the privacy policy page. Both are available in Traditional Chinese, English, and Japanese (pick one with a parameter such as `?lang=en`).
-
-1. Push the project to GitHub
-2. In the repo, open **Settings → Pages** and set Source to **Deploy from a branch**
-3. Choose the `main` branch and the `/ (root)` folder, then click **Save**
-
 ## Known Limitations
 
-- Incognito cookies are not supported yet
-- Some partitioned cookies (CHIPS) may not be listed
-- Main-site detection uses built-in rules, so a few unusual domains may be grouped imprecisely
+- Incognito cookies are not listed
+- Partitioned cookies (CHIPS) are not listed
+- The main site is determined by built-in rules, so a few unusual domains may be grouped imprecisely
 
-## Documentation
+## Contributing
 
-This README is available in two languages and must be kept in sync:
+Issues and pull requests are welcome. Before submitting, please make sure that:
 
-- [README.md](README.md): Traditional Chinese (primary)
-- [README.en.md](README.en.md): English
-
-When you edit one, update the other as well.
+- `npm run build` passes (including type checking)
+- UI text changes are applied to every language file under `src/i18n/locales/`
+- README changes are applied to both [README.md](README.md) (Traditional Chinese) and [README.en.md](README.en.md) (English)
