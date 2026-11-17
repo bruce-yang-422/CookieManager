@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Cookie Manager",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "依網站分類、搜尋、編輯、匯入與匯出 Cookie。所有資料只存在本機。",
+    "description": "Extension description (max 132 characters)"
+  }
+}

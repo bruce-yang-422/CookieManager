@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="meta.title">Cookie Manager — 依網站整理你的 Cookie</title>
+  <meta name="description" content="Cookie Manager: a Chrome / Edge extension to organize, search, edit, import, and export cookies by site. All data stays on your device." />
+  <link rel="icon" type="image/png" href="assets/icons/icon32.png" />
+  <meta property="og:title" content="Cookie Manager" />
+  <meta property="og:description" content="Organize, search, edit, import, and export cookies by site. All data stays on your device." />
+  <meta property="og:image" content="assets/icons/icon128.png" />
+  <link rel="stylesheet" href="site/style.css" />
+</head>
+<body>
+  <!-- 導覽列 -->
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top"><img src="assets/icons/icon.svg" alt="" />Cookie Manager</a>
+      <div class="nav-links">
+        <a href="#features" data-i18n="nav.features">功能</a>
+        <a href="#formats" data-i18n="nav.formats">格式</a>
+        <a href="#install" data-i18n="nav.install">安裝</a>
+        <a href="privacy.html" data-i18n="nav.privacy">隱私權</a>
+      </div>
+      <select class="lang" id="lang" aria-label="Language">
+        <option value="zh-TW">繁體中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
+  </nav>
+
+  <main id="top">
+    <!-- 主視覺 -->
+    <section class="hero">
+      <div class="wrap">
+        <div>
+          <span class="eyebrow" data-i18n="hero.eyebrow">Chrome / Edge 擴充功能</span>
+          <h1 data-i18n="hero.title">依網站整理你的 Cookie</h1>
+          <p class="lead" data-i18n="hero.lead">分類、搜尋、編輯、匯入匯出，一次搞定。所有資料只存在你的電腦，不需要帳號，也沒有伺服器。</p>
+          <div class="cta">
+            <a class="btn primary" href="#install" data-i18n="hero.ctaInstall">安裝方式</a>
+            <a class="btn" href="privacy.html" data-i18n="hero.ctaPrivacy">隱私權政策</a>
+          </div>
+          <ul class="pills">
+            <li data-i18n="hero.pill1">100% 本機運作</li>
+            <li data-i18n="hero.pill2">免帳號</li>
+            <li>繁中 · English · 日本語</li>
+          </ul>
+        </div>
+
+        <div class="mock" aria-hidden="true">
+          <div class="mock-head">
+            <img src="assets/icons/icon.svg" alt="" />www.example.com<span class="count">6</span>
+          </div>
+          <div class="mock-tools">
+            <div class="seg"><span class="on" data-i18n="mock.page">此頁面</span><span data-i18n="mock.site">整個網站</span></div>
+          </div>
+          <div class="mock-search" data-i18n="mock.search">搜尋名稱或值</div>
+          <ul class="mock-list">
+            <li><span class="arrow">▼</span><span class="n">session_id</span><span class="d">.example.com</span></li>
+            <li class="mock-edit">
+              <span class="mock-field">a1f9c2e7…4b0d</span>
+              <span class="tags"><span>Secure</span><span>HttpOnly</span><span>Lax</span></span>
+            </li>
+            <li><span class="arrow">▶</span><span class="n">csrftoken</span><span class="d">www.example.com</span></li>
+            <li><span class="arrow">▶</span><span class="n">_ga</span><span class="d">.example.com</span></li>
+            <li><span class="arrow">▶</span><span class="n">consent</span><span class="d">.example.com</span></li>
+            <li><span class="arrow">▶</span><span class="n">lang</span><span class="d">www.example.com</span></li>
+          </ul>
+          <div class="mock-bar">
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><b data-i18n="mock.add">新增</b></span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6"/></svg><b data-i18n="mock.deleteAll">全部刪除</b></span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg><b data-i18n="mock.import">匯入</b></span>
+            <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M7 8l5-5 5 5M5 21h14"/></svg><b data-i18n="mock.export">匯出</b></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 功能 -->
+    <section id="features" class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="features.title">需要的功能都在這裡</h2>
+          <p class="lead" data-i18n="features.lead">從工具列快速處理目前的網站，或打開管理後台一次整理所有網站。</p>
+        </div>
+        <div class="grid">
+          <div class="card">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></div>
+            <h3 data-i18n="f1.t">依網站分類</h3>
+            <p data-i18n="f1.d">Cookie 會依主網站自動合併，再用自訂的彩色分類整理，例如工作、購物、社群。</p>
+          </div>
+          <div class="card">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 11a7 7 0 1 1-14 0 7 7 0 0 1 14 0M21 21l-4.3-4.3"/></svg></div>
+            <h3 data-i18n="f2.t">快速搜尋</h3>
+            <p data-i18n="f2.d">用網站、Cookie 名稱或網域搜尋，就算有幾百個網站也能馬上找到。</p>
+          </div>
+          <div class="card">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6M10 11v6M14 11v6"/></svg></div>
+            <h3 data-i18n="f3.t">精準刪除</h3>
+            <p data-i18n="f3.d">單獨刪除一個 Cookie、一個網站，或勾選多個網站批次刪除，不必清掉整個瀏覽器。</p>
+          </div>
+          <div class="card">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div>
+            <h3 data-i18n="f4.t">快速小工具</h3>
+            <p data-i18n="f4.d">點工具列圖示就能列出目前分頁的 Cookie，直接建立、編輯或刪除，所有屬性都能修改。</p>
+          </div>
+          <div class="card">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v14M3 14l4 4 4-4M17 20V6M13 10l4-4 4 4"/></svg></div>
+            <h3 data-i18n="f5.t">匯入與匯出</h3>
+            <p data-i18n="f5.d">支援 JSON、Netscape（cookies.txt）與 Header 字串，匯入時會自動判斷格式。</p>
+          </div>
+          <div class="card">
+            <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+            <h3 data-i18n="f6.t">多國語言與深色模式</h3>
+            <p data-i18n="f6.d">介面支援繁體中文、English、日本語，並內建深色模式。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 格式 -->
+    <section id="formats">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="formats.title">三種格式，直接拿去用</h2>
+          <p class="lead" data-i18n="formats.lead">匯出的檔案可以搬到其他電腦，或交給命令列工具使用。</p>
+        </div>
+        <div class="formats">
+          <div class="fmt">
+            <h3>JSON</h3>
+            <p data-i18n="fmt.json">與常見 Cookie 編輯擴充功能相容，保留所有屬性。</p>
+            <pre>[
+  {
+    "name": "session_id",
+    "value": "a1f9c2e7",
+    "domain": ".example.com",
+    "path": "/",
+    "secure": true,
+    "httpOnly": true,
+    "sameSite": "lax"
+  }
+]</pre>
+          </div>
+          <div class="fmt">
+            <h3>Netscape</h3>
+            <p data-i18n="fmt.netscape">curl、wget、yt-dlp 等工具使用的 cookies.txt 格式。</p>
+            <pre># Netscape HTTP Cookie File
+#HttpOnly_.example.com	TRUE	/
+  TRUE	1900000000
+  session_id	a1f9c2e7</pre>
+          </div>
+          <div class="fmt">
+            <h3 data-i18n="fmt.headerName">Header 字串</h3>
+            <p data-i18n="fmt.header">HTTP Cookie 標頭格式，可以貼到 curl -H 或 API 測試工具。</p>
+            <pre>session_id=a1f9c2e7; lang=zh-TW
+
+curl -H "Cookie: session_id=a1f9c2e7" \
+  https://example.com</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 隱私重點 -->
+    <section class="alt">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="glance.title">你的 Cookie 不會離開你的電腦</h2>
+        </div>
+        <div class="glance">
+          <div>
+            <h3 data-i18n="g1.t">不收集任何資料</h3>
+            <p data-i18n="g1.d">沒有分析工具、沒有廣告、沒有追蹤。</p>
+          </div>
+          <div>
+            <h3 data-i18n="g2.t">沒有伺服器</h3>
+            <p data-i18n="g2.d">所有資料都存在瀏覽器的本機儲存空間。</p>
+          </div>
+          <div>
+            <h3 data-i18n="g3.t">不載入遠端程式碼</h3>
+            <p data-i18n="g3.d">所有程式都打包在擴充功能裡，可以自行檢查。</p>
+          </div>
+        </div>
+        <p class="glance-link"><a href="privacy.html" data-i18n="glance.link">閱讀完整的隱私權政策 →</a></p>
+      </div>
+    </section>
+
+    <!-- 安裝 -->
+    <section id="install">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="install.title">安裝</h2>
+        </div>
+        <div class="install">
+          <div class="card">
+            <h3 data-i18n="install.store.t">從商店安裝</h3>
+            <p data-i18n="install.store.d">即將上架 Chrome 線上應用程式商店與 Microsoft Edge 外掛程式商店。</p>
+            <span class="badge" data-i18n="install.badge">即將推出</span>
+          </div>
+          <div class="card">
+            <h3 data-i18n="install.manual.t">手動安裝（開發版）</h3>
+            <ol class="steps">
+              <li data-i18n="install.s1">下載原始碼，執行 <code>npm install</code> 與 <code>npm run build</code>。</li>
+              <li data-i18n="install.s2">開啟 <code>chrome://extensions</code>（Edge 為 <code>edge://extensions</code>）。</li>
+              <li data-i18n="install.s3">開啟右上角的「開發人員模式」。</li>
+              <li data-i18n="install.s4">點選「載入未封裝項目」，選擇 <code>extension</code> 資料夾。</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Cookie Manager</span>
+      <span><a href="privacy.html" data-i18n="nav.privacy">隱私權</a></span>
+    </div>
+  </footer>
+
+  <script src="site/i18n.js"></script>
+  <script>
+    // 英文與日文翻譯；繁體中文直接取自頁面上的原文
+    const I18N = {
+      en: {
+        'meta.title': 'Cookie Manager — Your cookies, organized by site',
+        'nav.features': 'Features',
+        'nav.formats': 'Formats',
+        'nav.install': 'Install',
+        'nav.privacy': 'Privacy',
+        'hero.eyebrow': 'Extension for Chrome / Edge',
+        'hero.title': 'Your cookies, organized by site',
+        'hero.lead': 'Categorize, search, edit, import, and export in one place. Everything stays on your computer: no account, no server.',
+        'hero.ctaInstall': 'How to install',
+        'hero.ctaPrivacy': 'Privacy policy',
+        'hero.pill1': 'Runs 100% locally',
+        'hero.pill2': 'No account needed',
+        'mock.page': 'This page',
+        'mock.site': 'Whole site',
+        'mock.search': 'Search name or value',
+        'mock.add': 'Add',
+        'mock.deleteAll': 'Delete all',
+        'mock.import': 'Import',
+        'mock.export': 'Export',
+        'features.title': 'Everything you need',
+        'features.lead': 'Handle the current site from the toolbar, or open the dashboard to manage every site at once.',
+        'f1.t': 'Organize by site',
+        'f1.d': 'Cookies are grouped by main site automatically. Sort them into color-coded categories such as Work, Shopping, and Social.',
+        'f2.t': 'Fast search',
+        'f2.d': 'Search by site, cookie name, or domain and find what you need, even across hundreds of sites.',
+        'f3.t': 'Delete precisely',
+        'f3.d': 'Delete a single cookie, a single site, or several selected sites at once, without clearing your whole browser.',
+        'f4.t': 'Quick tool',
+        'f4.d': "Click the toolbar icon to list the current tab's cookies, then create, edit, or delete them. Every attribute is editable.",
+        'f5.t': 'Import and export',
+        'f5.d': 'Supports JSON, Netscape (cookies.txt), and header strings. The import format is detected automatically.',
+        'f6.t': 'Languages and dark mode',
+        'f6.d': 'The interface is available in Traditional Chinese, English, and Japanese, with a built-in dark mode.',
+        'formats.title': 'Three formats, ready to use',
+        'formats.lead': 'Move exported files to another computer or hand them to command-line tools.',
+        'fmt.json': 'Compatible with common cookie editor extensions. Keeps all attributes.',
+        'fmt.netscape': 'The cookies.txt format used by tools such as curl, wget, and yt-dlp.',
+        'fmt.headerName': 'Header string',
+        'fmt.header': 'HTTP Cookie header format. Paste it into curl -H or an API testing tool.',
+        'glance.title': 'Your cookies never leave your computer',
+        'g1.t': 'No data collection',
+        'g1.d': 'No analytics, no ads, no tracking.',
+        'g2.t': 'No server',
+        'g2.d': "Everything is stored in your browser's local storage.",
+        'g3.t': 'No remote code',
+        'g3.d': 'All code ships inside the extension, so you can inspect it yourself.',
+        'glance.link': 'Read the full privacy policy →',
+        'install.title': 'Install',
+        'install.store.t': 'From the store',
+        'install.store.d': 'Coming soon to the Chrome Web Store and Microsoft Edge Add-ons.',
+        'install.badge': 'Coming soon',
+        'install.manual.t': 'Manual install (developer build)',
+        'install.s1': 'Download the source code and run <code>npm install</code> and <code>npm run build</code>.',
+        'install.s2': 'Open <code>chrome://extensions</code> (<code>edge://extensions</code> in Edge).',
+        'install.s3': 'Turn on <strong>Developer mode</strong> in the top-right corner.',
+        'install.s4': 'Click <strong>Load unpacked</strong> and select the <code>extension</code> folder.',
+      },
+      ja: {
+        'meta.title': 'Cookie Manager — Cookie をサイトごとに整理',
+        'nav.features': '機能',
+        'nav.formats': '形式',
+        'nav.install': 'インストール',
+        'nav.privacy': 'プライバシー',
+        'hero.eyebrow': 'Chrome / Edge 拡張機能',
+        'hero.title': 'Cookie をサイトごとに整理',
+        'hero.lead': '分類・検索・編集・インポート・エクスポートをひとつに。データはすべてあなたのパソコンに保存され、アカウントもサーバーも不要です。',
+        'hero.ctaInstall': 'インストール方法',
+        'hero.ctaPrivacy': 'プライバシーポリシー',
+        'hero.pill1': '100% ローカルで動作',
+        'hero.pill2': 'アカウント不要',
+        'mock.page': 'このページ',
+        'mock.site': 'サイト全体',
+        'mock.search': '名前または値を検索',
+        'mock.add': '追加',
+        'mock.deleteAll': 'すべて削除',
+        'mock.import': 'インポート',
+        'mock.export': 'エクスポート',
+        'features.title': '必要な機能をすべて',
+        'features.lead': 'ツールバーから今のサイトをすばやく操作、または管理画面ですべてのサイトをまとめて整理できます。',
+        'f1.t': 'サイトごとに分類',
+        'f1.d': 'Cookie はメインサイトごとに自動でまとめられます。「仕事」「ショッピング」「SNS」など、色分けした分類で整理できます。',
+        'f2.t': 'すばやく検索',
+        'f2.d': 'サイト、Cookie 名、ドメインで検索。数百のサイトがあってもすぐに見つかります。',
+        'f3.t': 'ピンポイントで削除',
+        'f3.d': 'Cookie 1 件、サイト 1 つ、または選択した複数のサイトを一括で削除。ブラウザー全体を消去する必要はありません。',
+        'f4.t': 'クイックツール',
+        'f4.d': 'ツールバーのアイコンから現在のタブの Cookie を一覧表示。作成・編集・削除ができ、すべての属性を変更できます。',
+        'f5.t': 'インポートとエクスポート',
+        'f5.d': 'JSON、Netscape（cookies.txt）、ヘッダー文字列に対応。インポート時は形式を自動で判別します。',
+        'f6.t': '多言語とダークモード',
+        'f6.d': '繁体字中国語・英語・日本語に対応し、ダークモードも内蔵しています。',
+        'formats.title': 'すぐに使える 3 つの形式',
+        'formats.lead': 'エクスポートしたファイルは、別のパソコンへの移行やコマンドラインツールで使えます。',
+        'fmt.json': '一般的な Cookie 編集拡張機能と互換性があり、すべての属性を保持します。',
+        'fmt.netscape': 'curl、wget、yt-dlp などのツールで使われる cookies.txt 形式です。',
+        'fmt.headerName': 'ヘッダー文字列',
+        'fmt.header': 'HTTP Cookie ヘッダー形式。curl -H や API テストツールに貼り付けられます。',
+        'glance.title': 'Cookie があなたのパソコンから出ることはありません',
+        'g1.t': 'データを収集しません',
+        'g1.d': '分析ツール、広告、トラッキングは一切ありません。',
+        'g2.t': 'サーバーなし',
+        'g2.d': 'すべてのデータはブラウザーのローカルストレージに保存されます。',
+        'g3.t': 'リモートコードなし',
+        'g3.d': 'すべてのコードは拡張機能に含まれており、自分で確認できます。',
+        'glance.link': 'プライバシーポリシーの全文を読む →',
+        'install.title': 'インストール',
+        'install.store.t': 'ストアからインストール',
+        'install.store.d': 'Chrome ウェブストアと Microsoft Edge アドオンで近日公開予定です。',
+        'install.badge': '近日公開',
+        'install.manual.t': '手動インストール（開発版）',
+        'install.s1': 'ソースコードをダウンロードし、<code>npm install</code> と <code>npm run build</code> を実行します。',
+        'install.s2': '<code>chrome://extensions</code>（Edge では <code>edge://extensions</code>）を開きます。',
+        'install.s3': '右上の「デベロッパー モード」をオンにします。',
+        'install.s4': '「パッケージ化されていない拡張機能を読み込む」をクリックし、<code>extension</code> フォルダーを選択します。',
+      },
+    }
+
+    initI18n(I18N)
+  </script>
+</body>
+</html>

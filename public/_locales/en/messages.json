@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Cookie Manager",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "Organize, search, edit, import, and export cookies by site. All data stays on your device.",
+    "description": "Extension description (max 132 characters)"
+  }
+}

@@ -1,0 +1,164 @@
+import type { Dictionary } from '../types'
+
+const en: Dictionary = {
+  // Common
+  'common.cancel': 'Cancel',
+  'common.delete': 'Delete',
+  'common.deleteAll': 'Delete all',
+  'common.save': 'Save',
+  'common.add': 'Add',
+  'common.copy': 'Copy',
+  'common.copied': 'Copied',
+  'common.copyFailed': 'Copy failed',
+  'common.download': 'Download',
+  'common.back': 'Back',
+  'common.import': 'Import',
+  'common.export': 'Export',
+  'common.uncategorized': 'Uncategorized',
+  'common.session': 'Session',
+  'common.cookieCount': '{n} cookie | {n} cookies',
+  'common.language': 'Language',
+  'common.languageAuto': 'Browser default',
+  'common.openDashboard': 'Open dashboard',
+  'common.confirmDeleteName': 'Delete {name}?',
+  'common.deletedName': 'Deleted {name}',
+  'common.deletedCount': 'Deleted {n} cookie | Deleted {n} cookies',
+  'common.credentialWarning':
+    'Cookie files contain login credentials. Anyone with the file may be able to sign in to your accounts. Keep it safe and do not share it.',
+  'common.credentialWarningShort': 'Cookies contain login credentials. Do not share them.',
+  'theme.toLight': 'Switch to light mode',
+  'theme.toDark': 'Switch to dark mode',
+
+  // Default categories
+  'category.work': 'Work',
+  'category.shopping': 'Shopping',
+  'category.social': 'Social',
+
+  // Dashboard
+  'dash.search': 'Search sites, cookie names, or domains',
+  'dash.refresh': 'Refresh',
+  'dash.refreshed': 'Refreshed',
+  'dash.backup': 'Back up categories',
+  'dash.backupTip': 'Download a backup of your categories (no cookies included)',
+  'dash.backupDone': 'Categories backed up',
+  'dash.restore': 'Restore categories',
+  'dash.restoreTip': 'Restore categories from a backup file',
+  'dash.restoreTitle': 'Restore categories',
+  'dash.restoreSummary': 'The backup contains {c} categories and {a} site assignments.',
+  'dash.restoreHow': '"Merge" keeps your current settings and adds the backup. "Replace" clears your current categories first.',
+  'dash.merge': 'Merge',
+  'dash.replace': 'Replace',
+  'dash.restoreDone': 'Restore complete',
+  'dash.allSites': 'All sites',
+  'dash.manageCategories': 'Manage categories',
+  'dash.selected': '{n} site selected | {n} sites selected',
+  'dash.moveTo': 'Move to category…',
+  'dash.setUncategorized': '(Uncategorized)',
+  'dash.exportCookies': 'Export cookies',
+  'dash.batchDelete': 'Delete selected',
+  'dash.clearSelection': 'Clear selection',
+  'dash.summary': '{sites} sites · {cookies} cookies',
+  'dash.colSite': 'Site',
+  'dash.colCategory': 'Category',
+  'dash.colCount': 'Cookies',
+  'dash.colActions': 'Actions',
+  'dash.details': 'Details',
+  'dash.confirmDeleteSite': 'Delete {n} cookie from {site}? | Delete {n} cookies from {site}?',
+  'dash.batchDeleteContent': 'Delete all cookies from the {n} selected sites? You will be signed out of these sites.',
+  'dash.movedTo': 'Moved {n} site to the category | Moved {n} sites to the category',
+  'dash.setUncategorizedDone': 'Marked {n} site as uncategorized | Marked {n} sites as uncategorized',
+  'dash.categoriesUpdated': 'Categories updated',
+
+  // Backup errors
+  'backup.errJson': 'The file is not valid JSON',
+  'backup.errApp': 'This is not a Cookie Manager backup file',
+  'backup.errIncomplete': 'The backup file is incomplete',
+
+  // Cookie details
+  'drawer.search': 'Search name, domain, or value',
+  'drawer.deleteAll': 'Delete all cookies for this site',
+  'drawer.confirmDeleteAll': 'Delete the {n} cookie from {site}? | Delete all {n} cookies from {site}?',
+  'drawer.colName': 'Name',
+  'drawer.colValue': 'Value',
+  'drawer.colDomainPath': 'Domain / Path',
+  'drawer.colExpires': 'Expires',
+  'drawer.colFlags': 'Flags',
+  'drawer.empty': '(empty)',
+
+  // Category manager
+  'cat.note': 'When you delete a category, its sites become uncategorized. Cookies are not affected.',
+  'cat.pickColor': 'Pick a color',
+  'cat.namePlaceholder': 'Category name',
+  'cat.add': '+ Add category',
+  'cat.errEmpty': 'Category names cannot be empty',
+
+  // Export
+  'export.titleOne': 'Export {site}',
+  'export.titleMany': 'Export {n} sites',
+  'export.summary': '{sites} sites, {cookies} cookies',
+  'export.format': 'Format',
+  'export.filename': 'File name',
+  'export.copyToClipboard': 'Copy to clipboard',
+  'export.exported': 'Exported {n} cookie | Exported {n} cookies',
+  'export.copiedCount': 'Copied {n} cookie | Copied {n} cookies',
+  'export.downloaded': 'Downloaded',
+
+  // Formats
+  'fmt.header': 'Header string',
+  'fmt.jsonHint': 'Compatible with common cookie editor extensions. Keeps all attributes.',
+  'fmt.netscapeHint': 'cookies.txt format, used by command-line tools such as curl, wget, and yt-dlp.',
+  'fmt.headerHint': 'HTTP Cookie header format (name=value; …) for curl -H or API tools. Names and values only.',
+
+  // Import
+  'imp.hint':
+    'Paste JSON, Netscape (cookies.txt), or a header string (name=value; …). The format is detected automatically. Header strings are imported to {host}.',
+  'imp.detected': 'Detected {format}: {n} cookie | Detected {format}: {n} cookies',
+  'imp.chooseFile': 'Choose file…',
+  'imp.partial': 'Imported {ok}, {fail} failed ({first})',
+  'imp.done': 'Imported {n} cookie | Imported {n} cookies',
+  'imp.errEmpty': 'Nothing to import',
+  'imp.errJson': 'Invalid JSON',
+  'imp.errNone': 'No cookies found to import',
+
+  // Write errors
+  'err.nameValueEmpty': 'Name and value cannot both be empty',
+  'err.domainEmpty': 'Domain cannot be empty',
+  'err.sameSiteNone': 'SameSite=None requires Secure',
+  'err.rejected': 'The browser rejected this cookie',
+
+  // Cookie editor
+  'ed.name': 'Name',
+  'ed.namePh': 'Cookie name',
+  'ed.value': 'Value',
+  'ed.valuePh': 'Cookie value',
+  'ed.domain': 'Domain',
+  'ed.path': 'Path',
+  'ed.expires': 'Expires',
+  'ed.expiresSessionPh': 'Cleared when the browser closes',
+  'ed.expiresPh': 'Pick a time',
+  'ed.sameSiteUnspecified': 'Unspecified',
+  'ed.hostOnly': 'Host only',
+
+  // Popup
+  'pop.scopePage': 'This page',
+  'pop.scopeSite': 'Whole site',
+  'pop.scopePageTip': 'Cookies used by the current tab',
+  'pop.scopeSiteTip': '{site} and all subdomains',
+  'pop.search': 'Search name or value',
+  'pop.noMatch': 'No matching cookies',
+  'pop.noCookies': 'No cookies',
+  'pop.noName': '(no name)',
+  'pop.newTitle': 'Add cookie',
+  'pop.importTitle': 'Import cookies',
+  'pop.exportTitle': 'Export cookies',
+  'pop.confirmDeleteAllPage':
+    'Delete {n} cookie from this page? You will be signed out of the site. | Delete {n} cookies from this page? You will be signed out of the site.',
+  'pop.confirmDeleteAllSite':
+    'Delete {n} cookie from the whole site? You will be signed out. | Delete {n} cookies from the whole site? You will be signed out.',
+  'pop.saved': 'Saved {name}',
+  'pop.added': 'Added {name}',
+  'pop.deletedAll': 'Deleted {n} cookie. Reload the page to apply. | Deleted {n} cookies. Reload the page to apply.',
+  'pop.notWebsite': 'This page is not a website and has no cookies',
+}
+
+export default en

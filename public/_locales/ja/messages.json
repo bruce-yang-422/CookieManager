@@ -1,0 +1,10 @@
+{
+  "extName": {
+    "message": "Cookie Manager",
+    "description": "Extension name"
+  },
+  "extDescription": {
+    "message": "サイトごとに Cookie を分類・検索・編集・インポート・エクスポート。データはすべて端末内に保存されます。",
+    "description": "Extension description (max 132 characters)"
+  }
+}

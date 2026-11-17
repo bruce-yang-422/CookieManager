@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title data-i18n="meta.title">隱私權政策 — Cookie Manager</title>
+  <meta name="description" content="Privacy policy for Cookie Manager. The extension does not collect, transmit, or sell any user data." />
+  <link rel="icon" type="image/png" href="assets/icons/icon32.png" />
+  <link rel="stylesheet" href="site/style.css" />
+</head>
+<body>
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="index.html"><img src="assets/icons/icon.svg" alt="" />Cookie Manager</a>
+      <div class="nav-links">
+        <a href="index.html#features" data-i18n="nav.features">功能</a>
+        <a href="index.html#formats" data-i18n="nav.formats">格式</a>
+        <a href="index.html#install" data-i18n="nav.install">安裝</a>
+        <a href="privacy.html" class="current" data-i18n="nav.privacy">隱私權</a>
+      </div>
+      <select class="lang" id="lang" aria-label="Language">
+        <option value="zh-TW">繁體中文</option>
+        <option value="en">English</option>
+        <option value="ja">日本語</option>
+      </select>
+    </div>
+  </nav>
+
+  <main>
+    <section>
+      <div class="wrap policy">
+        <p class="back"><a href="index.html" data-i18n="pp.back">← 回到首頁</a></p>
+        <h1 data-i18n="pp.title">隱私權政策</h1>
+        <p class="updated" data-i18n="pp.updated">最後更新：2026-11-17</p>
+
+        <div class="box">
+          <strong data-i18n="pp.summary.h">摘要</strong>
+          <p data-i18n="pp.summary.p" style="margin: 6px 0 0">Cookie Manager 不收集、不傳送、不販售任何使用者資料。所有資料只存在你自己的瀏覽器中。</p>
+        </div>
+
+        <h3 data-i18n="pp.access.h">擴充功能會存取哪些資料</h3>
+        <ul>
+          <li data-i18n="pp.access.1"><strong>Cookie</strong>：讀取瀏覽器中的 Cookie 以顯示與搜尋，並只在你操作時建立、編輯、匯入或刪除。Cookie 內容不會傳送到任何伺服器。</li>
+          <li data-i18n="pp.access.2"><strong>目前分頁的網址</strong>：只用來判斷你正在瀏覽哪個網站，以便在工具列小視窗顯示該網站的 Cookie。</li>
+          <li data-i18n="pp.access.3"><strong>網站圖示</strong>：透過瀏覽器內建的圖示快取顯示，不會連線到外部服務。</li>
+        </ul>
+
+        <h3 data-i18n="pp.store.h">擴充功能會儲存哪些資料</h3>
+        <ul>
+          <li data-i18n="pp.store.1">你建立的分類，以及每個網站屬於哪個分類，存在瀏覽器的本機儲存空間（<code>chrome.storage.local</code>）。移除擴充功能時，這些資料會一併刪除。</li>
+          <li data-i18n="pp.store.2">介面語言、深淺色模式等顯示偏好，存在瀏覽器的本機儲存空間（<code>localStorage</code>）。</li>
+          <li data-i18n="pp.store.3">「備份分類」產生的檔案只包含分類設定，不包含任何 Cookie 內容。</li>
+          <li data-i18n="pp.store.4">「匯出 Cookie」只在你主動操作時執行，檔案由瀏覽器直接下載到你的電腦（或複製到剪貼簿），不會經過任何伺服器。匯出的檔案含有登入憑證，請自行妥善保管。</li>
+        </ul>
+
+        <h3 data-i18n="pp.third.h">第三方</h3>
+        <p data-i18n="pp.third.p">本擴充功能不使用任何分析工具、廣告或第三方服務，也不載入任何遠端程式碼。</p>
+
+        <h3 data-i18n="pp.perm.h">權限說明</h3>
+        <ul>
+          <li data-i18n="pp.perm.1"><code>cookies</code>：讀取、建立、編輯與刪除 Cookie。</li>
+          <li data-i18n="pp.perm.2"><code>storage</code>：在本機儲存分類設定。</li>
+          <li data-i18n="pp.perm.3"><code>favicon</code>：顯示網站圖示。</li>
+          <li data-i18n="pp.perm.4">存取所有網站（<code>&lt;all_urls&gt;</code>）：管理任何網站的 Cookie 所必需。</li>
+        </ul>
+
+        <h3 data-i18n="pp.changes.h">政策變更</h3>
+        <p data-i18n="pp.changes.p">本政策如有變更，會更新此頁面並修改上方的「最後更新」日期。</p>
+
+        <h3 data-i18n="pp.contact.h">聯絡方式</h3>
+        <p data-i18n="pp.contact.p">如有任何問題，請透過 Chrome 線上應用程式商店的擴充功能頁面與我們聯絡。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Cookie Manager</span>
+      <span><a href="index.html" data-i18n="footer.home">首頁</a></span>
+    </div>
+  </footer>
+
+  <script src="site/i18n.js"></script>
+  <script>
+    // 英文與日文翻譯；繁體中文直接取自頁面上的原文
+    const I18N = {
+      en: {
+        'meta.title': 'Privacy Policy — Cookie Manager',
+        'nav.features': 'Features',
+        'nav.formats': 'Formats',
+        'nav.install': 'Install',
+        'nav.privacy': 'Privacy',
+        'footer.home': 'Home',
+        'pp.back': '← Back to home',
+        'pp.title': 'Privacy Policy',
+        'pp.updated': 'Last updated: 2026-11-17',
+        'pp.summary.h': 'Summary',
+        'pp.summary.p': 'Cookie Manager does not collect, transmit, or sell any user data. All data stays in your own browser.',
+        'pp.access.h': 'Data the extension accesses',
+        'pp.access.1': '<strong>Cookies</strong>: read to display and search them, and created, edited, imported, or deleted only when you ask. Cookie contents are never sent to any server.',
+        'pp.access.2': "<strong>Current tab URL</strong>: used only to determine which site you are on, so the popup can show that site's cookies.",
+        'pp.access.3': "<strong>Site icons</strong>: shown from the browser's built-in favicon cache. No external service is contacted.",
+        'pp.store.h': 'Data the extension stores',
+        'pp.store.1': "The categories you create, and which site belongs to which category, are stored in your browser's local storage (<code>chrome.storage.local</code>). This data is removed when you uninstall the extension.",
+        'pp.store.2': "Display preferences such as the interface language and light or dark mode are stored in your browser's local storage (<code>localStorage</code>).",
+        'pp.store.3': 'Files created with "Back up categories" contain only category settings, never cookie contents.',
+        'pp.store.4': '"Export cookies" runs only when you start it. The file is downloaded by the browser directly to your computer (or copied to your clipboard) and never passes through any server. Exported files contain login credentials, so keep them safe.',
+        'pp.third.h': 'Third parties',
+        'pp.third.p': 'The extension uses no analytics, advertising, or third-party services, and loads no remote code.',
+        'pp.perm.h': 'Permissions',
+        'pp.perm.1': '<code>cookies</code>: read, create, edit, and delete cookies.',
+        'pp.perm.2': '<code>storage</code>: store category settings locally.',
+        'pp.perm.3': '<code>favicon</code>: display site icons.',
+        'pp.perm.4': 'Access to all sites (<code>&lt;all_urls&gt;</code>): required to manage cookies for any site.',
+        'pp.changes.h': 'Changes to this policy',
+        'pp.changes.p': 'If this policy changes, this page will be updated along with the "Last updated" date above.',
+        'pp.contact.h': 'Contact',
+        'pp.contact.p': "For questions, please contact us through the extension's page on the Chrome Web Store.",
+      },
+      ja: {
+        'meta.title': 'プライバシーポリシー — Cookie Manager',
+        'nav.features': '機能',
+        'nav.formats': '形式',
+        'nav.install': 'インストール',
+        'nav.privacy': 'プライバシー',
+        'footer.home': 'ホーム',
+        'pp.back': '← ホームに戻る',
+        'pp.title': 'プライバシーポリシー',
+        'pp.updated': '最終更新日：2026-11-17',
+        'pp.summary.h': '概要',
+        'pp.summary.p': 'Cookie Manager はユーザーデータを収集、送信、販売することは一切ありません。すべてのデータはあなた自身のブラウザー内にのみ保存されます。',
+        'pp.access.h': '拡張機能がアクセスするデータ',
+        'pp.access.1': '<strong>Cookie</strong>：表示と検索のために読み取り、作成・編集・インポート・削除はあなたが操作したときにのみ行います。Cookie の内容がサーバーに送信されることはありません。',
+        'pp.access.2': '<strong>現在のタブの URL</strong>：閲覧中のサイトを判別し、ポップアップにそのサイトの Cookie を表示するためだけに使用します。',
+        'pp.access.3': '<strong>サイトのアイコン</strong>：ブラウザー内蔵のアイコンキャッシュから表示し、外部サービスには接続しません。',
+        'pp.store.h': '拡張機能が保存するデータ',
+        'pp.store.1': 'あなたが作成した分類と、各サイトがどの分類に属するかの情報は、ブラウザーのローカルストレージ（<code>chrome.storage.local</code>）に保存されます。拡張機能を削除すると、これらのデータも削除されます。',
+        'pp.store.2': '表示言語やライト／ダークモードなどの表示設定は、ブラウザーのローカルストレージ（<code>localStorage</code>）に保存されます。',
+        'pp.store.3': '「分類をバックアップ」で作成されるファイルには分類の設定のみが含まれ、Cookie の内容は含まれません。',
+        'pp.store.4': '「Cookie をエクスポート」はあなたが操作したときにのみ実行されます。ファイルはブラウザーから直接あなたのパソコンにダウンロードされる（またはクリップボードにコピーされる）だけで、サーバーを経由することはありません。エクスポートしたファイルにはログイン情報が含まれるため、大切に保管してください。',
+        'pp.third.h': '第三者',
+        'pp.third.p': 'この拡張機能は分析ツール、広告、第三者サービスを一切使用せず、リモートコードも読み込みません。',
+        'pp.perm.h': '権限',
+        'pp.perm.1': '<code>cookies</code>：Cookie の読み取り、作成、編集、削除。',
+        'pp.perm.2': '<code>storage</code>：分類の設定をローカルに保存。',
+        'pp.perm.3': '<code>favicon</code>：サイトのアイコンを表示。',
+        'pp.perm.4': 'すべてのサイトへのアクセス（<code>&lt;all_urls&gt;</code>）：どのサイトの Cookie でも管理するために必要です。',
+        'pp.changes.h': 'ポリシーの変更',
+        'pp.changes.p': '本ポリシーを変更する場合は、このページを更新し、上記の最終更新日を変更します。',
+        'pp.contact.h': 'お問い合わせ',
+        'pp.contact.p': 'ご質問は、Chrome ウェブストアの拡張機能ページからお問い合わせください。',
+      },
+    }
+
+    initI18n(I18N)
+  </script>
+</body>
+</html>
