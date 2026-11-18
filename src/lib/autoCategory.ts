@@ -157,6 +157,8 @@ const DOMAINS: Record<string, string[]> = {
     'china-airlines.com', 'cathaypacific.com', 'singaporeair.com', 'emirates.com', 'ryanair.com',
     'easyjet.com', 'starlux-airlines.com', 'tigerairtw.com', 'flypeach.com', 'jetstar.com',
     'ezfly.com', 'liontravel.com', 'colatour.com.tw', 'eztravel.com.tw',
+    // 比價、二手行情與美妝
+    'camelcamelcamel.com', 'aucfan.com', 'cosme.net', 'baycrews.jp', 'thebase.in', 'base.shop',
   ],
   entertainment: [
     'youtube.com', 'ytimg.com', 'googlevideo.com', 'youtube-nocookie.com', 'netflix.com', 'nflxvideo.net',
@@ -191,6 +193,9 @@ const DOMAINS: Record<string, string[]> = {
     'cygames.co.jp', 'game8.jp', 'gamewith.jp', '4gamer.net', 'famitsu.com', 'ign.com', 'gamespot.com',
     'polygon.com', 'kotaku.com', 'pcgamer.com', 'steamstatic.com', 'nintendo.co.jp', 'nintendo.net',
     'playstation.net', 'rockstargames.com', 'xboxlive.com', 'chess.com', 'lichess.org',
+    // 串流查詢、廣播、歌詞與音樂推薦
+    'justwatch.com', 'radio.garden', 'mynoise.net', 'opensubtitles.org', 'neal.fun', 'gnoosic.com', 'utamap.com',
+    'uta-net.com', 'riffusion.com',
   ],
   news: [
     'udn.com', 'ltn.com.tw', 'chinatimes.com', 'ettoday.net', 'setn.com', 'tvbs.com.tw', 'cna.com.tw',
@@ -251,6 +256,8 @@ const DOMAINS: Record<string, string[]> = {
     'wolframalpha.com', 'archive.org', 'wiktionary.org', 'wikidata.org', 'wikiwand.com', 'britannica.com',
     'weblio.jp', 'kotobank.jp', 'dictionary.com', 'merriam-webster.com', 'thesaurus.com', 'urbandictionary.com',
     'oxfordlearnersdictionaries.com', 'collinsdictionary.com', 'jisho.org', 'moedict.tw', 'wikihow.com',
+    // 電子書、問答與參考資料
+    'gutenberg.org', 'openculture.com', 'aozora.gr.jp', 'calculatorsoup.com', 'openstreetmap.org', 'okwave.jp',
   ],
   work: [
     'microsoft.com', 'microsoftonline.com', 'live.com', 'office.com', 'office.net', 'sharepoint.com',
@@ -292,6 +299,16 @@ const DOMAINS: Record<string, string[]> = {
     'mistral.ai', 'poe.com', 'character.ai', 'midjourney.com', 'runwayml.com',
     'elevenlabs.io', 'suno.com', 'cursor.com', 'deepseek.com', 'kimi.com', 'moonshot.cn', 'manus.im',
     'leonardo.ai', 'ideogram.ai', 'heygen.com', 'synthesia.io', 'jasper.ai', 'copy.ai', 'notebooklm.google',
+    // 線上工具：PDF、圖片、檔案轉換、設計素材（網路推薦清單整理）
+    'photopea.com', 'tinywow.com', 'smallpdf.com', 'ilovepdf.com', 'sejda.com', 'cloudconvert.com', 'tinypng.com',
+    'squoosh.app', 'remove.bg', 'cleanup.pictures', 'unscreen.com', 'magiceraser.io', 'coolors.co', 'flaticon.com',
+    'vecteezy.com', 'pixlr.com', 'autodraw.com', 'designevo.com', 'slidesgo.com', 'tally.so', 'quillbot.com',
+    'kickresume.com', 'hunter.io', 'answerthepublic.com', 'goblin.tools', 'alternativeto.net', 'shots.so',
+    'smartmockups.com', 'compressor.io', '123apps.com', 'pdfmyurl.com', 'felo.ai', 'obsproject.com',
+    // 日本的線上工具與素材
+    'ac-illust.com', 'photo-ac.com', 'pakutaso.com', 'irasutoya.com', 'tadapic.com', 'gigafile.nu', '8card.net',
+    'peraichi.com', 'userlocal.jp', 'luft.co.jp', 'tool-taro.com', 'colordic.org', 'muuuuu.org', 'toools.jp',
+    'henkan-muryo.com', 'syncer.jp',
   ],
   dev: [
     'github.com', 'githubusercontent.com', 'github.io', 'gitlab.com', 'bitbucket.org', 'stackoverflow.com',
@@ -327,6 +344,9 @@ const DOMAINS: Record<string, string[]> = {
     'mongodb.com', 'mysql.com', 'postgresql.org', 'redis.io', 'elastic.co', 'grafana.com', 'hashicorp.com',
     'terraform.io', 'kubernetes.io', 'twilio.com', 'sendgrid.com', 'auth0.com', 'okta.com', 'algolia.com',
     'contentful.com', 'circleci.com', 'codecov.io', 'snyk.io', 'sonarcloud.io',
+    // 開發小工具
+    'now.sh', 'ray.so', 'placehold.jp', 'downforeveryoneorjustme.com', 'isitdownrightnow.com',
+    'opensourcealternative.to',
   ],
   tech: [
     // 3C、軟硬體品牌
@@ -360,6 +380,10 @@ const DOMAINS: Record<string, string[]> = {
     'bt.com', 'virginmedia.com', 'xfinity.com', 'comcast.com', 'comcast.net', 'spectrum.com', 'spectrum.net',
     'cox.com', 'telstra.com.au', 'optus.com.au', 'rogers.com', 'bell.ca', 'telus.com', 'singtel.com',
     'csl.hk', 'hkt.com',
+    // 資安檢查
+    'virustotal.com', 'haveibeenpwned.com',
+    // 卡西歐（含 keisan.casio.jp 線上計算）
+    'casio.jp',
   ],
   lifestyle: [
     // 交通、外送、訂位、點餐、汽機車
@@ -397,6 +421,9 @@ const DOMAINS: Record<string, string[]> = {
     // 物流與郵務
     'ups.com', 'fedex.com', 'usps.com', 'dhl.com', 'royalmail.com', 'japanpost.jp', 'kuronekoyamato.co.jp',
     'sagawa-exp.co.jp', 'evri.com',
+    // 旅行路線、航班追蹤、搬家、生活費比較與法律諮詢
+    'flightradar24.com', 'rome2rio.com', 'selectra.jp', 'hikkoshi-sakusen.com', 'shipping.jp', 'bengo4.com',
+    'myheritage.com',
   ],
   finance: [
     'paypal.com', 'stripe.com', 'visa.com', 'mastercard.com', 'cathaybk.com.tw', 'ctbcbank.com',
@@ -457,6 +484,8 @@ const GOV_DOMAINS = new Set([
   'jstor.org', 'arxiv.org', 'nature.com', 'sciencedirect.com', 'elsevier.com', 'springer.com', 'wiley.com',
   'ieee.org', 'acm.org', 'researchgate.net', 'zotero.org', 'mendeley.com', 'ssrn.com', 'semanticscholar.org',
   'airitilibrary.com',
+  // 免費教材與公民科學
+  'openstax.org', 'alison.com', 'zooniverse.org',
 ])
 
 /** 廣告與追蹤常見的網域命名（rtb＝即時競價、dsp／ssp＝廣告需求方／供應方平台） */

@@ -62,11 +62,11 @@
 
 ## 安裝
 
-目前可從 [GitHub Releases 下載 v0.1.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.0)，無需自行打包。
+目前可從 [GitHub Releases 下載 v0.1.1](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.1)，無需自行打包。
 
 ### 下載安裝（建議）
 
-1. 下載發行附件 `cookie-manager-v0.1.0.zip` 並解壓縮（請勿選擇 Source code）。
+1. 下載發行附件 `cookie-manager-v0.1.1.zip` 並解壓縮（請勿選擇 Source code）。
 2. 開啟 `chrome://extensions`（Edge 為 `edge://extensions`）。
 3. 啟用 **開發人員模式**，點選 **載入未封裝項目**。
 4. 選擇解壓縮後包含 `manifest.json` 的資料夾。
@@ -150,8 +150,8 @@ CookieManager/
 
 | 分類 | 判斷方式 |
 | --- | --- |
-| 工作、社群、購物、影音娛樂、新聞媒體、搜尋與入口、開發與技術、3C品牌與電信、生活服務、金融理財 | 已知網域清單 |
-| 政府與教育 | 網域結尾，例如 `.gov.tw`、`.edu.tw`、`.go.jp` |
+| 工作、社群、購物、影音娛樂、新聞媒體、搜尋與入口、開發與技術、3C品牌與電信、生活服務、金融理財 | 已知網域清單（約 2,100 個，涵蓋台灣、日本、英美與國際常用網站） |
+| 政府與教育 | 網域結尾，例如 `.gov.tw`、`.edu.tw`、`.go.jp`、`.gov.uk`、`.gov.au`；以及線上課程、檢定考試與學術資料庫 |
 | 本機與區網 | IP 位址、`localhost`、`.local` 等 |
 | 廣告與追蹤 | 已知網域清單，以及常見的廣告追蹤網域命名 |
 
@@ -160,6 +160,7 @@ CookieManager/
 - 自動分類的標籤以虛線外框顯示，手動指定的以實線顯示。
 - 可在管理後台右上角「⋯」選單關閉自動分類。
 - 內建分類可以改名、換顏色或刪除；刪除後該分類的網站不會再被自動歸入。
+- 內建分類名稱沒改過時會跟著介面語言顯示；改過名稱後則一律顯示自訂名稱。
 - 規則位於 `src/lib/autoCategory.ts`，新增網域時加入對應分類的清單即可。
 
 ### 用 Excel 或 AI 批次修改分類

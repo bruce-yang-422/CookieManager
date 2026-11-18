@@ -62,11 +62,11 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 
 ## Installation
 
-Download the prebuilt extension from [GitHub Releases v0.1.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.0); no build is required.
+Download the prebuilt extension from [GitHub Releases v0.1.1](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.1); no build is required.
 
 ### Download and install (recommended)
 
-1. Download `cookie-manager-v0.1.0.zip` from the release assets and extract it (do not select Source code).
+1. Download `cookie-manager-v0.1.1.zip` from the release assets and extract it (do not select Source code).
 2. Open `chrome://extensions` (`edge://extensions` in Edge).
 3. Enable **Developer mode** and click **Load unpacked**.
 4. Select the extracted folder containing `manifest.json`.
@@ -150,8 +150,8 @@ The dashboard assigns sites to the built-in categories automatically, based on t
 
 | Category | Rule |
 | --- | --- |
-| Work, Social, Shopping, Entertainment, News & Media, Search & Portals, Development, Tech Brands & Telecom, Lifestyle & Services, Finance | Known domain lists |
-| Government & Education | Domain suffixes such as `.gov.tw`, `.edu.tw`, and `.go.jp` |
+| Work, Social, Shopping, Entertainment, News & Media, Search & Portals, Development, Tech Brands & Telecom, Lifestyle & Services, Finance | Known domain lists (about 2,100 domains covering popular sites in Taiwan, Japan, the US, the UK, and internationally) |
+| Government & Education | Domain suffixes such as `.gov.tw`, `.edu.tw`, `.go.jp`, `.gov.uk`, and `.gov.au`, plus online courses, exams, and academic databases |
 | Local & Network | IP addresses, `localhost`, `.local`, and similar |
 | Ads & Tracking | Known domain list, plus common ad and tracking domain names |
 
@@ -160,6 +160,7 @@ The dashboard assigns sites to the built-in categories automatically, based on t
 - Auto-assigned category labels have a dashed outline; manual ones have a solid outline.
 - Auto-categorization can be turned off from the "⋯" menu in the top-right corner of the dashboard.
 - Built-in categories can be renamed, recolored, or deleted; once deleted, sites are no longer auto-assigned to them.
+- Built-in category names follow the interface language until you rename them; renamed categories always show your custom name.
 - The rules live in `src/lib/autoCategory.ts`; to add a domain, add it to the matching category's list.
 
 ### Bulk-editing categories with Excel or AI
