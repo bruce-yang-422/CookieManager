@@ -4,7 +4,7 @@
 
 # Cookie Manager
 
-A Chrome / Edge extension to categorize, search, edit, import, export, and delete cookies by site. All data stays on your device.
+A Chrome / Edge extension to categorize, search, edit, import, export, and delete cookies by site, and to clear cache, Local Storage, IndexedDB, and other site data. All data stays on your device.
 
 [繁體中文](README.md) | **English**
 
@@ -55,6 +55,13 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 - Delete all cookies of the current tab in one click
 - Assign a category to the current site and open the dashboard
 
+### Site data (cache & storage)
+
+- Clear data for the current site, scoped to "This page" or "Whole site", optionally reloading the page afterwards
+- From the dashboard, clear specific sites or origins, clear several selected sites at once, or clear all sites with an exclusion list and a time range
+- Data types: HTTP cache, Cache Storage, service workers, Local Storage, IndexedDB, file systems & WebSQL, and cookies; only cache types are selected by default, so you stay signed in
+- Inspect the current page's storage and usage: view, edit, and delete Local / Session Storage items; delete individual IndexedDB databases and Cache Storage caches; unregister service workers
+
 ### General
 
 - UI available in Traditional Chinese, English, and Japanese; follows the browser language by default and can be switched manually
@@ -62,11 +69,15 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 
 ## Installation
 
-Download the prebuilt extension from [GitHub Releases v0.1.1](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.1); no build is required.
+### Install from the Chrome Web Store (recommended)
 
-### Download and install (recommended)
+Open the [Chrome Web Store page](https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb) and click "Add to Chrome". Updates are installed automatically. Microsoft Edge can also install it from the Chrome Web Store.
 
-1. Download `cookie-manager-v0.1.1.zip` from the release assets and extract it (do not select Source code).
+### Download from GitHub
+
+You can also download the prebuilt extension from [GitHub Releases v0.2.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.2.0); no build is required.
+
+1. Download `cookie-manager-v0.2.0.zip` from the release assets and extract it (do not select Source code).
 2. Open `chrome://extensions` (`edge://extensions` in Edge).
 3. Enable **Developer mode** and click **Load unpacked**.
 4. Select the extracted folder containing `manifest.json`.
@@ -202,6 +213,8 @@ See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html
 | `cookies` | Read, create, edit, and delete cookies |
 | `storage` | Store category settings locally |
 | `favicon` | Show site icons from the browser cache |
+| `browsingData` | Clear site cache, Cache Storage, Local Storage, IndexedDB and other site data |
+| `scripting` | View and manage Local Storage, IndexedDB, Cache Storage and service workers in the current tab |
 | `<all_urls>` | Manage cookies for any site |
 
 ## Known Limitations

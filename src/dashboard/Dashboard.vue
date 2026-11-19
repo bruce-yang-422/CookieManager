@@ -45,6 +45,9 @@ import CookieDrawer from './components/CookieDrawer.vue'
 import CategoryModal from './components/CategoryModal.vue'
 import ExportModal from './components/ExportModal.vue'
 import SiteListModal from './components/SiteListModal.vue'
+import ClearDataModal from './components/ClearDataModal.vue'
+import { hostsFromDomains } from '../lib/siteData'
+import type { DataType } from '../lib/siteData'
 import type { SiteRow } from '../lib/siteListExport'
 import { parseSiteList, readTextFile } from '../lib/siteListImport'
 
@@ -65,6 +68,8 @@ const drawerSite = ref<string | null>(null)
 const showCategoryModal = ref(false)
 const exportTargets = ref<string[]>([])
 const showExportModal = ref(false)
+const clearTargets = ref<string[]>([])
+const showClearModal = ref(false)
 
 // ---------- 分頁（受控狀態，每頁筆數會記住） ----------
 const PAGE_SIZE_KEY = 'cm-page-size'
@@ -278,6 +283,19 @@ const exportSites = computed(() => {
 function openExport(siteNames: string[]) {
   exportTargets.value = siteNames
   showExportModal.value = true
+}
+
+// ---------- 清除網站資料（快取、儲存空間） ----------
+const knownHosts = computed(() => hostsFromDomains(cookies.value.map((c) => c.domain)))
+
+/** 傳入網站時清除這些網站；不傳則開啟「所有網站」模式 */
+function openClearData(siteNames: string[] = []) {
+  clearTargets.value = siteNames
+  showClearModal.value = true
+}
+
+async function onDataCleared(types: DataType[]) {
+  if (types.includes('cookies')) await reloadCookies()
 }
 
 // ---------- 匯出網站清單（不含 Cookie 內容） ----------
@@ -501,13 +519,14 @@ const columns = computed<DataTableColumns<SiteGroup>>(() => [
   {
     title: t('dash.colActions'),
     key: 'actions',
-    width: 160,
+    width: 192,
     align: 'center',
     render: (row) =>
       h('div', { class: 'row-actions' }, [
         openSiteButton(row),
         iconButton('eye', t('dash.details'), () => (drawerSite.value = row.site)),
         iconButton('export', t('common.export'), () => openExport([row.site])),
+        iconButton('broom', t('dash.clearData'), () => openClearData([row.site])),
         h(
           NPopconfirm,
           {
@@ -572,6 +591,9 @@ async function applyBatchCategory(v: string | null) {
             <template #prefix><Icon name="search" /></template>
           </NInput>
           <div class="actions">
+            <NButton quaternary :title="t('dash.clearData')" @click="openClearData()">
+              <template #icon><Icon name="broom" /></template>
+            </NButton>
             <NButton quaternary :title="t('dash.refresh')" @click="refresh">
               <template #icon><Icon name="refresh" /></template>
             </NButton>
@@ -611,6 +633,10 @@ async function applyBatchCategory(v: string | null) {
               <template #icon><Icon name="export" /></template>
               {{ t('dash.exportCookies') }}
             </NButton>
+            <NButton size="small" secondary @click="openClearData([...checkedSites])">
+              <template #icon><Icon name="broom" /></template>
+              {{ t('dash.clearData') }}
+            </NButton>
             <NButton size="small" type="error" secondary @click="confirmBatchDelete">
               <template #icon><Icon name="trash" /></template>
               {{ t('dash.batchDelete') }}
@@ -644,6 +670,12 @@ async function applyBatchCategory(v: string | null) {
       @export="drawerSite && openExport([drawerSite])"
     />
     <ExportModal v-model:show="showExportModal" :sites="exportSites" />
+    <ClearDataModal
+      v-model:show="showClearModal"
+      :sites="clearTargets"
+      :known-hosts="knownHosts"
+      @cleared="onDataCleared"
+    />
     <SiteListModal
       v-model:show="showSiteListModal"
       :view="siteRowsView"

@@ -1,10 +1,14 @@
 {
   "extName": {
+    "message": "Cookie Manager – Cookies & Site Data",
+    "description": "Extension name shown in the store (max 75 characters)"
+  },
+  "extShortName": {
     "message": "Cookie Manager",
-    "description": "Extension name"
+    "description": "Short brand name for the toolbar tooltip"
   },
   "extDescription": {
-    "message": "Organize, search, edit, import, and export cookies by site. All data stays on your device.",
+    "message": "Organize, edit, import and export cookies by site, and clear cache, Local Storage and IndexedDB. All data stays on your device.",
     "description": "Extension description (max 132 characters)"
   }
 }

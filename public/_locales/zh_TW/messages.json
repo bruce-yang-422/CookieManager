@@ -1,10 +1,14 @@
 {
   "extName": {
+    "message": "Cookie Manager – Cookie 與網站資料管理",
+    "description": "Extension name shown in the store (max 75 characters)"
+  },
+  "extShortName": {
     "message": "Cookie Manager",
-    "description": "Extension name"
+    "description": "Short brand name for the toolbar tooltip"
   },
   "extDescription": {
-    "message": "依網站分類、搜尋、編輯、匯入與匯出 Cookie。所有資料只存在本機。",
+    "message": "依網站分類、搜尋、編輯、匯入與匯出 Cookie，並可清除快取、Local Storage、IndexedDB 等網站資料。所有資料只存在本機。",
     "description": "Extension description (max 132 characters)"
   }
 }

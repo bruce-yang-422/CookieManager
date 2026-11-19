@@ -4,7 +4,7 @@
 
 # Cookie Manager
 
-依網站分類、搜尋、編輯、匯入匯出與刪除 Cookie 的 Chrome / Edge 擴充功能。所有資料只存在本機。
+依網站分類、搜尋、編輯、匯入匯出與刪除 Cookie，並可清除快取、Local Storage、IndexedDB 等網站資料的 Chrome / Edge 擴充功能。所有資料只存在本機。
 
 **繁體中文** | [English](README.en.md)
 
@@ -55,6 +55,13 @@
 - 一鍵刪除目前分頁的所有 Cookie
 - 替目前網站設定分類、開啟管理後台
 
+### 網站資料（快取與儲存空間）
+
+- 清除目前網站的資料：依「此頁面」或「整個網站」範圍，可選擇是否清除後重新載入頁面
+- 管理後台可清除指定網站或來源、勾選多個網站批次清除，或清除所有網站並設定排除清單與時間範圍
+- 可清除的類型：HTTP 快取、Cache Storage、Service Worker、Local Storage、IndexedDB、檔案系統與 WebSQL、Cookie；預設只勾選快取類，不會讓網站登出
+- 檢視目前頁面的儲存空間與用量：Local / Session Storage 可檢視、編輯、刪除；IndexedDB 資料庫與 Cache Storage 可個別刪除；Service Worker 可取消註冊
+
 ### 共通
 
 - 介面支援繁體中文、English、日本語，預設跟隨瀏覽器語言，可手動切換
@@ -62,11 +69,15 @@
 
 ## 安裝
 
-目前可從 [GitHub Releases 下載 v0.1.1](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.1.1)，無需自行打包。
+### 從 Chrome 線上應用程式商店安裝（建議）
 
-### 下載安裝（建議）
+前往 [Chrome 線上應用程式商店](https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb) 按「加到 Chrome」即可，之後會自動更新。Microsoft Edge 也可以從 Chrome 線上應用程式商店安裝。
 
-1. 下載發行附件 `cookie-manager-v0.1.1.zip` 並解壓縮（請勿選擇 Source code）。
+### 從 GitHub 下載安裝
+
+也可以從 [GitHub Releases 下載 v0.2.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.2.0)，無需自行打包。
+
+1. 下載發行附件 `cookie-manager-v0.2.0.zip` 並解壓縮（請勿選擇 Source code）。
 2. 開啟 `chrome://extensions`（Edge 為 `edge://extensions`）。
 3. 啟用 **開發人員模式**，點選 **載入未封裝項目**。
 4. 選擇解壓縮後包含 `manifest.json` 的資料夾。
@@ -202,6 +213,8 @@ CookieManager/
 | `cookies` | 讀取、建立、編輯與刪除 Cookie |
 | `storage` | 在本機儲存分類設定 |
 | `favicon` | 從瀏覽器快取顯示網站圖示 |
+| `browsingData` | 清除網站快取、Cache Storage、Local Storage、IndexedDB 等網站資料 |
+| `scripting` | 在目前分頁中檢視與管理 Local Storage、IndexedDB、Cache Storage 與 Service Worker |
 | `<all_urls>` | 管理任何網站的 Cookie |
 
 ## 已知限制

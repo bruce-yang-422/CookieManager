@@ -189,6 +189,7 @@ h2 { font-size: clamp(26px, 4vw, 36px); }
 
 /* 安裝 */
 .install { display: grid; grid-template-columns: 1fr 1.4fr; gap: 18px; }
+.store-btn { margin-top: 14px; }
 .badge { display: inline-block; font-size: 12px; font-weight: 600; color: var(--cookie-strong); background: var(--cookie-soft); border: 1px solid var(--line-warm); border-radius: 999px; padding: 2px 12px; margin-top: 14px; }
 ol.steps { margin: 12px 0 0; padding: 0; list-style: none; counter-reset: step; color: var(--muted); }
 ol.steps li { counter-increment: step; position: relative; padding-left: 38px; margin: 12px 0; }

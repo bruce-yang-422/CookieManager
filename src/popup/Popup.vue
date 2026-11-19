@@ -17,6 +17,7 @@ import {
 } from '../lib/cookies'
 import { NONE, loadData, localizeCategories, resolveCategory, saveData, type AppData } from '../storage'
 import { useTheme } from '../lib/theme'
+import { formatBytes, inspectTab, type StorageSnapshot } from '../lib/siteData'
 import Icon from '../lib/Icon.vue'
 import LanguageSelect from '../lib/LanguageSelect.vue'
 import CategoryPill from '../lib/CategoryPill.vue'
@@ -24,8 +25,9 @@ import { t } from '../i18n'
 import CookieEditor from './components/CookieEditor.vue'
 import ImportPanel from './components/ImportPanel.vue'
 import ExportPanel from './components/ExportPanel.vue'
+import StoragePanel from './components/StoragePanel.vue'
 
-type View = 'list' | 'new' | 'import' | 'export'
+type View = 'list' | 'new' | 'import' | 'export' | 'storage'
 type Scope = 'page' | 'site'
 
 const SCOPE_KEY = 'cm-popup-scope'
@@ -34,7 +36,9 @@ const { palette } = useTheme()
 
 const loading = ref(true)
 const busy = ref(false)
+const tabId = ref<number | null>(null)
 const tabUrl = ref('')
+const origin = ref('')
 const host = ref('')
 const site = ref<string | null>(null)
 const isHttps = ref(false)
@@ -83,7 +87,9 @@ onMounted(async () => {
   try {
     const url = new URL(tab?.url ?? '')
     if (url.protocol === 'http:' || url.protocol === 'https:') {
+      tabId.value = tab?.id ?? null
       tabUrl.value = url.href
+      origin.value = url.origin
       host.value = url.hostname
       isHttps.value = url.protocol === 'https:'
       site.value = siteOf(url.hostname)
@@ -93,6 +99,42 @@ onMounted(async () => {
   }
   await load()
   loading.value = false
+  await loadStorage()
+})
+
+// ---------- 網站資料摘要（快取與儲存空間） ----------
+const storage = ref<StorageSnapshot | null>(null)
+const storageError = ref(false)
+
+async function loadStorage() {
+  if (tabId.value === null) return
+  try {
+    storage.value = await inspectTab(tabId.value)
+    storageError.value = false
+  } catch {
+    storage.value = null
+    storageError.value = true
+  }
+}
+
+/** 數量不為 0 的儲存類型 */
+const storageChips = computed(() => {
+  const s = storage.value
+  if (!s) return []
+  return [
+    { label: 'Local Storage', n: s.local.length },
+    { label: 'Session', n: s.session.length },
+    { label: 'IndexedDB', n: s.databases.length },
+    { label: 'Cache Storage', n: s.caches.length },
+    { label: 'Service Worker', n: s.workers.length },
+  ].filter((c) => c.n > 0)
+})
+
+const storageUsage = computed(() => (storage.value?.usage != null ? formatBytes(storage.value.usage) : ''))
+
+// 從網站資料頁返回列表時更新摘要
+watch(view, (v, old) => {
+  if (old === 'storage' && v === 'list') loadStorage()
 })
 
 const filtered = computed(() => {
@@ -183,6 +225,7 @@ async function importCookies(drafts: CookieDraft[]) {
 
 // ---------- 畫面 ----------
 function viewTitle(v: View): string {
+  if (v === 'storage') return t('data.title')
   return v === 'new' ? t('pop.newTitle') : v === 'import' ? t('pop.importTitle') : t('pop.exportTitle')
 }
 
@@ -210,7 +253,10 @@ function openDashboard() {
       <img v-else class="logo" src="/assets/icons/icon48.png" alt="" />
       <div class="title">
         <div class="host">{{ site ? (scope === 'page' ? host : site) : 'Cookie Manager' }}</div>
-        <div v-if="site" class="sub">{{ t('common.cookieCount', { n: cookies.length }) }}</div>
+        <div v-if="site" class="sub">
+          {{ t('common.cookieCount', { n: cookies.length }) }}
+          <template v-if="storageUsage"> · {{ t('data.title') }} {{ storageUsage }}</template>
+        </div>
       </div>
       <LanguageSelect size="small" />
       <NButton quaternary size="small" :title="t('common.openDashboard')" @click="openDashboard">
@@ -260,6 +306,31 @@ function openDashboard() {
               <template #prefix><Icon name="search" /></template>
             </NInput>
           </div>
+          <!-- 網站資料摘要：點選進入管理 -->
+          <button
+            v-if="tabId !== null"
+            type="button"
+            class="storage-bar"
+            :title="t('data.inspectNote', { origin })"
+            @click="view = 'storage'"
+          >
+            <Icon name="database" size="16" class="storage-icon" />
+            <span class="storage-main">
+              <span class="storage-title">
+                {{ t('data.title') }}
+                <span v-if="storageUsage" class="storage-usage">{{ storageUsage }}</span>
+              </span>
+              <span class="storage-chips">
+                <template v-if="storageError">{{ t('data.unreadable') }}</template>
+                <template v-else-if="!storage">…</template>
+                <template v-else-if="!storageChips.length">{{ t('data.empty') }}</template>
+                <span v-for="c in storageChips" v-else :key="c.label" class="chip">
+                  {{ c.label }} <b>{{ c.n }}</b>
+                </span>
+              </span>
+            </span>
+            <span class="storage-chev"><Icon name="chevron" /></span>
+          </button>
           <NScrollbar class="content">
             <NEmpty
               v-if="!filtered.length"
@@ -315,6 +386,14 @@ function openDashboard() {
               :importing="busy"
               @import="importCookies"
             />
+            <StoragePanel
+              v-else-if="view === 'storage' && tabId !== null"
+              :tab-id="tabId"
+              :origin="origin"
+              :site="site"
+              :scope="scope"
+              @changed="load"
+            />
             <ExportPanel v-else :cookies="cookies" :name="scope === 'page' ? host : site" />
           </div>
         </NScrollbar>
@@ -340,6 +419,14 @@ function openDashboard() {
                 : t('pop.confirmDeleteAllSite', { n: cookies.length })
             }}
           </NPopconfirm>
+          <button
+            class="dock-btn"
+            :class="{ active: view === 'storage' }"
+            :disabled="tabId === null"
+            @click="toggleView('storage')"
+          >
+            <Icon name="database" size="18" /><span>{{ t('data.title') }}</span>
+          </button>
           <button class="dock-btn" :class="{ active: view === 'import' }" @click="toggleView('import')">
             <Icon name="import" size="18" /><span>{{ t('common.import') }}</span>
           </button>
@@ -473,6 +560,78 @@ function openDashboard() {
   min-height: 0;
 }
 
+/* 網站資料摘要列 */
+.storage-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 14px 10px;
+  padding: 8px 10px 8px 12px;
+  border: 1px solid var(--cm-border);
+  border-radius: var(--cm-radius-lg);
+  background: var(--cm-surface);
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.storage-bar:hover {
+  border-color: color-mix(in srgb, var(--cm-primary) 40%, var(--cm-border));
+  box-shadow: var(--cm-shadow);
+}
+
+.storage-icon {
+  flex: none;
+  color: var(--cm-primary);
+}
+
+.storage-main {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.storage-title {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.storage-usage {
+  margin-left: 6px;
+  font-weight: 400;
+  font-size: 12px;
+  color: var(--cm-muted);
+}
+
+.storage-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: 11.5px;
+  color: var(--cm-muted);
+}
+
+.chip {
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--cm-surface-2);
+  border: 1px solid var(--cm-border);
+}
+
+.chip b {
+  color: var(--cm-text);
+  font-weight: 600;
+}
+
+.storage-chev {
+  display: grid;
+  color: var(--cm-muted);
+  transform: rotate(-90deg);
+}
+
 /* Cookie 清單：每筆都是圓角卡片 */
 .list {
   display: grid;
@@ -575,7 +734,7 @@ function openDashboard() {
 /* 底部浮動工具列 */
 .dock {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 4px;
   margin: 0 14px 14px;
   padding: 5px;
