@@ -127,6 +127,7 @@ npm run build
 | UI 元件庫 | [Naive UI](https://www.naiveui.com/) |
 | 程式語言 | TypeScript（strict 模式） |
 | 資料儲存 | `chrome.storage.local`（純本機，無後端） |
+| 網站資料 | `chrome.browsingData`（清除）、`chrome.scripting`（在分頁中檢視與管理儲存空間） |
 
 ## 專案結構
 
@@ -135,10 +136,10 @@ CookieManager/
 ├── src/
 │   ├── background/        # Service Worker（首次安裝時開啟管理後台）
 │   ├── popup/             # 工具列小視窗
-│   │   └── components/    # Cookie 編輯表單、匯入面板、匯出面板
+│   │   └── components/    # Cookie 編輯表單、匯入面板、匯出面板、網站資料面板
 │   ├── dashboard/         # 管理後台
-│   │   └── components/    # Cookie 明細、分類管理、匯出視窗
-│   ├── lib/               # Cookie 操作、自動分類規則、匯入匯出格式、分類備份、共用元件
+│   │   └── components/    # Cookie 明細、分類管理、匯出視窗、清除網站資料視窗
+│   ├── lib/               # Cookie 與網站資料操作、自動分類規則、匯入匯出格式、分類備份、共用元件
 │   ├── i18n/              # 介面翻譯
 │   │   └── locales/       # zh-TW.ts（主要）、en.ts、ja.ts
 │   ├── storage/           # 分類資料讀寫
@@ -146,6 +147,7 @@ CookieManager/
 ├── public/_locales/       # 擴充功能名稱與說明的翻譯（Chrome 格式）
 ├── assets/icons/          # 擴充功能圖示（logo.png 為原圖，logo.ico 為網站 favicon）
 ├── scripts/               # 建置輔助腳本（產生圖示）
+├── StoreAssets/           # Chrome 線上應用程式商店的圖片與上架文字
 ├── index.html             # 介紹網站（GitHub Pages）
 ├── privacy.html           # 隱私權政策
 ├── site/                  # 介紹網站共用的樣式與語言切換
@@ -204,6 +206,7 @@ CookieManager/
 - 不收集、不傳送任何使用者資料，沒有後端伺服器
 - 不使用分析工具、廣告或任何第三方服務
 - 不載入遠端程式碼
+- 網站資料（快取與儲存空間）只在本機讀取與清除，清除只在使用者操作時執行
 - 匯出的 Cookie 檔案直接下載到本機；檔案含有登入憑證，請妥善保管
 
 完整內容請見 [隱私權政策](https://cookie-manager.stack-base.com/privacy.html)。
@@ -211,11 +214,11 @@ CookieManager/
 | 權限 | 用途 |
 | --- | --- |
 | `cookies` | 讀取、建立、編輯與刪除 Cookie |
-| `storage` | 在本機儲存分類設定 |
+| `storage` | 在本機儲存分類設定與清除網站資料的設定 |
 | `favicon` | 從瀏覽器快取顯示網站圖示 |
 | `browsingData` | 清除網站快取、Cache Storage、Local Storage、IndexedDB 等網站資料 |
 | `scripting` | 在目前分頁中檢視與管理 Local Storage、IndexedDB、Cache Storage 與 Service Worker |
-| `<all_urls>` | 管理任何網站的 Cookie |
+| `<all_urls>` | 管理任何網站的 Cookie 與網站資料 |
 
 ## 已知限制
 
@@ -223,6 +226,11 @@ CookieManager/
 - 不會列出分區 Cookie（CHIPS）
 - 主網站使用內建規則判斷，少數特殊網域可能歸類不精確
 - 自動分類依網域清單與命名規則判斷，可能有歸錯或無法判斷的網站，可手動修正
+- 依網站清除 Cookie 時，瀏覽器會清除整個主網域的 Cookie；排除網站時也會保留整個主網域的 Cookie
+- 瀏覽器無法列出哪些來源存有資料，清除整個網站時只能涵蓋從 Cookie 與開啟中分頁找到的子網域
+- 「檢視儲存空間」只讀取目前分頁的頂層頁面，不含內嵌框架；Chrome 線上應用程式商店等受保護的頁面無法讀取
+- Session Storage 無法透過瀏覽器的清除功能移除，只能在「網站資料」面板中手動清除
+- 瀏覽器不提供單一網站的 HTTP 快取用量，因此儲存空間用量不含 HTTP 快取
 
 ## 參與貢獻
 

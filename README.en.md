@@ -127,6 +127,7 @@ After pulling new code and rebuilding, click the reload button (↻) on the exte
 | UI library | [Naive UI](https://www.naiveui.com/) |
 | Language | TypeScript (strict mode) |
 | Storage | `chrome.storage.local` (local only, no backend) |
+| Site data | `chrome.browsingData` (clearing), `chrome.scripting` (inspecting and managing storage in the tab) |
 
 ## Project Structure
 
@@ -135,10 +136,10 @@ CookieManager/
 ├── src/
 │   ├── background/        # Service worker (opens the dashboard on first install)
 │   ├── popup/             # Toolbar popup
-│   │   └── components/    # Cookie editor form, import panel, export panel
+│   │   └── components/    # Cookie editor form, import panel, export panel, site data panel
 │   ├── dashboard/         # Dashboard
-│   │   └── components/    # Cookie details, category manager, export dialog
-│   ├── lib/               # Cookie operations, auto-categorization rules, import/export formats, category backup, shared components
+│   │   └── components/    # Cookie details, category manager, export dialog, clear site data dialog
+│   ├── lib/               # Cookie and site data operations, auto-categorization rules, import/export formats, category backup, shared components
 │   ├── i18n/              # UI translations
 │   │   └── locales/       # zh-TW.ts (primary), en.ts, ja.ts
 │   ├── storage/           # Category data read/write
@@ -146,6 +147,7 @@ CookieManager/
 ├── public/_locales/       # Extension name and description translations (Chrome format)
 ├── assets/icons/          # Extension icons (logo.png is the source image, logo.ico is the website favicon)
 ├── scripts/               # Build helper scripts (icon generation)
+├── StoreAssets/           # Chrome Web Store images and listing text
 ├── index.html             # Project website (GitHub Pages)
 ├── privacy.html           # Privacy policy
 ├── site/                  # Shared styles and language switching for the website
@@ -204,6 +206,7 @@ Supported languages: Traditional Chinese (`zh-TW`), English (`en`), and Japanese
 - Collects and transmits no user data; there is no backend server
 - No analytics, advertising, or third-party services
 - No remote code is loaded
+- Site data (cache and storage) is read and cleared only on your device, and clearing happens only when you start it
 - Exported cookie files are downloaded straight to your device; they contain login credentials, so keep them safe
 
 See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html).
@@ -211,11 +214,11 @@ See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html
 | Permission | Purpose |
 | --- | --- |
 | `cookies` | Read, create, edit, and delete cookies |
-| `storage` | Store category settings locally |
+| `storage` | Store category settings and site data clearing settings locally |
 | `favicon` | Show site icons from the browser cache |
 | `browsingData` | Clear site cache, Cache Storage, Local Storage, IndexedDB and other site data |
 | `scripting` | View and manage Local Storage, IndexedDB, Cache Storage and service workers in the current tab |
-| `<all_urls>` | Manage cookies for any site |
+| `<all_urls>` | Manage cookies and site data for any site |
 
 ## Known Limitations
 
@@ -223,6 +226,11 @@ See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html
 - Partitioned cookies (CHIPS) are not listed
 - The main site is determined by built-in rules, so a few unusual domains may be grouped imprecisely
 - Auto-categorization relies on domain lists and naming rules, so some sites may be miscategorized or left uncategorized; you can correct them manually
+- When cookies are cleared by site, the browser clears cookies for the whole registrable domain; excluding a site also keeps cookies for the whole registrable domain
+- The browser cannot list which origins hold data, so clearing a whole site only covers subdomains found in cookies and open tabs
+- "Inspect storage" reads only the top-level page of the current tab, not embedded frames; protected pages such as the Chrome Web Store cannot be read
+- Session Storage cannot be removed by the browser's clearing API; clear it manually in the "Site data" panel
+- The browser does not report HTTP cache usage per site, so storage usage excludes the HTTP cache
 
 ## Contributing
 

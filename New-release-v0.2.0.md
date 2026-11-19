@@ -50,9 +50,15 @@ Cookie Manager v0.2.0：新增網站資料管理，可清除快取、Local Stora
 
 GitHub 的「Select a previous tag to create generated release notes」：選 `v0.1.1`。
 
+## 發行狀態
+
+- [x] GitHub Release：<https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.2.0>（附件已確認與本機 zip 相同）
+- [ ] Chrome 線上應用程式商店：已上傳 `Releases/cookie-manager-v0.2.0.zip`；第一次送審因商店說明「關鍵字垃圾內容」被退件，說明已改寫，待重新送審
+
 ## Chrome 線上應用程式商店上傳
 
-上傳 `Releases/cookie-manager-v0.2.0.zip`，並在「隱私權實務」補上新權限的用途：
+上傳 `Releases/cookie-manager-v0.2.0.zip`。商品說明、單一用途、各權限理由與網站存取權限理由，請使用 [StoreAssets/listing.md](StoreAssets/listing.md) 的內容。
 
-- `browsingData`：Clears cache, Cache Storage, Local Storage, IndexedDB, service workers and other site data for the sites the user chooses, only when the user starts a clear action.
-- `scripting`：Reads and manages Local Storage, Session Storage, IndexedDB, Cache Storage and service workers of the current tab, only when the user opens the toolbar popup, to show storage usage and let the user view, edit or delete them. No data leaves the browser.
+「資料使用情形」除了原本的「驗證資訊」與「網頁記錄」，加勾「網站內容」（會讀取網站儲存在瀏覽器中的資料）。
+
+送審前請確認線上的[隱私權政策](https://cookie-manager.stack-base.com/privacy.html)已更新（最後更新日 2026-11-19）。

@@ -15,3 +15,12 @@
 已確認所有展示圖與宣傳圖為 8-bit RGB PNG，沒有 alpha 透明通道。商店圖示保留既有 PNG 透明背景。
 
 規格來源：https://developer.chrome.com/docs/webstore/cws-dashboard-listing
+
+## 上架文字
+
+[listing.md](listing.md) 收錄目前版本（v0.2.0）的商店文字，可直接複製貼上：
+
+- 商品詳細資料的說明（繁體中文、English、日本語）
+- 隱私權實務：單一用途說明、各權限的理由、網站存取權限的理由
+
+撰寫商店說明時，請用一般使用者看得懂的語言描述功能，不要在一句中列舉大量技術名詞。v0.2.0 曾因列出「HTTP 快取、Cache Storage、Service Worker、Local Storage、IndexedDB…」被以「關鍵字垃圾內容」退件。權限理由欄位只給審查人員看，可以寫得技術化。
