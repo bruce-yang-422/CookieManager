@@ -128,12 +128,12 @@
           <p class="lead" data-i18n="shots.lead">彩色分類、快速搜尋與批次操作，在同一個管理畫面完成。</p>
         </div>
         <figure class="dashboard-shot">
-          <a href="assets/screenshots/dashboard.png" target="_blank" rel="noopener"><img src="assets/screenshots/dashboard.png" width="1920" height="1230" alt="Cookie Manager 管理後台：網站清單與彩色分類，使用示範資料" loading="lazy" /></a>
+          <a href="assets/screenshots/dashboard.png" data-i18n-href="shots.dashboardSrc" target="_blank" rel="noopener"><img src="assets/screenshots/dashboard.png" data-i18n-src="shots.dashboardSrc" width="1280" height="800" alt="Cookie Manager 管理後台：網站清單與彩色分類，使用示範資料" loading="lazy" /></a>
           <figcaption data-i18n="shots.note">實際介面截圖 · 使用虛構示範資料</figcaption>
         </figure>
         <div class="visual-stories">
           <article class="visual-story">
-            <img src="assets/illustrations/organize.png" width="1536" height="1024" alt="藍色資料夾與餅乾，象徵依網站分類" loading="lazy" />
+            <img src="assets/screenshots/cookie-editor.png" data-i18n-src="shots.editorSrc" width="1280" height="800" alt="Cookie Manager Cookie 編輯與網站資料管理畫面，使用虛構示範資料" loading="lazy" />
             <div><h3 data-i18n="f1.t">依網站分類</h3><p data-i18n="f1.d">Cookie 會依主網站自動合併，再用自訂的彩色分類整理，例如工作、購物、社群。</p></div>
           </article>
           <article class="visual-story">
@@ -291,6 +291,8 @@ curl -H "Cookie: session_id=a1f9c2e7" \
     // 英文與日文翻譯；繁體中文直接取自頁面上的原文
     const I18N = {
       en: {
+        'shots.dashboardSrc': 'assets/screenshots/dashboard-en.png',
+        'shots.editorSrc': 'assets/screenshots/cookie-editor-en.png',
         'shots.note': 'Actual interface · Synthetic demo data',
         'shots.title': 'Every site, at a glance',
         'shots.lead': 'Color-coded categories, quick search, and batch actions in one dashboard.',
@@ -353,6 +355,8 @@ curl -H "Cookie: session_id=a1f9c2e7" \
         'install.s4': 'Click <strong>Load unpacked</strong> and select the extracted folder containing <code>manifest.json</code>.',
       },
       ja: {
+        'shots.dashboardSrc': 'assets/screenshots/dashboard-ja.png',
+        'shots.editorSrc': 'assets/screenshots/cookie-editor-ja.png',
         'shots.note': '実際の画面 · 架空のデモデータを使用',
         'shots.title': 'すべてのサイトを、ひと目で',
         'shots.lead': '色分けした分類、検索、一括操作をひとつの管理画面で。',

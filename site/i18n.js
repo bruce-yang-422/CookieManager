@@ -16,6 +16,15 @@
     attrNodes.forEach((n) => {
       zh[n.dataset.i18nContent] = n.getAttribute('content')
     })
+    // 圖片等可隨語言切換的 src 屬性
+    const srcNodes = document.querySelectorAll('[data-i18n-src]')
+    srcNodes.forEach((n) => {
+      zh[n.dataset.i18nSrc] = n.getAttribute('src')
+    })
+    const hrefNodes = document.querySelectorAll('[data-i18n-href]')
+    hrefNodes.forEach((n) => {
+      zh[n.dataset.i18nHref] = n.getAttribute('href')
+    })
     const dicts = Object.assign({ 'zh-TW': zh }, translations)
     const select = document.getElementById('lang')
 
@@ -44,6 +53,14 @@
       attrNodes.forEach((n) => {
         const v = dict[n.dataset.i18nContent]
         if (v != null) n.setAttribute('content', v)
+      })
+      srcNodes.forEach((n) => {
+        const v = dict[n.dataset.i18nSrc]
+        if (v != null) n.setAttribute('src', v)
+      })
+      hrefNodes.forEach((n) => {
+        const v = dict[n.dataset.i18nHref]
+        if (v != null) n.setAttribute('href', v)
       })
       document.documentElement.lang = HTML_LANG[lang]
       if (select) select.value = lang
