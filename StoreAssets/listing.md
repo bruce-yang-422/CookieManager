@@ -12,7 +12,7 @@ Cookie Manager 讓你依網站整理、搜尋、編輯與匯出 Cookie，也能�
 
 【網站分類與管理】
 • 依主網站整合 Cookie，清楚查看各網站的 Cookie 數量。
-• 支援自動分類，也能新增分類、自訂名稱與顏色。
+• 自動分類可辨識常用服務、政府網域與各地入口網站，也能新增分類、自訂名稱與顏色。
 • 搜尋網站、Cookie 名稱或網域。
 • 刪除單一 Cookie、整個網站，或勾選多個網站批次處理。
 
@@ -22,18 +22,18 @@ Cookie Manager 讓你依網站整理、搜尋、編輯與匯出 Cookie，也能�
 • 調整 Secure、HttpOnly、SameSite 等屬性。
 • 複製 Cookie 值、名稱、name=value、JSON、Netscape 或 curl 標頭。
 
-【清除快取與網站資料】（v0.2.0 新增）
+【清除快取與網站資料】
 • 清除目前網站的快取，可選擇只清此頁面或整個網站，並在清除後自動重新載入頁面。
 • 在管理後台清除指定網站、勾選多個網站批次清除，或一次清除所有網站並保留你指定的網站。
 • 可自行選擇要清除哪些資料；預設只清除快取，不會讓網站登出。
 
-【檢視網站儲存空間】（v0.2.0 新增）
+【檢視網站儲存空間】
 • 在工具列視窗查看目前網站使用了多少儲存空間。
 • 檢視、編輯或刪除網站儲存在瀏覽器中的項目。
 
 【匯入與匯出】
 • 支援 JSON、Netscape（cookies.txt）與 HTTP Cookie Header。
-• 匯入時自動判斷格式。
+• 匯入時自動判斷格式，並支援 Big5、GB18030、Shift_JIS 與 Windows-1252 等舊式文字編碼。
 • 匯出檔案或複製到剪貼簿，方便網站測試及工具使用。
 • 匯出網站清單為 CSV、JSON 或 TXT。
 • 匯入網站分類，備份與還原分類設定。
@@ -66,7 +66,7 @@ Cookie Manager lets you organize, search, edit, and export cookies by site, and 
 
 SITE CATEGORIES AND MANAGEMENT
 • Cookies are grouped by main site, with a clear cookie count for each site.
-• Automatic categorization, plus custom categories with your own names and colors.
+• Automatic categorization recognizes common services, government domains, and regional portals; you can also create custom categories with your own names and colors.
 • Search by site, cookie name, or domain.
 • Delete a single cookie, a whole site, or several selected sites at once.
 
@@ -76,18 +76,18 @@ QUICK VIEW AND EDITING
 • Adjust Secure, HttpOnly, and SameSite attributes.
 • Copy a cookie's value, name, name=value, JSON, Netscape, or curl header.
 
-CLEAR CACHE AND SITE DATA (new in v0.2.0)
+CLEAR CACHE AND SITE DATA
 • Clear the current site's cache, for this page only or the whole site, and reload the page automatically.
 • From the dashboard, clear specific sites, clear selected sites in bulk, or clear all sites while keeping the ones you choose.
 • Choose which data to clear. Only the cache is cleared by default, so you stay signed in.
 
-INSPECT SITE STORAGE (new in v0.2.0)
+INSPECT SITE STORAGE
 • See how much storage the current site uses in the toolbar popup.
 • View, edit, or delete the items a site stores in your browser.
 
 IMPORT AND EXPORT
 • Supports JSON, Netscape (cookies.txt), and HTTP Cookie header.
-• The import format is detected automatically.
+• The import format is detected automatically, with legacy Big5, GB18030, Shift_JIS, and Windows-1252 text encoding support.
 • Export to a file or copy to the clipboard for website testing and other tools.
 • Export the site list as CSV, JSON, or TXT.
 • Import site categories, and back up and restore category settings.
@@ -120,7 +120,7 @@ Cookie Manager は、Cookie をサイトごとに整理・検索・編集・エ�
 
 【サイトの分類と管理】
 • Cookie をメインサイトごとにまとめ、サイトごとの Cookie 数をひと目で確認できます。
-• 自動分類に対応し、分類の追加や名前・色のカスタマイズもできます。
+• 一般的なサービス、政府ドメイン、各地域のポータルサイトを自動分類できます。分類の追加や名前・色のカスタマイズにも対応しています。
 • サイト、Cookie 名、ドメインで検索できます。
 • Cookie 1 件、サイト全体、または選択した複数のサイトを一括で削除できます。
 
@@ -130,18 +130,18 @@ Cookie Manager は、Cookie をサイトごとに整理・検索・編集・エ�
 • Secure、HttpOnly、SameSite などの属性を調整できます。
 • Cookie の値、名前、name=value、JSON、Netscape、curl ヘッダーをコピーできます。
 
-【キャッシュとサイトデータの削除】（v0.2.0 の新機能）
+【キャッシュとサイトデータの削除】
 • 現在のサイトのキャッシュを削除できます。このページのみ、またはサイト全体を選択でき、削除後にページを自動で再読み込みします。
 • 管理画面から、指定したサイトの削除、選択した複数サイトの一括削除、または残したいサイトを除いた全サイトの削除ができます。
 • 削除するデータは自由に選べます。初期設定ではキャッシュのみを削除するため、ログアウトしません。
 
-【サイトのストレージを確認】（v0.2.0 の新機能）
+【サイトのストレージを確認】
 • ツールバーのポップアップで、現在のサイトが使用しているストレージ容量を確認できます。
 • サイトがブラウザーに保存している項目を表示・編集・削除できます。
 
 【インポートとエクスポート】
 • JSON、Netscape（cookies.txt）、HTTP Cookie ヘッダーに対応しています。
-• インポート時に形式を自動で判別します。
+• インポート時に形式を自動判別し、Big5、GB18030、Shift_JIS、Windows-1252 などの従来の文字コードにも対応します。
 • ファイルへのエクスポートやクリップボードへのコピーで、サイトのテストやツールに活用できます。
 • サイト一覧を CSV、JSON、TXT でエクスポートできます。
 • サイト分類のインポート、分類設定のバックアップと復元ができます。
