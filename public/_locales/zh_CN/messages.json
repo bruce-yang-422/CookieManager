@@ -1,0 +1,11 @@
+{
+  "extName": {
+    "message": "Cookie Manager – Cookie 与网站数据"
+  },
+  "extShortName": {
+    "message": "Cookie Manager"
+  },
+  "extDescription": {
+    "message": "按网站整理、编辑、导入导出 Cookie，并清除缓存、Local Storage 与 IndexedDB。所有数据仅保存在你的设备上。"
+  }
+}

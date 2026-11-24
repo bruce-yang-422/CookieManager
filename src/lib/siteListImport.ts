@@ -20,7 +20,7 @@ export async function readTextFile(file: File): Promise<string> {
   try {
     text = new TextDecoder('utf-8', { fatal: true }).decode(buf)
   } catch {
-    const legacy = locale.value === 'ja' ? 'shift_jis' : locale.value === 'zh-TW' ? 'big5' : 'windows-1252'
+    const legacy = locale.value === 'ja' ? 'shift_jis' : locale.value === 'zh-TW' ? 'big5' : locale.value === 'zh-CN' ? 'gb18030' : 'windows-1252'
     text = new TextDecoder(legacy).decode(buf)
   }
   return text.replace(/^﻿/, '')

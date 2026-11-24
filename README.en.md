@@ -64,7 +64,7 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 
 ### General
 
-- UI available in Traditional Chinese, English, and Japanese; follows the browser language by default and can be switched manually
+- UI available in Traditional Chinese, Simplified Chinese, English, Japanese, German, Korean, French, Russian, and Spanish; follows the browser language by default and can be switched manually
 - Dark mode
 
 ## Installation
@@ -141,7 +141,7 @@ CookieManager/
 │   │   └── components/    # Cookie details, category manager, export dialog, clear site data dialog
 │   ├── lib/               # Cookie and site data operations, auto-categorization rules, import/export formats, category backup, shared components
 │   ├── i18n/              # UI translations
-│   │   └── locales/       # zh-TW.ts (primary), en.ts, ja.ts
+│   │   └── locales/       # Nine complete UI dictionaries (zh-TW.ts is primary)
 │   ├── storage/           # Category data read/write
 │   └── styles/            # Shared styles
 ├── public/_locales/       # Extension name and description translations (Chrome format)
@@ -188,10 +188,12 @@ Only sites whose category differs from the current one are changed, and those be
 
 ## Localization
 
-Supported languages: Traditional Chinese (`zh-TW`), English (`en`), and Japanese (`ja`).
+Supported languages: Traditional Chinese (`zh-TW`), Simplified Chinese (`zh-CN`), English (`en`), Japanese (`ja`), German (`de`), Korean (`ko`), French (`fr`), Russian (`ru`), and Spanish (`es`).
 
-- **UI language**: follows the browser language by default (Chinese → Traditional Chinese, Japanese → Japanese, anything else → English). Switch it from the language menu in the top-right corner of the popup or dashboard; the setting syncs across all pages.
+- **UI language**: follows the browser language by default. Simplified-Chinese regions use `zh-CN`, every other supported language uses its matching locale, and unsupported languages fall back to English. Switch it from the popup or dashboard; the setting syncs across all pages.
 - **Translation files**: `src/i18n/locales/`. `zh-TW.ts` is the primary language, and every other language file must contain the same keys; `npm run typecheck` reports any missing key.
+- **Technical terms**: standard Web terms such as Cookie, Local Storage, Session Storage, IndexedDB, Service Worker, Cache Storage, HttpOnly, SameSite, JSON, and Netscape remain in English in every locale.
+- **Legacy import encodings**: Shift_JIS for Japanese, Big5 for Traditional Chinese, GB18030 for Simplified Chinese, and Windows-1252 as the fallback for other locales when UTF-8 decoding fails.
 - **Parameters and plurals**: `{name}` in a message is replaced by a parameter. When singular and plural differ, write `"singular | plural"`; the form is chosen by the `n` parameter.
 - **Extension name and description**: `public/_locales/<language>/messages.json`.
 

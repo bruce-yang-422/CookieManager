@@ -1,0 +1,11 @@
+{
+  "extName": {
+    "message": "Cookie Manager – Cookie y datos del sitio"
+  },
+  "extShortName": {
+    "message": "Cookie Manager"
+  },
+  "extDescription": {
+    "message": "Gestiona, importa y exporta Cookie por sitio. Borra localmente la caché, Local Storage e IndexedDB."
+  }
+}

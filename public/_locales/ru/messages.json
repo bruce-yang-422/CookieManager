@@ -1,0 +1,11 @@
+{
+  "extName": {
+    "message": "Cookie Manager – Cookie и данные сайтов"
+  },
+  "extShortName": {
+    "message": "Cookie Manager"
+  },
+  "extDescription": {
+    "message": "Управляйте Cookie по сайтам, импортируйте и экспортируйте их. Локально очищайте кеш, Local Storage и IndexedDB."
+  }
+}

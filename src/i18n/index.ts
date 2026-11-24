@@ -1,27 +1,48 @@
 import { computed, ref, watchEffect } from 'vue'
-import { dateEnUS, dateJaJP, dateZhTW, enUS, jaJP, zhTW as naiveZhTW } from 'naive-ui'
+import {
+  dateDeDE, dateEnUS, dateEsES, dateFrFR, dateJaJP, dateKoKR, dateRuRU, dateZhCN, dateZhTW,
+  deDE, enUS, esES, frFR, jaJP, koKR, ruRU, zhCN as naiveZhCN, zhTW as naiveZhTW,
+} from 'naive-ui'
 import zhTW from './locales/zh-TW'
 import en from './locales/en'
 import ja from './locales/ja'
+import zhCN from './locales/zh-CN'
+import de from './locales/de'
+import ko from './locales/ko'
+import fr from './locales/fr'
+import ru from './locales/ru'
+import es from './locales/es'
 import type { Dictionary, MessageKey } from './types'
 
 export type { MessageKey }
-export type Locale = 'zh-TW' | 'en' | 'ja'
+export type Locale = 'zh-TW' | 'zh-CN' | 'en' | 'ja' | 'de' | 'ko' | 'fr' | 'ru' | 'es'
 export type LocaleMode = Locale | 'auto'
 
 /** 語言選單，名稱一律用該語言本身的寫法 */
 export const LOCALES: { value: Locale; label: string }[] = [
   { value: 'zh-TW', label: '繁體中文' },
+  { value: 'zh-CN', label: '简体中文' },
   { value: 'en', label: 'English' },
   { value: 'ja', label: '日本語' },
+  { value: 'de', label: 'Deutsch' },
+  { value: 'ko', label: '한국어' },
+  { value: 'fr', label: 'Français' },
+  { value: 'ru', label: 'Русский' },
+  { value: 'es', label: 'Español' },
 ]
 
-const DICTIONARIES: Record<Locale, Dictionary> = { 'zh-TW': zhTW, en, ja }
+const DICTIONARIES: Record<Locale, Dictionary> = { 'zh-TW': zhTW, 'zh-CN': zhCN, en, ja, de, ko, fr, ru, es }
 
 const NAIVE_LOCALES = {
   'zh-TW': { locale: naiveZhTW, dateLocale: dateZhTW },
+  'zh-CN': { locale: naiveZhCN, dateLocale: dateZhCN },
   en: { locale: enUS, dateLocale: dateEnUS },
   ja: { locale: jaJP, dateLocale: dateJaJP },
+  de: { locale: deDE, dateLocale: dateDeDE },
+  ko: { locale: koKR, dateLocale: dateKoKR },
+  fr: { locale: frFR, dateLocale: dateFrFR },
+  ru: { locale: ruRU, dateLocale: dateRuRU },
+  es: { locale: esES, dateLocale: dateEsES },
 } as const
 
 const KEY = 'cm-locale'
@@ -29,18 +50,24 @@ const KEY = 'cm-locale'
 function readMode(): LocaleMode {
   try {
     const v = localStorage.getItem(KEY)
-    if (v === 'zh-TW' || v === 'en' || v === 'ja') return v
+    if (LOCALES.some((item) => item.value === v)) return v as Locale
   } catch {
     /* 無法存取時跟隨瀏覽器 */
   }
   return 'auto'
 }
 
-/** 依瀏覽器語言判斷：中文 → 繁中、日文 → 日文，其他 → 英文 */
+/** 依瀏覽器語言判斷；未支援的語言回退英文。 */
 function detect(): Locale {
   const lang = (chrome.i18n?.getUILanguage?.() ?? navigator.language).toLowerCase()
+  if (lang.startsWith('zh-cn') || lang.startsWith('zh-sg') || lang.startsWith('zh-hans')) return 'zh-CN'
   if (lang.startsWith('zh')) return 'zh-TW'
   if (lang.startsWith('ja')) return 'ja'
+  if (lang.startsWith('de')) return 'de'
+  if (lang.startsWith('ko')) return 'ko'
+  if (lang.startsWith('fr')) return 'fr'
+  if (lang.startsWith('ru')) return 'ru'
+  if (lang.startsWith('es')) return 'es'
   return 'en'
 }
 

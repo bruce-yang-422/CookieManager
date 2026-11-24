@@ -24,7 +24,7 @@
 
 [listing.md](listing.md) 收錄目前版本（v0.2.0）的商店文字，可直接複製貼上：
 
-- 商品詳細資料的說明（繁體中文、English、日本語）
+- 商品詳細資料的說明目前提供繁體中文、English、日本語；外掛 UI 另支援简体中文、Deutsch、한국어、Français、Русский、Español
 - 隱私權實務：單一用途說明、各權限的理由、網站存取權限的理由
 
 撰寫商店說明時，請用一般使用者看得懂的語言描述功能，不要在一句中列舉大量技術名詞。v0.2.0 曾因列出「HTTP 快取、Cache Storage、Service Worker、Local Storage、IndexedDB…」被以「關鍵字垃圾內容」退件。權限理由欄位只給審查人員看，可以寫得技術化。

@@ -1,0 +1,11 @@
+{
+  "extName": {
+    "message": "Cookie Manager – Cookie 및 사이트 데이터"
+  },
+  "extShortName": {
+    "message": "Cookie Manager"
+  },
+  "extDescription": {
+    "message": "사이트별로 Cookie를 정리, 편집, 가져오기 및 내보내기하고 캐시, Local Storage, IndexedDB를 삭제합니다. 모든 데이터는 기기에만 저장됩니다."
+  }
+}

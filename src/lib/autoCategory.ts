@@ -251,7 +251,8 @@ const DOMAINS: Record<string, string[]> = {
     'google.com.sg', 'google.co.in', 'google.es', 'google.it', 'google.com.br', 'google.com.mx',
     // 其他搜尋引擎與入口網站
     'yimg.jp', 'yimg.com', 'goo.ne.jp', 'excite.co.jp', 'startpage.com', 'qwant.com', 'kagi.com', 'you.com',
-    'aol.com', 'ask.com', 'seznam.cz', 'sogou.com', 'so.com', '360.cn', 'yahoo.com.tw', 'yahoo.com.hk',
+    'aol.com', 'ask.com', 'seznam.cz', 'sogou.com', 'so.com', '360.cn', 'hao123.com', 'yahoo.com.tw', 'yahoo.com.hk',
+    'nate.com', 'zum.com', 't-online.de', 'web.de', 'gmx.de', 'orange.fr', 'rambler.ru', 'mail.ru',
     // 百科、字典與參考資料
     'wolframalpha.com', 'archive.org', 'wiktionary.org', 'wikidata.org', 'wikiwand.com', 'britannica.com',
     'weblio.jp', 'kotobank.jp', 'dictionary.com', 'merriam-webster.com', 'thesaurus.com', 'urbandictionary.com',
@@ -462,7 +463,7 @@ for (const [category, list] of Object.entries(DOMAINS)) {
 
 /** 政府與教育機構的網域結尾 */
 const GOV_SUFFIXES = [
-  '.gov', '.gov.tw', '.edu', '.edu.tw', '.go.jp', '.ac.jp', '.lg.jp', '.gov.uk', '.ac.uk', '.gov.cn',
+  '.gov', '.gov.tw', '.edu', '.edu.tw', '.go.jp', '.ac.jp', '.lg.jp', '.gov.uk', '.ac.uk', '.gov.cn', '.gov.de',
   '.edu.cn', '.gov.hk', '.edu.hk', '.gov.sg', '.edu.sg', '.mil', '.int',
   '.ed.jp', '.police.uk', '.sch.uk', '.gov.au', '.edu.au', '.gc.ca', '.govt.nz', '.ac.nz', '.go.kr', '.ac.kr',
   '.gov.in', '.ac.in', '.gouv.fr', '.gob.mx', '.gov.br', '.gov.my', '.edu.my', '.go.th', '.ac.th', '.gov.ph',
@@ -474,6 +475,7 @@ const GOV_DOMAINS = new Set([
   'newtaipei.travel', 'taiwantrip.com.tw', 'transportdata.tw', 'taipower.com.tw', 'cambridge.org', 'prepedu.com',
   // 政府與國際組織
   'nhs.uk', 'europa.eu', 'un.org', 'oecd.org', 'worldbank.org', 'imf.org', 'redcross.org',
+  'bund.de', 'service-public.fr', 'kremlin.ru', 'government.ru', 'gov.cn', 'korea.kr',
   // 線上課程與語言學習
   'coursera.org', 'udemy.com', 'edx.org', 'khanacademy.org', 'duolingo.com', 'quizlet.com', 'skillshare.com',
   'udacity.com', 'codecademy.com', 'brilliant.org', 'chegg.com', 'studocu.com', 'benesse.jp', 'studysapuri.jp',

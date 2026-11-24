@@ -49,7 +49,7 @@ Cookie Manager 讓你依網站整理、搜尋、編輯與匯出 Cookie，也能�
 • 不需要帳號，不含廣告、分析追蹤工具或遠端程式碼。
 
 【介面】
-支援繁體中文、英文、日本語，以及深色模式。
+支援繁體中文、简体中文、英文、日本語、Deutsch、한국어、Français、Русский、Español，以及深色模式。
 
 適合需要檢查網站登入狀態、測試 Cookie 設定、清除網站快取以排除載入問題，或整理瀏覽器 Cookie 的使用者。
 
@@ -103,7 +103,7 @@ DATA ACCESS AND PRIVACY
 • No account required. No ads, analytics, trackers, or remote code.
 
 INTERFACE
-Available in Traditional Chinese, English, and Japanese, with dark mode.
+Available in Traditional Chinese, Simplified Chinese, English, Japanese, German, Korean, French, Russian, and Spanish, with dark mode.
 
 For anyone who needs to check sign-in state, test cookie settings, clear a site's cache to fix loading problems, or tidy up browser cookies.
 
@@ -157,7 +157,7 @@ Cookie Manager は、Cookie をサイトごとに整理・検索・編集・エ�
 • アカウント不要。広告、分析・トラッキングツール、リモートコードは含まれていません。
 
 【画面】
-繁体字中国語、英語、日本語、ダークモードに対応しています。
+繁体字・簡体字中国語、英語、日本語、ドイツ語、韓国語、フランス語、ロシア語、スペイン語、ダークモードに対応しています。
 
 サイトのログイン状態の確認、Cookie 設定のテスト、読み込みの問題を解決するためのキャッシュ削除、ブラウザーの Cookie の整理をしたい方に。
 

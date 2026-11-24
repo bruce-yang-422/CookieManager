@@ -64,7 +64,7 @@
 
 ### 共通
 
-- 介面支援繁體中文、English、日本語，預設跟隨瀏覽器語言，可手動切換
+- 介面支援繁體中文、简体中文、English、日本語、Deutsch、한국어、Français、Русский、Español，預設跟隨瀏覽器語言，可手動切換
 - 支援深色模式
 
 ## 安裝
@@ -141,7 +141,7 @@ CookieManager/
 │   │   └── components/    # Cookie 明細、分類管理、匯出視窗、清除網站資料視窗
 │   ├── lib/               # Cookie 與網站資料操作、自動分類規則、匯入匯出格式、分類備份、共用元件
 │   ├── i18n/              # 介面翻譯
-│   │   └── locales/       # zh-TW.ts（主要）、en.ts、ja.ts
+│   │   └── locales/       # 九種完整 UI 語言字典（zh-TW.ts 為主要語言）
 │   ├── storage/           # 分類資料讀寫
 │   └── styles/            # 共用樣式
 ├── public/_locales/       # 擴充功能名稱與說明的翻譯（Chrome 格式）
@@ -188,10 +188,12 @@ CookieManager/
 
 ## 多國語言
 
-支援繁體中文（`zh-TW`）、English（`en`）、日本語（`ja`）。
+支援繁體中文（`zh-TW`）、简体中文（`zh-CN`）、English（`en`）、日本語（`ja`）、Deutsch（`de`）、한국어（`ko`）、Français（`fr`）、Русский（`ru`）、Español（`es`）。
 
-- **介面語言**：預設跟隨瀏覽器語言（中文 → 繁體中文、日文 → 日本語、其他 → English），可在小視窗或管理後台右上角的語言選單切換，設定會在所有頁面同步。
+- **介面語言**：預設跟隨瀏覽器語言；簡體中文地區使用简体中文，其他支援語言使用對應翻譯，未支援的語言回退 English。可在小視窗或管理後台右上角切換，設定會在所有頁面同步。
 - **翻譯檔**：`src/i18n/locales/`。`zh-TW.ts` 是主要語言，其他語言檔必須包含相同的 key，缺少時 `npm run typecheck` 會報錯。
+- **技術術語**：Cookie、Local Storage、Session Storage、IndexedDB、Service Worker、Cache Storage、HttpOnly、SameSite、JSON、Netscape 等標準 Web 名詞在各語言中保留英文。
+- **舊編碼匯入**：日文支援 Shift_JIS、繁中支援 Big5、簡中支援 GB18030；其餘語言在 UTF-8 失敗時回退 Windows-1252。
 - **參數與單複數**：訊息中的 `{name}` 會被參數取代；需要區分單複數時寫成 `"單數 | 複數"`，依參數 `n` 選擇。
 - **擴充功能名稱與說明**：`public/_locales/<語言>/messages.json`。
 
