@@ -75,9 +75,9 @@
 
 ### 從 GitHub 下載安裝
 
-也可以從 [GitHub Releases 下載 v0.2.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.2.0)，無需自行打包。
+也可以從 [GitHub Releases 下載 v0.3.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0)，無需自行打包。
 
-1. 下載發行附件 `cookie-manager-v0.2.0.zip` 並解壓縮（請勿選擇 Source code）。
+1. 下載發行附件 `cookie-manager-v0.3.0.zip` 並解壓縮（請勿選擇 Source code）。
 2. 開啟 `chrome://extensions`（Edge 為 `edge://extensions`）。
 3. 啟用 **開發人員模式**，點選 **載入未封裝項目**。
 4. 選擇解壓縮後包含 `manifest.json` 的資料夾。

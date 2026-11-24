@@ -75,9 +75,9 @@ Open the [Chrome Web Store page](https://chromewebstore.google.com/detail/cookie
 
 ### Download from GitHub
 
-You can also download the prebuilt extension from [GitHub Releases v0.2.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.2.0); no build is required.
+You can also download the prebuilt extension from [GitHub Releases v0.3.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0); no build is required.
 
-1. Download `cookie-manager-v0.2.0.zip` from the release assets and extract it (do not select Source code).
+1. Download `cookie-manager-v0.3.0.zip` from the release assets and extract it (do not select Source code).
 2. Open `chrome://extensions` (`edge://extensions` in Edge).
 3. Enable **Developer mode** and click **Load unpacked**.
 4. Select the extracted folder containing `manifest.json`.

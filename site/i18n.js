@@ -1,9 +1,9 @@
 // Cookie Manager 介紹網站的語言切換（首頁與隱私權政策共用）
-// 繁體中文直接取自頁面原文；英文與日文由各頁面傳入字典。
+// 繁體中文直接取自頁面原文；其他語言由各頁面傳入字典。
 // 語言選擇存在 localStorage，切換頁面時會保留。
 ;(function () {
   const STORAGE_KEY = 'cm-site-lang'
-  const HTML_LANG = { 'zh-TW': 'zh-Hant', en: 'en', ja: 'ja' }
+  const HTML_LANG = { 'zh-TW': 'zh-Hant', 'zh-CN': 'zh-Hans', en: 'en', ja: 'ja', de: 'de', ko: 'ko', fr: 'fr', ru: 'ru', es: 'es' }
 
   window.initI18n = function (translations) {
     const nodes = document.querySelectorAll('[data-i18n]')
@@ -38,8 +38,14 @@
         /* 無法存取時忽略 */
       }
       const nav = (navigator.language || '').toLowerCase()
+      if (nav.startsWith('zh-cn') || nav.startsWith('zh-sg') || nav.startsWith('zh-hans')) return 'zh-CN'
       if (nav.startsWith('zh')) return 'zh-TW'
       if (nav.startsWith('ja')) return 'ja'
+      if (nav.startsWith('de')) return 'de'
+      if (nav.startsWith('ko')) return 'ko'
+      if (nav.startsWith('fr')) return 'fr'
+      if (nav.startsWith('ru')) return 'ru'
+      if (nav.startsWith('es')) return 'es'
       return 'en'
     }
 

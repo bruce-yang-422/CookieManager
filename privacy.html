@@ -21,8 +21,14 @@
       </div>
       <select class="lang" id="lang" aria-label="Language">
         <option value="zh-TW">繁體中文</option>
+        <option value="zh-CN">简体中文</option>
         <option value="en">English</option>
         <option value="ja">日本語</option>
+        <option value="de">Deutsch</option>
+        <option value="ko">한국어</option>
+        <option value="fr">Français</option>
+        <option value="ru">Русский</option>
+        <option value="es">Español</option>
       </select>
     </div>
   </nav>
@@ -85,9 +91,11 @@
   </footer>
 
   <script src="site/i18n.js"></script>
+  <script src="site/i18n-extra.js"></script>
   <script>
-    // 英文與日文翻譯；繁體中文直接取自頁面上的原文
+    // 繁體中文直接取自頁面原文；其他語言由字典提供
     const I18N = {
+      ...(window.EXTRA_I18N?.privacy || {}),
       en: {
         'meta.title': 'Privacy Policy — Cookie Manager',
         'nav.features': 'Features',
