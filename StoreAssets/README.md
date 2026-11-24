@@ -1,6 +1,6 @@
 # Chrome Web Store 圖片資產
 
-此資料夾提供九種語言的商店頁素材，圖片可直接上傳；尚未代為上傳。
+此資料夾提供 Cookie Manager v0.3.0 的九種語言商店頁素材，圖片與商品說明可直接用於 Chrome 線上應用程式商店；尚未代為上傳。
 
 | 檔案 | 尺寸 | 上傳欄位 |
 | --- | --- | --- |
@@ -40,4 +40,4 @@
 - 商品詳細資料與外掛 UI 均支援繁體中文、简体中文、English、日本語、Deutsch、한국어、Français、Русский、Español
 - 隱私權實務：單一用途說明、各權限的理由、網站存取權限的理由
 
-撰寫商店說明時，請用一般使用者看得懂的語言描述功能，不要在一句中列舉大量技術名詞。v0.2.0 曾因列出「HTTP 快取、Cache Storage、Service Worker、Local Storage、IndexedDB…」被以「關鍵字垃圾內容」退件。權限理由欄位只給審查人員看，可以寫得技術化。
+商品說明採一般使用者能理解的功能導向寫法，避免為了關鍵字而密集列舉技術名詞。Cookie、Local Storage、Session Storage、IndexedDB、Service Worker、Cache Storage、HttpOnly、SameSite、JSON 與 Netscape 等標準 Web 名詞在各語言中保留英文；權限理由欄位只供審查人員閱讀，可使用較精確的技術描述。
