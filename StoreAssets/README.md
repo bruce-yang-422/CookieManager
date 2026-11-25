@@ -1,12 +1,12 @@
 # Chrome Web Store 圖片資產
 
-此資料夾提供 Cookie Manager v0.3.1 的九種語言商店頁素材，圖片與商品說明可直接用於 Chrome 線上應用程式商店；尚未代為上傳。
+此資料夾提供 Cookie Manager 的九種語言商店頁素材。圖片已上傳至 Chrome 線上應用程式商店並通過審核。各語言商品說明的適用版本標示於各檔案內。
 
 | 檔案 | 尺寸 | 上傳欄位 |
 | --- | --- | --- |
 | store-icon-128.png | 128×128 | 商店圖示 |
-| 01-dashboard-1280x800.png | 1280×800 | 在地化螢幕截圖，第 1 張 |
-| 02-cookie-editor-1280x800.png | 1280×800 | 在地化螢幕截圖，第 2 張 |
+| zh-TW/01-dashboard-1280x800.png | 1280×800 | 繁體中文在地化螢幕截圖，第 1 張 |
+| zh-TW/02-cookie-editor-1280x800.png | 1280×800 | 繁體中文在地化螢幕截圖，第 2 張 |
 | en/01-dashboard-1280x800.png | 1280×800 | 英文在地化螢幕截圖 |
 | en/02-cookie-editor-1280x800.png | 1280×800 | 英文 Cookie 編輯與網站資料螢幕截圖 |
 | ja/01-dashboard-1280x800.png | 1280×800 | 日文在地化螢幕截圖 |
@@ -34,7 +34,7 @@
 
 ## 上架文字
 
-[listing.md](listing.md) 保留商店文字與隱私權審查資料；九種語言另有獨立商品說明檔，可直接複製貼上：
+九種語言各有獨立的商品說明檔，可直接複製貼上：
 
 - [description.zh-TW.md](description.zh-TW.md)、[description.en.md](description.en.md)、[description.ja.md](description.ja.md)、[description.zh-CN.md](description.zh-CN.md)、[description.de.md](description.de.md)、[description.ko.md](description.ko.md)、[description.fr.md](description.fr.md)、[description.ru.md](description.ru.md)、[description.es.md](description.es.md)
 - 商品詳細資料與外掛 UI 均支援繁體中文、简体中文、English、日本語、Deutsch、한국어、Français、Русский、Español

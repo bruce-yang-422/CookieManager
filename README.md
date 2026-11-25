@@ -195,7 +195,7 @@ CookieManager/
 - **舊編碼匯入**：日文支援 Shift_JIS、繁中支援 Big5、簡中支援 GB18030；其餘語言在 UTF-8 失敗時回退 Windows-1252。
 - **參數與單複數**：訊息中的 `{name}` 會被參數取代；需要區分單複數時寫成 `"單數 | 複數"`，依參數 `n` 選擇。
 - **擴充功能名稱與說明**：`public/_locales/<語言>/messages.json`。
-- **Chrome 線上應用程式商店說明**：`StoreAssets/description.<語言>.md` 提供九種語言的 完整商品說明；`StoreAssets/listing.md` 另保留隱私權審查欄位文字。
+- **Chrome 線上應用程式商店說明**：`StoreAssets/description.<語言>.md` 提供九種語言的商品說明。
 
 ## 隱私權與權限
 

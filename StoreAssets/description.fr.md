@@ -1,6 +1,6 @@
 # Description du Chrome Web Store — Français
 
-Version : v0.3.1
+Version : v0.3.2
 
 ```text
 Cookie Manager vous permet d'organiser, de rechercher, d'éditer et d'exporter des Cookie par site, et d'effacer le cache et les données stockées d'un site. Gérez le site actuel depuis la barre d'outils ou ouvrez le tableau de bord pour gérer les Cookie pour chaque site en un seul endroit.

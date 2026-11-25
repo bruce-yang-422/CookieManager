@@ -195,7 +195,7 @@ Supported languages: Traditional Chinese (`zh-TW`), Simplified Chinese (`zh-CN`)
 - **Legacy import encodings**: Shift_JIS for Japanese, Big5 for Traditional Chinese, GB18030 for Simplified Chinese, and Windows-1252 as the fallback for other locales when UTF-8 decoding fails.
 - **Parameters and plurals**: `{name}` in a message is replaced by a parameter. When singular and plural differ, write `"singular | plural"`; the form is chosen by the `n` parameter.
 - **Extension name and description**: `public/_locales/<language>/messages.json`.
-- **Chrome Web Store descriptions**: `StoreAssets/description.<locale>.md` contains the complete listing copy in all nine languages; `StoreAssets/listing.md` also retains the privacy-review field text.
+- **Chrome Web Store descriptions**: `StoreAssets/description.<locale>.md` contains the listing copy in all nine languages.
 
 ## Privacy and Permissions
 

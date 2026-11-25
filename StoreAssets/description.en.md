@@ -1,6 +1,6 @@
 # Chrome Web Store Description — English
 
-Version: v0.3.1
+Version: v0.3.2
 
 ```text
 Cookie Manager lets you organize, search, edit, and export cookies by site, and clear a site's cache and stored data. Handle the current site from the toolbar, or open the dashboard to manage cookies for every site in one place.
