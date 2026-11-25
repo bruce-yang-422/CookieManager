@@ -33,6 +33,9 @@ export const BUILTIN_CATEGORIES: BuiltinCategory[] = [
 /** 已知網域 → 分類 */
 const DOMAINS: Record<string, string[]> = {
   ads: [
+    'adklip.net', 'admixer.co.kr', 'applovin.com', 'cquotient.com', 'decibelinsight.net',
+    'dotmetrics.net', 'ispot.tv', 'navdmp.com', 'pub.network', 'pxf.io',
+    'retarglow.com', 'sjv.io', 'trustx.org', 'vrtcal.com',
     // 廣告聯播、競價、追蹤與分析
     '2mdn.net', '33across.com', '360yield.com', '3lift.com', '4dex.io', 'a-mo.net', 'a-mx.com', 'abr.ge',
     'acuityplatform.com', 'ad-m.asia', 'ad-stir.com', 'ad2iction.com', 'adform.net', 'adingo.jp', 'adition.com',
@@ -96,6 +99,7 @@ const DOMAINS: Record<string, string[]> = {
     'hs-scripts.com', 'hsadspixel.net', 'usbrowserspeed.com', 'tiqcdn.com', 'contentsquare.net', 'quantummetric.com',
   ],
   social: [
+    'disp.cc', 'eyny.com', 'linktr.ee', 'portaly.cc', 'zhihu.com',
     'facebook.com', 'facebook.net', 'fbcdn.net', 'messenger.com', 'instagram.com', 'threads.net', 'twitter.com',
     'x.com', 't.co', 'twimg.com', 'linkedin.com', 'licdn.com', 'reddit.com', 'redditmedia.com', 'redditstatic.com',
     'pinterest.com', 'tiktok.com', 'tiktokcdn.com', 'line.me', 'line-scdn.net', 'discord.com', 'discord.gg',
@@ -113,6 +117,11 @@ const DOMAINS: Record<string, string[]> = {
     'togetter.com', 'peing.net', 'marshmallow-qa.com',
   ],
   shopping: [
+    'kikifg.com',
+    '486shop.com', 'amzn.to', 'campfiretw.com', 'campmeow.com.tw', 'giftflower.com.tw',
+    'gnc.com.tw', 'hanchor.com', 'hebronnutrition.com', 'iherb.com', 'iopenmall.tw',
+    'lativ.com.tw', 'lovemetoys.com.tw', 'shop.app', 'smzdm.com', 'tmall.hk',
+    'watsons.com.tw', 'zeczec.com',
     'amazon.com', 'amazon.co.jp', 'ebay.com', 'shopee.tw', 'shopee.com', 'shopee.co.th', 'shopee.sg',
     'momoshop.com.tw', 'pchome.com.tw', 'ruten.com.tw', 'books.com.tw', 'etmall.com.tw', 'rakuten.com.tw',
     'rakuten.co.jp', 'taobao.com', 'tmall.com', 'aliexpress.com', 'alibaba.com', 'costco.com', 'costco.com.tw',
@@ -161,6 +170,10 @@ const DOMAINS: Record<string, string[]> = {
     'camelcamelcamel.com', 'aucfan.com', 'cosme.net', 'baycrews.jp', 'thebase.in', 'base.shop',
   ],
   entertainment: [
+    'imgartists.com',
+    'bilibili.cn', 'biligame.com', 'farlightgames.com', 'ffxiv.com.tw', 'gliastudios.com',
+    'gryphline.com', 'kkbox.events', 'opentix.life', 'qookkagames.com', 'scribd.com',
+    'travian.com', 'wargaming.net', 'worldofwarships.asia',
     'youtube.com', 'ytimg.com', 'googlevideo.com', 'youtube-nocookie.com', 'netflix.com', 'nflxvideo.net',
     'twitch.tv', 'spotify.com', 'kkbox.com', 'disneyplus.com', 'hulu.com', 'primevideo.com', 'bilibili.com',
     'nicovideo.jp', 'vimeo.com', 'dailymotion.com', 'kktv.me', 'litv.tv', 'linetv.tw', 'myvideo.net.tw',
@@ -198,6 +211,11 @@ const DOMAINS: Record<string, string[]> = {
     'uta-net.com', 'riffusion.com',
   ],
   news: [
+    'free.com.tw', 'lai-media.net',
+    'ahui3c.com', 'catwant.com.tw', 'commonhealth.com.tw', 'condenastdigital.com', 'daai.tv',
+    'epochtimes.com', 'gq.com.tw', 'heho.com.tw', 'juksy.com', 'life.tw',
+    'marieclaire.com.tw', 'mirrordaily.news', 'shoppingdesign.com.tw', 'techbang.com', 'theinitium.com',
+    'wenxuecity.com', 'wowtchout.com',
     'udn.com', 'ltn.com.tw', 'chinatimes.com', 'ettoday.net', 'setn.com', 'tvbs.com.tw', 'cna.com.tw',
     'storm.mg', 'thenewslens.com', 'businessweekly.com.tw', 'businesstoday.com.tw', 'cw.com.tw', 'nownews.com',
     'mirrormedia.mg', 'ebc.net.tw', 'cnyes.com', 'technews.tw', 'inside.com.tw', 'bnext.com.tw', 'twreporter.org',
@@ -243,6 +261,7 @@ const DOMAINS: Record<string, string[]> = {
     'feedly.com', 'flipboard.com', 'newsbreak.com', 'inoreader.com', 'producthunt.com', 'ycombinator.com',
   ],
   search: [
+    'baike.com', 'coccoc.com', 'doodles.google', 'twzipcode.com',
     'google.com', 'google.com.tw', 'google.co.jp', 'bing.com', 'yahoo.com', 'yahoo.co.jp', 'baidu.com',
     'duckduckgo.com', 'naver.com', 'msn.com', 'yandex.com', 'ecosia.org', 'wikipedia.org', 'daum.net',
     'yandex.ru', 'qq.com', 'sohu.com', 'wp.pl', 'wikimedia.org', 'wikisource.org', 'grokipedia.com', '8s8s.com',
@@ -261,6 +280,12 @@ const DOMAINS: Record<string, string[]> = {
     'gutenberg.org', 'openculture.com', 'aozora.gr.jp', 'calculatorsoup.com', 'openstreetmap.org', 'okwave.jp',
   ],
   work: [
+    'copilot.com', 'everprinter.com', 'getsolved.ai', 'hipaper.com.tw', 'kpoint.com.tw',
+    'pitchat.co',
+    'buffer.com', 'canny.io', 'circleboom.com', 'copyleaks.com', 'deevid.ai',
+    'editmysite.com', 'flowplayer.com', 'lndata.com', 'metricool.com', 'mindbox.ru',
+    'narrative.io', 'oen.tw', 'salesmartly.com', 'topmediai.com', 'turboscribe.ai',
+    'wishmobile.com', 'zoominfo.com', 'capcut.com',
     'microsoft.com', 'microsoftonline.com', 'live.com', 'office.com', 'office.net', 'sharepoint.com',
     'outlook.com', 'slack.com', 'notion.so', 'notion.com', 'zoom.us', 'atlassian.net', 'atlassian.com',
     'trello.com', 'asana.com', 'monday.com', 'figma.com', 'canva.com', 'dropbox.com', 'box.com', 'airtable.com',
@@ -312,6 +337,9 @@ const DOMAINS: Record<string, string[]> = {
     'henkan-muryo.com', 'syncer.jp',
   ],
   dev: [
+    'qrcoderaptor.com',
+    'cloud.microsoft', 'getadblock.com', 'getfireshot.com', 'on.aws', 'qwen.ai',
+    'qwencloud.com', 'run.app',
     'github.com', 'githubusercontent.com', 'github.io', 'gitlab.com', 'bitbucket.org', 'stackoverflow.com',
     'stackexchange.com', 'npmjs.com', 'vercel.com', 'vercel.app', 'netlify.com', 'netlify.app', 'cloudflare.com',
     'digitalocean.com', 'heroku.com', 'amazonaws.com', 'azure.com', 'firebaseapp.com', 'supabase.com',
@@ -350,6 +378,11 @@ const DOMAINS: Record<string, string[]> = {
     'opensourcealternative.to',
   ],
   tech: [
+    'pernis.com.tw',
+    'acronis.com', 'anydesk.com', 'aomeitech.com', 'azofreeware.com', 'coolermaster.com',
+    'easeus.com', 'fractal-design.com', 'google.play', 'jonsbo.com', 'kaspersky.com.tw',
+    'lac.com.tw', 'macrium.com', 'predatorstorage.com', 'serif.com', 'tatung.com',
+    'tencent.com',
     // 3C、軟硬體品牌
     'apple.com', 'icloud.com', 'android.com', 'mi.com', 'xiaomi.com', 'samsung.com', 'asus.com', 'acer.com',
     'msi.com', 'gigabyte.com', 'sony.com', 'sony.com.tw', 'lg.com', 'panasonic.com', 'philips.com', 'dell.com',
@@ -387,6 +420,12 @@ const DOMAINS: Record<string, string[]> = {
     'casio.jp',
   ],
   lifestyle: [
+    'antifat.com.tw', 'deyachting.net', 'ghsha.com', 'homexin.com.tw', 'myjourney.tw',
+    'nash.tw', 'sf-labourlawyer.com', 'shoushanyan.org.tw', 'tasterbar.com', 'wekengo.tw',
+    'addcn.com', 'dianthushealth.com.tw', 'edah.org.tw', 'expediagroup.com', 'fliggy.com',
+    'getyourguide.com', 'hanchao.com', 'icook.tw', 'lawplayer.com', 'legis-pedia.com',
+    'nissin.com', 'oceans-nadia.com', 'openrice.com', 'pizzahut.com.tw', 'pro360.com.tw',
+    'shinyeh.com.tw',
     // 交通、外送、訂位、點餐、汽機車
     'uber.com', 'lalamove.com', 'inline.app', 'imomomenu.com', 'eztable.com', 'opentable.com', 'grab.com',
     'gogoro.com', 'wemoscooter.com', 'irentcar.com.tw', 'thsrc.com.tw', 'railway.gov.tw', 'toyota.com.tw',
@@ -427,6 +466,8 @@ const DOMAINS: Record<string, string[]> = {
     'myheritage.com',
   ],
   finance: [
+    'bankee.com.tw', 'nanshanlife.com.tw', 'newnewbank.com.tw', 'richart.tw', 'skl.com.tw',
+    'tbb.com.tw',
     'paypal.com', 'stripe.com', 'visa.com', 'mastercard.com', 'cathaybk.com.tw', 'ctbcbank.com',
     'esunbank.com.tw', 'fubon.com', 'taishinbank.com.tw', 'megabank.com.tw', 'landbank.com.tw', 'sinopac.com',
     'firstbank.com.tw', 'hncb.com.tw', 'tcb-bank.com.tw', 'jkopay.com', 'binance.com', 'coinbase.com',
@@ -472,6 +513,8 @@ const GOV_SUFFIXES = [
 
 /** 不在政府網域結尾內、但屬於政府或公營機構的網站 */
 const GOV_DOMAINS = new Set([
+  'hrlearning.com.tw', 'lifehacker.tw',
+  'campusfrance.org', 'culture.tw', 'gov.taipei', 'gov.tw', 'jaxa.jp', 'kronbergacademy.de', 'vtaiwan.tw',
   'newtaipei.travel', 'taiwantrip.com.tw', 'transportdata.tw', 'taipower.com.tw', 'cambridge.org', 'prepedu.com',
   // 政府與國際組織
   'nhs.uk', 'europa.eu', 'un.org', 'oecd.org', 'worldbank.org', 'imf.org', 'redcross.org',
