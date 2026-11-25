@@ -61,7 +61,7 @@ window.EXTRA_I18N = {
       "install.store.d": "已上架 Chrome 线上应用程式商店，一键安装并自动更新。Microsoft Edge 也可以从 Chrome 线上应用程式商店安装。",
       "install.store.btn": "前往 Chrome 线上应用程式商店",
       "install.manual.t": "从 GitHub 下载安装",
-      "install.s1": "前往 <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0\">GitHub Releases v0.3.0</a>，下载 <code>cookie-manager-v0.3.0.zip</code> 并解压缩。",
+      "install.s1": "下载 <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip\"><code>cookie-manager-v0.3.1.zip</code></a> 并解压缩。",
       "install.s2": "开启 <code>chrome://extensions</code>（Edge 为 <code>edge://extensions</code>）。",
       "install.s3": "开启右上角的「开发人员模式」。",
       "install.s4": "点选「载入未封装项目」，选择解压缩后包含 <code>manifest.json</code> 的数据夹。"
@@ -127,7 +127,7 @@ window.EXTRA_I18N = {
       "install.store.d": "Verfügbar im Chrome Web Store: Installieren Sie mit einem Klick und erhalten Sie automatische Updates. Microsoft Edge kann es auch von der Chrome Web Store.",
       "install.store.btn": "Holen Sie es auf dem Chrome Webshop",
       "install.manual.t": "Installieren von GitHub",
-      "install.s1": "Download <code>cookie-manager-v0.3.0.zip</code> von <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0\">GitHub Releases v0.3.0</a> und es zu extrahieren.",
+      "install.s1": "<a href=\"https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip\"><code>cookie-manager-v0.3.1.zip</code></a> herunterladen und entpacken.",
       "install.s2": "Offen <code>chrome://Erweiterungen</code> ()<code>edge://extensions</code> In Edge.",
       "install.s3": "Einschalten <strong>Entwicklermodus</strong> In der oberen rechten Ecke.",
       "install.s4": "Klicken <strong>Ladung unverpackt</strong> und wählen Sie den extrahierten Ordner mit <code>manifest.json</code>."
@@ -193,7 +193,7 @@ window.EXTRA_I18N = {
       "install.store.d": "이용 가능 Chrome Web Store: 한 번의 클릭으로 설치하고 자동 업데이트를 받으세요. Microsoft Edge 또한 설치할 수 있습니다 Chrome 웹 스토어.",
       "install.store.btn": "내 계정 Chrome 웹 스토어",
       "install.manual.t": "설치하기 GitHub",
-      "install.s1": "다운로드 <code>cookie-manager v0.3.0.zip</code> 이름 * <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0\">GitHub Releases v0.3.0</a> 그리고 그것을 추출.",
+      "install.s1": "<a href=\"https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip\"><code>cookie-manager-v0.3.1.zip</code></a> 파일을 다운로드하고 압축을 풉니다.",
       "install.s2": "기타 <code>chrome://확약</code> (주)<code>가장자리://extensions</code> 에 가장자리).",
       "install.s3": "기타 제품 <strong>개발자 모드</strong> 상단 오른쪽 코너에서.",
       "install.s4": "이름 * <strong>짐 unpacked</strong> 추출한 폴더를 선택 <code>이름 *json</code>·"
@@ -259,7 +259,7 @@ window.EXTRA_I18N = {
       "install.store.d": "Disponible sur Chrome Web Store: installez en un seul clic et obtenez des mises à jour automatiques. Microsoft Edge peut également l'installer à partir du Chrome Boutique Web.",
       "install.store.btn": "Mets-le sur le Chrome Boutique Web",
       "install.manual.t": "Installer depuis GitHub",
-      "install.s1": "Télécharger <code>cookie-manager-v0.3.0.zip</code> de <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0\">GitHub Releases v0.3.0</a> et l'extraire.",
+      "install.s1": "Téléchargez <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip\"><code>cookie-manager-v0.3.1.zip</code></a> et extrayez son contenu.",
       "install.s2": "Ouvrir <code>chrome://extensions</code> (<code>edge://extensions</code> dans Edge).",
       "install.s3": "Allumez <strong>Mode développeur</strong> dans le coin supérieur droit.",
       "install.s4": "Cliquez sur <strong>Chargement déballé</strong> et sélectionnez le dossier extrait contenant <code>manifeste.json</code>."
@@ -325,7 +325,7 @@ window.EXTRA_I18N = {
       "install.store.d": "Доступный на Chrome Интернет-магазин: установите в один клик и получите автоматические обновления. Microsoft Edge Также можно установить его из Chrome Интернет-магазин.",
       "install.store.btn": "Включи его. Chrome Web Store",
       "install.manual.t": "Установить GitHub",
-      "install.s1": "скачать <code>cookie-manager v0.3.0.zip</code> из <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0\">GitHub Releases v0.3.0</a> и извлекать его.",
+      "install.s1": "Скачайте <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip\"><code>cookie-manager-v0.3.1.zip</code></a> и распакуйте архив.",
       "install.s2": "Открыть <code>chrome:// Расширение</code> ()<code>край://расширение</code> На краю.",
       "install.s3": "Включай <strong>Режим разработчика</strong> в правом верхнем углу.",
       "install.s4": "щелкнуть <strong>Груз неупакованный</strong> Выберите папку, содержащую <code>манифест.json</code>."
@@ -391,7 +391,7 @@ window.EXTRA_I18N = {
       "install.store.d": "Disponible en Chrome Web Store: instalar en un clic y obtener actualizaciones automáticas. Microsoft Edge también puede instalarlo desde el Chrome Web Store.",
       "install.store.btn": "Pónganlo en el Chrome Web Store",
       "install.manual.t": "Instalar desde GitHub",
-      "install.s1": "Descargar <code>cookie-manager-v0.3.0.zip</code> desde <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0\">GitHub Releases v0.3.0</a> y extraerlo.",
+      "install.s1": "Descarga <a href=\"https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip\"><code>cookie-manager-v0.3.1.zip</code></a> y descomprime el archivo.",
       "install.s2": "Abierto <code>chrome://extensions</code> (G)<code>edge://extensions</code> en Edge).",
       "install.s3": "Enciende <strong>Modo de desarrollo</strong> en la esquina superior derecha.",
       "install.s4": "Haga clic <strong>Carga desempaquetada</strong> y seleccionar la carpeta extraída que contiene <code>manifiesto.json</code>."

@@ -239,6 +239,31 @@ footer a:hover { color: var(--blue); }
 /* Product photography: actual Vue screens with synthetic demo data. */
 .product-shot { margin: 0; justify-self: center; width: min(100%, 360px); }
 .product-shot img { display: block; width: 100%; height: auto; border-radius: 18px; border: 1px solid var(--line); box-shadow: var(--shadow-lg); }
+/* Show only the editor panel from the localized two-panel screenshot. */
+html:not([lang="zh-Hant"]) .popup-preview {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: var(--panel-ratio);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+}
+html:not([lang="zh-Hant"]) .popup-preview img {
+  position: absolute;
+  border: 0;
+  border-radius: 0;
+  width: var(--panel-image-width);
+  max-width: none;
+  left: var(--panel-image-left);
+  top: var(--panel-image-top);
+}
+html[lang="en"] .popup-preview { --panel-ratio: 464 / 647; --panel-image-width: 275.86%; --panel-image-left: -34.05%; --panel-image-top: -19.47%; }
+html[lang="ja"] .popup-preview { --panel-ratio: 461 / 647; --panel-image-width: 277.66%; --panel-image-left: -34.92%; --panel-image-top: -19.47%; }
+html[lang="de"] .popup-preview { --panel-ratio: 491 / 644; --panel-image-width: 260.69%; --panel-image-left: -26.27%; --panel-image-top: -18.79%; }
+html[lang="ko"] .popup-preview { --panel-ratio: 440 / 638; --panel-image-width: 290.91%; --panel-image-left: -41.36%; --panel-image-top: -21.00%; }
+html[lang="fr"] .popup-preview { --panel-ratio: 467 / 631; --panel-image-width: 274.09%; --panel-image-left: -33.19%; --panel-image-top: -19.65%; }
+html[lang="ru"] .popup-preview { --panel-ratio: 455 / 642; --panel-image-width: 281.32%; --panel-image-left: -34.95%; --panel-image-top: -19.47%; }
+html[lang="es"] .popup-preview { --panel-ratio: 463 / 644; --panel-image-width: 276.46%; --panel-image-left: -33.91%; --panel-image-top: -19.10%; }
+html[lang="zh-Hans"] .popup-preview { --panel-ratio: 439 / 636; --panel-image-width: 291.57%; --panel-image-left: -41.91%; --panel-image-top: -21.70%; }
 figcaption { margin-top: 16px; text-align: center; font-size: 12px; color: var(--muted); }
 .showcase { padding-top: 24px; }
 .dashboard-shot { margin: 0; }

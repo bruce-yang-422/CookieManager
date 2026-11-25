@@ -65,10 +65,10 @@
     "description": "A Chrome / Edge extension to organize, search, edit, import, and export cookies by site, and clear cache, Local Storage, IndexedDB, and other site data. Supports JSON, Netscape (cookies.txt), and header strings. All data stays on your device.",
     "applicationCategory": "BrowserApplication",
     "operatingSystem": "Chrome, Microsoft Edge",
-    "softwareVersion": "0.3.0",
+    "softwareVersion": "0.3.1",
     "inLanguage": ["zh-Hant", "zh-Hans", "en", "ja", "de", "ko", "fr", "ru", "es"],
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "downloadUrl": "https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0",
+    "downloadUrl": "https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip",
     "installUrl": "https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb",
     "sameAs": ["https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb", "https://github.com/bruce-yang-422/CookieManager"],
     "author": { "@type": "Person", "name": "Bruce Yang" },
@@ -127,12 +127,14 @@
           <ul class="pills">
             <li data-i18n="hero.pill1">100% 本機運作</li>
             <li data-i18n="hero.pill2">免帳號</li>
-            <li>繁中 · English · 日本語</li>
+            <li data-i18n="hero.pill3">支援 9 種語言</li>
           </ul>
         </div>
 
         <figure class="product-shot">
-          <img src="assets/screenshots/popup.webp" width="600" height="870" alt="Cookie Manager 工具列視窗：示範 Cookie 搜尋與編輯" fetchpriority="high" />
+          <div class="popup-preview">
+            <img src="assets/screenshots/popup.webp" data-i18n-src="shots.popupSrc" width="600" height="870" alt="Cookie Manager" fetchpriority="high" />
+          </div>
           <figcaption data-i18n="shots.note">實際介面截圖 · 使用虛構示範資料</figcaption>
         </figure>
       </div>
@@ -286,7 +288,7 @@ curl -H "Cookie: session_id=a1f9c2e7" \
           <div class="card">
             <h3 data-i18n="install.manual.t">從 GitHub 下載安裝</h3>
             <ol class="steps">
-              <li data-i18n="install.s1">前往 <a href="https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0">GitHub Releases v0.3.0</a>，下載 <code>cookie-manager-v0.3.0.zip</code> 並解壓縮。</li>
+              <li data-i18n="install.s1">下載 <a href="https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip"><code>cookie-manager-v0.3.1.zip</code></a> 並解壓縮。</li>
               <li data-i18n="install.s2">開啟 <code>chrome://extensions</code>（Edge 為 <code>edge://extensions</code>）。</li>
               <li data-i18n="install.s3">開啟右上角的「開發人員模式」。</li>
               <li data-i18n="install.s4">點選「載入未封裝項目」，選擇解壓縮後包含 <code>manifest.json</code> 的資料夾。</li>
@@ -371,7 +373,7 @@ curl -H "Cookie: session_id=a1f9c2e7" \
         'install.store.d': 'Available on the Chrome Web Store: install in one click and get automatic updates. Microsoft Edge can also install it from the Chrome Web Store.',
         'install.store.btn': 'Get it on the Chrome Web Store',
         'install.manual.t': 'Install from GitHub',
-        'install.s1': 'Download <code>cookie-manager-v0.3.0.zip</code> from <a href="https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0">GitHub Releases v0.3.0</a> and extract it.',
+        'install.s1': 'Download <a href="https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip"><code>cookie-manager-v0.3.1.zip</code></a> and extract it.',
         'install.s2': 'Open <code>chrome://extensions</code> (<code>edge://extensions</code> in Edge).',
         'install.s3': 'Turn on <strong>Developer mode</strong> in the top-right corner.',
         'install.s4': 'Click <strong>Load unpacked</strong> and select the extracted folder containing <code>manifest.json</code>.',
@@ -437,13 +439,27 @@ curl -H "Cookie: session_id=a1f9c2e7" \
         'install.store.d': 'Chrome ウェブストアで公開中です。ワンクリックでインストールでき、自動で更新されます。Microsoft Edge でも Chrome ウェブストアからインストールできます。',
         'install.store.btn': 'Chrome ウェブストアで入手',
         'install.manual.t': 'GitHub からインストール',
-        'install.s1': '<a href="https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0">GitHub Releases v0.3.0</a> から <code>cookie-manager-v0.3.0.zip</code> をダウンロードして展開します。',
+        'install.s1': '<a href="https://github.com/bruce-yang-422/CookieManager/releases/download/v0.3.1/cookie-manager-v0.3.1.zip"><code>cookie-manager-v0.3.1.zip</code></a> をダウンロードして展開します。',
         'install.s2': '<code>chrome://extensions</code>（Edge では <code>edge://extensions</code>）を開きます。',
         'install.s3': '右上の「デベロッパー モード」をオンにします。',
         'install.s4': '「パッケージ化されていない拡張機能を読み込む」をクリックし、展開した <code>manifest.json</code> を含むフォルダーを選択します。',
       },
     }
 
+    const languageLabels = {
+      'zh-CN': '支持 9 种语言',
+      en: 'Available in 9 languages',
+      ja: '9 言語に対応',
+      de: 'In 9 Sprachen verfügbar',
+      ko: '9개 언어 지원',
+      fr: 'Disponible en 9 langues',
+      ru: 'Поддержка 9 языков',
+      es: 'Disponible en 9 idiomas',
+    }
+    for (const [locale, label] of Object.entries(languageLabels)) {
+      I18N[locale]['hero.pill3'] = label
+      I18N[locale]['shots.popupSrc'] = I18N[locale]['shots.editorSrc']
+    }
     initI18n(I18N)
   </script>
 </body>
