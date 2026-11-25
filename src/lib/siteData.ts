@@ -176,14 +176,17 @@ export function hostsFromDomains(domains: Iterable<string>): string[] {
 /** 清除指定來源的資料。Cookie 會清除整個主網域（瀏覽器限制） */
 export async function clearOrigins(origins: string[], types: DataType[]): Promise<void> {
   if (!origins.length || !types.length) return
-  await chrome.browsingData.remove({ origins: origins as [string, ...string[]] }, toDataTypeSet(types))
+  // Vue 的 computed/ref 可能传入响应式 Proxy 数组；Chrome 原生 API 会把它视为 object。
+  // 在 API 边界复制成普通数组，确保 schema 校验能识别为 array。
+  const plainOrigins = [...origins] as [string, ...string[]]
+  await chrome.browsingData.remove({ origins: plainOrigins }, toDataTypeSet(types))
 }
 
 /** 清除所有網站的資料，可排除部分來源與限定時間範圍 */
 export async function clearAllSites(types: DataType[], excludeOrigins: string[], since: SinceRange): Promise<void> {
   if (!types.length) return
   const options: chrome.browsingData.RemovalOptions = { since: sinceTime(since) }
-  if (excludeOrigins.length) options.excludeOrigins = excludeOrigins as [string, ...string[]]
+  if (excludeOrigins.length) options.excludeOrigins = [...excludeOrigins] as [string, ...string[]]
   await chrome.browsingData.remove(options, toDataTypeSet(types))
 }
 
