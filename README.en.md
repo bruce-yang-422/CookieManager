@@ -28,7 +28,6 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 - [Localization](#localization)
 - [Privacy and Permissions](#privacy-and-permissions)
 - [Known Limitations](#known-limitations)
-- [Contributing](#contributing)
 
 ## Features
 
@@ -75,9 +74,9 @@ Open the [Chrome Web Store page](https://chromewebstore.google.com/detail/cookie
 
 ### Download from GitHub
 
-You can also download the prebuilt extension from [GitHub Releases v0.3.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0); no build is required.
+The prebuilt extension is available from the [latest GitHub release](https://github.com/bruce-yang-422/CookieManager/releases/latest).
 
-1. Download `cookie-manager-v0.3.0.zip` from the release assets and extract it (do not select Source code).
+1. Download the `cookie-manager-v*.zip` release asset and extract it.
 2. Open `chrome://extensions` (`edge://extensions` in Edge).
 3. Enable **Developer mode** and click **Load unpacked**.
 4. Select the extracted folder containing `manifest.json`.
@@ -196,13 +195,7 @@ Supported languages: Traditional Chinese (`zh-TW`), Simplified Chinese (`zh-CN`)
 - **Legacy import encodings**: Shift_JIS for Japanese, Big5 for Traditional Chinese, GB18030 for Simplified Chinese, and Windows-1252 as the fallback for other locales when UTF-8 decoding fails.
 - **Parameters and plurals**: `{name}` in a message is replaced by a parameter. When singular and plural differ, write `"singular | plural"`; the form is chosen by the `n` parameter.
 - **Extension name and description**: `public/_locales/<language>/messages.json`.
-- **Chrome Web Store descriptions**: `StoreAssets/description.<locale>.md` contains the complete v0.3.0 listing copy in all nine languages; `StoreAssets/listing.md` also retains the privacy-review field text.
-
-### Adding a language
-
-1. Copy `src/i18n/locales/en.ts` to a new file (for example `ko.ts`) and translate it
-2. Add the language to `LOCALES`, `DICTIONARIES`, `NAIVE_LOCALES`, and `detect()` in `src/i18n/index.ts`
-3. Add `public/_locales/<language>/messages.json`
+- **Chrome Web Store descriptions**: `StoreAssets/description.<locale>.md` contains the complete listing copy in all nine languages; `StoreAssets/listing.md` also retains the privacy-review field text.
 
 ## Privacy and Permissions
 
@@ -234,11 +227,3 @@ See the full [Privacy Policy](https://cookie-manager.stack-base.com/privacy.html
 - "Inspect storage" reads only the top-level page of the current tab, not embedded frames; protected pages such as the Chrome Web Store cannot be read
 - Session Storage cannot be removed by the browser's clearing API; clear it manually in the "Site data" panel
 - The browser does not report HTTP cache usage per site, so storage usage excludes the HTTP cache
-
-## Contributing
-
-Issues and pull requests are welcome. Before submitting, please make sure that:
-
-- `npm run build` passes (including type checking)
-- UI text changes are applied to every language file under `src/i18n/locales/`
-- README changes are applied to both [README.md](README.md) (Traditional Chinese) and [README.en.md](README.en.md) (English)

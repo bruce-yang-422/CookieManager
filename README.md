@@ -28,7 +28,6 @@
 - [多國語言](#多國語言)
 - [隱私權與權限](#隱私權與權限)
 - [已知限制](#已知限制)
-- [參與貢獻](#參與貢獻)
 
 ## 功能特色
 
@@ -75,9 +74,9 @@
 
 ### 從 GitHub 下載安裝
 
-也可以從 [GitHub Releases 下載 v0.3.0](https://github.com/bruce-yang-422/CookieManager/releases/tag/v0.3.0)，無需自行打包。
+也可以從 [GitHub Releases 下載最新版](https://github.com/bruce-yang-422/CookieManager/releases/latest)，無需自行打包。
 
-1. 下載發行附件 `cookie-manager-v0.3.0.zip` 並解壓縮（請勿選擇 Source code）。
+1. 下載發行附件 `cookie-manager-v*.zip` 並解壓縮。
 2. 開啟 `chrome://extensions`（Edge 為 `edge://extensions`）。
 3. 啟用 **開發人員模式**，點選 **載入未封裝項目**。
 4. 選擇解壓縮後包含 `manifest.json` 的資料夾。
@@ -196,13 +195,7 @@ CookieManager/
 - **舊編碼匯入**：日文支援 Shift_JIS、繁中支援 Big5、簡中支援 GB18030；其餘語言在 UTF-8 失敗時回退 Windows-1252。
 - **參數與單複數**：訊息中的 `{name}` 會被參數取代；需要區分單複數時寫成 `"單數 | 複數"`，依參數 `n` 選擇。
 - **擴充功能名稱與說明**：`public/_locales/<語言>/messages.json`。
-- **Chrome 線上應用程式商店說明**：`StoreAssets/description.<語言>.md` 提供九種語言的 v0.3.0 完整商品說明；`StoreAssets/listing.md` 另保留隱私權審查欄位文字。
-
-### 新增語言
-
-1. 複製 `src/i18n/locales/en.ts` 為新語言檔（例如 `ko.ts`）並翻譯
-2. 在 `src/i18n/index.ts` 的 `LOCALES`、`DICTIONARIES`、`NAIVE_LOCALES` 與 `detect()` 加入新語言
-3. 新增 `public/_locales/<語言>/messages.json`
+- **Chrome 線上應用程式商店說明**：`StoreAssets/description.<語言>.md` 提供九種語言的 完整商品說明；`StoreAssets/listing.md` 另保留隱私權審查欄位文字。
 
 ## 隱私權與權限
 
@@ -234,11 +227,3 @@ CookieManager/
 - 「檢視儲存空間」只讀取目前分頁的頂層頁面，不含內嵌框架；Chrome 線上應用程式商店等受保護的頁面無法讀取
 - Session Storage 無法透過瀏覽器的清除功能移除，只能在「網站資料」面板中手動清除
 - 瀏覽器不提供單一網站的 HTTP 快取用量，因此儲存空間用量不含 HTTP 快取
-
-## 參與貢獻
-
-歡迎提出 Issue 或 Pull Request。提交前請確認：
-
-- `npm run build` 可以通過（包含型別檢查）
-- 修改介面文字時，同時更新 `src/i18n/locales/` 下所有語言檔
-- 修改 README 時，同時更新 [README.md](README.md)（繁體中文）與 [README.en.md](README.en.md)（English）
