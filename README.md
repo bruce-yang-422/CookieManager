@@ -70,7 +70,7 @@
 
 ### 從 Chrome 線上應用程式商店安裝（建議）
 
-商店版目前為 **v0.3.1**。前往 [Chrome 線上應用程式商店](https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb) 按「加到 Chrome」即可，之後會自動更新。Microsoft Edge 也可以從 Chrome 線上應用程式商店安裝。
+商店版目前為 **v0.3.3**。前往 [Chrome 線上應用程式商店](https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb) 按「加到 Chrome」即可，之後會自動更新。Microsoft Edge 也可以從 Chrome 線上應用程式商店安裝。
 
 ### 從 GitHub 下載安裝
 

@@ -47,12 +47,15 @@ function sinceTime(range: SinceRange): number {
 function toDataTypeSet(types: DataType[]): chrome.browsingData.DataTypeSet {
   const set: chrome.browsingData.DataTypeSet = {}
   for (const type of types) {
-    if (type === 'fileSystems') {
-      set.fileSystems = true
-      set.webSQL = true
-    } else set[type] = true
+    if (type === 'fileSystems') set.fileSystems = true
+    else set[type] = true
   }
   return set
+}
+
+/** Chrome extension API 不接受 Vue reactive Proxy；在 API 邊界轉成純原生陣列。 */
+function plainStringArray(values: readonly string[]): string[] {
+  return JSON.parse(JSON.stringify(Array.from(values))) as string[]
 }
 
 // ---------- 設定（要清除的類型、排除清單） ----------
@@ -176,9 +179,7 @@ export function hostsFromDomains(domains: Iterable<string>): string[] {
 /** 清除指定來源的資料。Cookie 會清除整個主網域（瀏覽器限制） */
 export async function clearOrigins(origins: string[], types: DataType[]): Promise<void> {
   if (!origins.length || !types.length) return
-  // Vue 的 computed/ref 可能传入响应式 Proxy 数组；Chrome 原生 API 会把它视为 object。
-  // 在 API 边界复制成普通数组，确保 schema 校验能识别为 array。
-  const plainOrigins = [...origins] as [string, ...string[]]
+  const plainOrigins = plainStringArray(origins) as [string, ...string[]]
   await chrome.browsingData.remove({ origins: plainOrigins }, toDataTypeSet(types))
 }
 
@@ -186,7 +187,9 @@ export async function clearOrigins(origins: string[], types: DataType[]): Promis
 export async function clearAllSites(types: DataType[], excludeOrigins: string[], since: SinceRange): Promise<void> {
   if (!types.length) return
   const options: chrome.browsingData.RemovalOptions = { since: sinceTime(since) }
-  if (excludeOrigins.length) options.excludeOrigins = [...excludeOrigins] as [string, ...string[]]
+  if (excludeOrigins.length) {
+    options.excludeOrigins = plainStringArray(excludeOrigins) as [string, ...string[]]
+  }
   await chrome.browsingData.remove(options, toDataTypeSet(types))
 }
 

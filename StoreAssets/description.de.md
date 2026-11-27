@@ -1,6 +1,6 @@
 # Chrome Web Store-Beschreibung — Deutsch
 
-Version: v0.3.2
+Version: v0.3.3
 
 ```text
 Mit dem Cookie Manager können Sie Cookie nach Website organisieren, suchen, bearbeiten und exportieren und den Cache und die gespeicherten Daten einer Website löschen. Behandeln Sie die aktuelle Website über die Symbolleiste oder öffnen Sie das Dashboard, um Cookie für jede Website an einem Ort zu verwalten.

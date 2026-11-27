@@ -70,7 +70,7 @@ A Chrome / Edge extension to categorize, search, edit, import, export, and delet
 
 ### Install from the Chrome Web Store (recommended)
 
-The current store version is **v0.3.1**. Open the [Chrome Web Store page](https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb) and click "Add to Chrome". Updates are installed automatically. Microsoft Edge can also install it from the Chrome Web Store.
+The current store version is **v0.3.3**. Open the [Chrome Web Store page](https://chromewebstore.google.com/detail/cookie-manager/cepibofjjkncodmjaekeonggofoalcjb) and click "Add to Chrome". Updates are installed automatically. Microsoft Edge can also install it from the Chrome Web Store.
 
 ### Download from GitHub
 
